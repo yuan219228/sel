@@ -1775,6 +1775,14 @@
       // 手機選單：點「聖誕感恩」後收起選單
       var mLink = document.querySelector('.xt-mobile-link');
       // （手機選單的收合已在上方的入口處理中完成）
+      // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：等樣式與字型載完再捲到活動
+      if (location.hash === '#xmas-thanks') {
+        var goXmas = function () {
+          var sec = document.getElementById('xmas-thanks');
+          window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'auto' });
+        };
+        window.addEventListener('load', function () { goXmas(); setTimeout(goXmas, 400); });
+      }
 
       /* ---------- 飄雪 ---------- */
       var snow = document.querySelector('#xmas-thanks .xt-snow');
