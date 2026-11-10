@@ -625,12 +625,13 @@
 
               <!-- 主圖 -->
               <div class="relative z-10">
-                <img src="./public/sel-mascots-cutout.png"
-                     alt="SEL 五大能力 — 自我覺察、自我管理、社會覺察、人際關係技巧、負責任的決策"
+                <!-- 🎄 12月聖誕造型：public/sel-mascots-xmas.png；活動結束後把 src 改回 ./public/sel-mascots-cutout.png 即可 -->
+                <img src="./public/sel-mascots-xmas.png"
+                     alt="戴聖誕帽、圍圍巾的 SEL 五大能力包子 — 自我覺察、自我管理、社會覺察、人際關係技巧、負責任的決策"
                      class="w-full h-auto block relative"
                      loading="eager"
                      style="filter: drop-shadow(0 20px 30px rgba(180,100,40,0.25)) drop-shadow(0 8px 16px rgba(0,0,0,0.1));"
-                     onerror="this.style.display='none'" />
+                     onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='./public/sel-mascots-cutout.png';}else{this.style.display='none';}" />
               </div>
 
               <!-- 星塵點綴 -->
