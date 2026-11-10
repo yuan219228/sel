@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>奇美醫院 SEL 學習小棧</title>
+
+  <!-- Noto Sans TC 中文字型 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Great+Vibes&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 -->
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+            /* 🎄 聖誕感恩活動用色 */
+            'xmas-red': '#C8463D',
+            'xmas-green': '#2F6B4F',
+            'xmas-gold': '#E3B04B',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- 客製 CSS（對應原 index.css 的 @layer components 與動畫） -->
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0;
+      color: #3D3D3D;
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    /* 按鈕 */
+    .btn-primary {
+      background-color: #F4A261;
+      color: #fff;
+      font-weight: 500;
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-primary:hover {
+      background-color: #f97316;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .btn-outline {
+      background-color: transparent;
+      color: #F4A261;
+      font-weight: 500;
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      border: 2px solid #F4A261;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    /* 區塊標題 */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #3D3D3D;
+      margin-bottom: 0.5rem;
+    }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+    .section-subtitle {
+      color: #6B7280;
+      font-size: 1rem;
+      line-height: 1.625;
+      margin-bottom: 2rem;
+    }
+
+    /* 卡片 hover */
+    .card-hover { transition: all 0.3s; }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+
+    /* 頁面進入動畫 */
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 聚光燈呼吸 */
+    @keyframes spotlightBreathe {
+      0%, 100% { opacity: 0.85; }
+      50%      { opacity: 1; }
+    }
+    .animate-spotlight {
+      animation: spotlightBreathe 6s ease-in-out infinite;
+    }
+
+    /* bounce 動畫 (Tailwind 內建但客製速度) */
+    @keyframes softBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .animate-soft-bounce {
+      animation: softBounce 2.5s ease-in-out infinite;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+
+    /* ==================== 🎄 12月 聖誕感恩活動 ==================== */
+    #xmas-thanks, .xt-marquee {
+      --xt-forest: #1f4a36; --xt-forest-d: #143326; --xt-gold: #c9a052; --xt-gold-l: #f1dca2;
+      --xt-red: #a8322b; --xt-paper: #fffaf1; --xt-ink: #3b2f25;
+    }
+    .xt-serif  { font-family: 'Noto Serif TC', serif; }
+    .xt-script { font-family: 'Great Vibes', cursive; font-weight: 400; letter-spacing: .02em; }
+    .xt-hand   { font-family: 'LXGW WenKai TC', 'Noto Serif TC', serif; }
+
+    /* 橫幅 */
+    .xt-banner {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 214, 140, .30) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 0% 100%, rgba(255, 255, 255, .06) 0%, transparent 70%),
+        linear-gradient(165deg, #2c6249 0%, #1f4a36 50%, #143326 100%);
+    }
+    .xt-frame { position: absolute; inset: 12px; border: 1px solid rgba(241, 220, 162, .35); border-radius: 18px; pointer-events: none; }
+    .xt-frame::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(241, 220, 162, .15); border-radius: 15px; }
+    .xt-gold-text {
+      background: linear-gradient(180deg, #fff6d8 0%, #f1dca2 40%, #d8b064 75%, #f3e2b3 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .25));
+    }
+    .xt-divider { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--xt-gold); }
+    .xt-divider::before, .xt-divider::after { content: ""; height: 1px; width: 64px; background: linear-gradient(90deg, transparent, currentColor); }
+    .xt-divider::after { transform: scaleX(-1); }
+    /* 飄雪 */
+    .xt-snow { position: absolute; inset: 0; pointer-events: none; }
+    .xt-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; opacity: .7; animation: xtFall linear infinite; }
+    @keyframes xtFall { to { transform: translate(30px, 1100px); } }
+    /* 燈串 */
+    .xt-lights { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-around; pointer-events: none; }
+    .xt-lights::before { content: ""; position: absolute; top: 4px; left: -2%; right: -2%; height: 18px; border-bottom: 1.5px solid rgba(241, 220, 162, .35); border-radius: 0 0 50% 50%; }
+    .xt-lights span { width: 9px; height: 13px; margin-top: 13px; border-radius: 50% 50% 45% 45%; animation: xtTwinkle 2.4s ease-in-out infinite; }
+    .xt-lights span:nth-child(3n+1) { background: #ffd36b; color: #ffd36b; }
+    .xt-lights span:nth-child(3n+2) { background: #ff9f86; color: #ff9f86; animation-delay: .8s; }
+    .xt-lights span:nth-child(3n)   { background: #fff1c4; color: #fff1c4; animation-delay: 1.6s; }
+    @keyframes xtTwinkle { 0%, 100% { opacity: .5; box-shadow: 0 0 4px currentColor; } 50% { opacity: 1; box-shadow: 0 0 14px 3px currentColor; } }
+
+    /* 信紙質感（表單、感謝小卡） */
+    .xt-paper {
+      background: linear-gradient(180deg, #fffdf8 0%, #fdf5e6 100%);
+      border: 1px solid #ecdcbc;
+      box-shadow: 0 1px 0 #fff inset, 0 18px 40px -18px rgba(60, 40, 10, .35), 0 4px 12px rgba(60, 40, 10, .06);
+      position: relative;
+    }
+    .xt-paper::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(201, 160, 82, .28); border-radius: inherit; pointer-events: none; }
+    .xt-step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--xt-forest); color: #f1dca2; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .xt-field { width: 100%; border: 1px solid #e3d2b0; background: #fffdf9; border-radius: 12px; color: var(--xt-ink); transition: border-color .2s, box-shadow .2s; }
+    .xt-field:focus { outline: none; border-color: var(--xt-gold); box-shadow: 0 0 0 4px rgba(201, 160, 82, .18); }
+    .xt-field::placeholder { color: #b5a58c; }
+    /* 類別選擇卡 */
+    .xt-kind span.xt-kind-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1px solid #e3d2b0; background: #fffdf9; transition: all .2s; height: 100%; }
+    .xt-kind:hover span.xt-kind-card { border-color: var(--xt-gold); }
+    .xt-kind input:checked + span.xt-kind-card { border-color: var(--xt-gold); background: linear-gradient(180deg, #fffaf0, #fbefd6); box-shadow: 0 0 0 3px rgba(201, 160, 82, .2); }
+    .xt-kind input:focus-visible + span.xt-kind-card { outline: 2px solid var(--xt-forest); outline-offset: 2px; }
+    .xt-mini-ball { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.9); font-size: 11px;
+      background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.9) 0 8%, transparent 24%), radial-gradient(circle, var(--c1) 0%, var(--c2) 75%, var(--c3) 100%);
+      box-shadow: inset -2px -3px 4px rgba(0,0,0,.2); }
+    .xt-chip { font-size: 13px; padding: 3px 12px; border-radius: 9999px; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; transition: all .2s; }
+    .xt-chip:hover { border-color: var(--xt-gold); color: var(--xt-ink); background: #fff7e6; }
+    .xt-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; border-radius: 9999px;
+      background: linear-gradient(180deg, #c0443a 0%, #9c2a24 100%); color: #fff; font-weight: 600; letter-spacing: .06em;
+      box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 8px 18px -6px rgba(156, 42, 36, .6); transition: transform .2s, box-shadow .2s, filter .2s;
+    }
+    .xt-btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 12px 24px -8px rgba(156, 42, 36, .7); }
+    .xt-btn:disabled { opacity: .6; cursor: wait; transform: none; }
+    .xt-share { border: 1px dashed #dcc69a; background: rgba(255, 250, 238, .7); border-radius: 14px; transition: background .2s; }
+    .xt-share:hover { background: #fff6e2; }
+    .xt-share input { accent-color: #1f4a36; }
+
+    /* 跑馬燈 */
+    .xt-marquee {
+      background: linear-gradient(90deg, #6e1b1b 0%, #a3302a 50%, #6e1b1b 100%);
+      padding: 8px 0; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 16px; letter-spacing: .08em;
+      border-top: 1px solid rgba(241, 220, 162, .7); border-bottom: 1px solid rgba(241, 220, 162, .7);
+      box-shadow: inset 0 3px 0 #6e1b1b, inset 0 4px 0 rgba(241, 220, 162, .45), inset 0 -3px 0 #6e1b1b, inset 0 -4px 0 rgba(241, 220, 162, .45), 0 10px 24px -10px rgba(110, 27, 27, .6);
+    }
+    .xt-mq-track { display: flex; width: max-content; animation: xtMarquee 50s linear infinite; }
+    .xt-marquee:hover .xt-mq-track, .xt-marquee:focus-visible .xt-mq-track { animation-play-state: paused; }
+    .xt-marquee:focus-visible { outline: 2px solid #f1dca2; outline-offset: -4px; }
+    .xt-mq-group { display: flex; align-items: center; flex-shrink: 0; }
+    .xt-mq-item { white-space: nowrap; padding: 0 18px; color: #fff4dc; }
+    .xt-mq-item b { color: #f1dca2; font-weight: 700; }
+    .xt-mq-cta { margin: 0 18px; padding: 3px 16px; border-radius: 9999px; color: #4a2c0c; background: linear-gradient(180deg, #f7e3a6, #d8ad55); box-shadow: 0 1px 0 rgba(255,255,255,.5) inset; }
+    /* 跑馬燈上的五顆 SEL 包子：從首頁主圖 sel-mascots-cutout.png 裁切
+       若位置有偏差，微調 --x（每顆的水平位置）與 background-position 的第二個值（垂直位置）即可 */
+    .xt-bun {
+      flex-shrink: 0; height: 80px; aspect-ratio: 150 / 240; margin: 0 6px;
+      background: url(./public/sel-mascots-cutout.png) no-repeat;
+      background-size: 530% 185.8%;
+      background-position: var(--x) 82.5%;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,.3));
+      animation: softBounce 2.5s ease-in-out infinite; animation-delay: var(--d, 0s);
+    }
+    @keyframes xtMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 640px) { .xt-marquee { font-size: 14px; } .xt-bun { height: 66px; } .xt-mq-track { animation-duration: 30s; } }
+
+    /* 聖誕樹舞台 */
+    .xt-tree-stage {
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255, 214, 140, .35) 0 3%, transparent 9%),
+        radial-gradient(circle at 82% 16%, rgba(255, 180, 150, .28) 0 2.5%, transparent 8%),
+        radial-gradient(circle at 88% 78%, rgba(255, 214, 140, .3) 0 3%, transparent 10%),
+        radial-gradient(circle at 10% 82%, rgba(160, 210, 190, .25) 0 2.5%, transparent 8%),
+        radial-gradient(ellipse 55% 50% at 32% 50%, rgba(255, 216, 150, .5) 0%, transparent 75%),
+        linear-gradient(180deg, #fffaf1 0%, #fbeedb 100%);
+      border: 1px solid #f0e2c8;
+    }
+    .xt-tree { position: relative; width: 100%; max-width: 520px; margin: 0 auto; aspect-ratio: 4 / 5; }
+    .xt-tree > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .xt-bulb { animation: xtBulb 2.4s ease-in-out infinite; }
+    .xt-bulb:nth-child(3n+1) { animation-delay: .8s; }
+    .xt-bulb:nth-child(3n+2) { animation-delay: 1.6s; }
+    @keyframes xtBulb { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+    .xt-rays { transform-origin: 200px 38px; animation: xtRays 24s linear infinite; }
+    @keyframes xtRays { to { transform: rotate(360deg); } }
+    .xt-star { transform-origin: 200px 38px; animation: xtStar 3s ease-in-out infinite; }
+    @keyframes xtStar { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+
+    /* 吊飾 */
+    .xt-orn { position: absolute; width: 8%; aspect-ratio: 1; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); cursor: pointer; z-index: 2; transition: transform .25s, opacity .3s; }
+    .xt-orn .swing { position: absolute; inset: 0; transform-origin: 50% -55%; animation: xtSwing 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+    .xt-orn .swing::before { /* 吊線 */
+      content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 55%; margin-left: -.5px;
+      background: linear-gradient(rgba(201,160,82,0), #c9a052);
+    }
+    .xt-orn .cap { position: absolute; left: 50%; top: -9%; width: 32%; height: 17%; margin-left: -16%; border-radius: 3px 3px 2px 2px;
+      background: linear-gradient(90deg, #a77b2c, #f6e2a4 45%, #b68937); box-shadow: 0 1px 1px rgba(0,0,0,.25); z-index: 1; }
+    .xt-orn .ball { position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255,255,255,.95) 0 5%, rgba(255,255,255,0) 20%),
+        radial-gradient(ellipse 60% 30% at 55% 88%, rgba(255,255,255,.35) 0%, transparent 70%),
+        radial-gradient(circle at 45% 40%, var(--c1) 0%, var(--c2) 62%, var(--c3) 100%);
+      box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 6px 10px -4px rgba(40, 20, 0, .45); }
+    .xt-orn .ball i { font-style: normal; color: rgba(255,255,255,.88); font-size: clamp(8px, 1.9vw, 13px); line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+    .xt-orn.person, .xt-mini-ball.person { --c1: #ef6b5d; --c2: #b02a22; --c3: #6d1611; }
+    .xt-orn.event,  .xt-mini-ball.event  { --c1: #f8d77f; --c2: #c99331; --c3: #7c5414; }
+    .xt-orn.thing,  .xt-mini-ball.thing  { --c1: #6fcfb6; --c2: #23826d; --c3: #0f4538; }
+    .xt-orn:hover, .xt-orn:focus-visible { transform: translate(-50%, -50%) scale(1.22); z-index: 5; outline: none; }
+    .xt-orn.is-active { transform: translate(-50%, -50%) scale(1.32); z-index: 6; }
+    .xt-orn.is-active .ball, .xt-orn:focus-visible .ball { box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 0 0 2px #fffaf0, 0 0 0 3.5px #c9a052, 0 0 22px 6px rgba(255, 205, 100, .75); }
+    .xt-orn.is-dim { opacity: .15; pointer-events: none; }
+    .xt-orn.is-new { animation: xtDrop 1s cubic-bezier(.3, 1.45, .5, 1); }
+    @keyframes xtDrop { from { transform: translate(-50%, -420%) scale(.4); opacity: 0; } }
+    @keyframes xtSwing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+
+    /* 感謝小卡 */
+    .xt-letter { border-radius: 22px; padding: 40px 30px 20px; }
+    .xt-letter-label { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+      background: linear-gradient(180deg, #2a5d45, #1f4a36); color: #f1dca2; font-size: 12px; letter-spacing: .2em; padding: 4px 16px; border-radius: 9999px; box-shadow: 0 4px 10px -4px rgba(20, 51, 38, .6); }
+    .xt-quote { position: absolute; top: 22px; right: 26px; font-family: 'Noto Serif TC', serif; font-size: 72px; line-height: 1; color: rgba(201, 160, 82, .28); pointer-events: none; }
+    .xt-note { font-size: 1.3rem; line-height: 1.9; color: var(--xt-ink); }
+    .xt-sign { color: #8a7458; }
+    .xt-seal { position: absolute; right: 26px; top: -18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f6d9cf; font-size: 15px;
+      background: radial-gradient(circle at 35% 30%, #d0564a, #9c2a24 60%, #741a15); box-shadow: 0 4px 8px -2px rgba(116, 26, 21, .5), inset 0 0 0 3px rgba(255,255,255,.08); }
+    .xt-nav { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; font-size: 18px; line-height: 1; transition: all .2s; }
+    .xt-nav:hover { border-color: var(--xt-gold); color: var(--xt-ink); background: #fff6e2; }
+    .xt-reader-body.is-swap { animation: xtFadeUp .4s ease-out; }
+    @keyframes xtFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .xt-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 5px 14px; border-radius: 9999px; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; transition: all .2s; }
+    .xt-pill:hover { border-color: var(--xt-gold); }
+    .xt-pill[aria-pressed="true"] { background: var(--xt-forest); border-color: var(--xt-forest); color: #f8eccb; }
+    .xt-dot { width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--c1), var(--c2)); }
+    .xt-dot.person { --c1: #ef6b5d; --c2: #b02a22; } .xt-dot.event { --c1: #f8d77f; --c2: #c99331; } .xt-dot.thing { --c1: #6fcfb6; --c2: #23826d; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .xt-snow { display: none; }
+      .xt-lights span, .xt-orn .swing, .xt-orn.is-new, .xt-bulb, .xt-star, .xt-rays, .xt-reader-body.is-swap, .xt-bun { animation: none; }
+      .xt-mq-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+      .xt-mq-group[aria-hidden="true"] { display: none; }
+    }
+    /* ==================== 🎄 聖誕互動特效 ==================== */
+    .xt-hat { position: absolute; pointer-events: none; overflow: visible; filter: drop-shadow(0 2px 2px rgba(0,0,0,.18)); }
+    /* 包子（只裁身體，不含標籤）*/
+    .xt-bun2 {
+      display: block; aspect-ratio: 150 / 240;
+      background: url(./public/sel-mascots-cutout.png) no-repeat;
+      background-size: 530% 185.8%;
+      background-position: var(--x) 82.5%;
+      filter: drop-shadow(0 4px 5px rgba(80, 50, 10, .25));
+    }
+    /* 全頁雪花 */
+    #xt-snowfx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 45; }
+    /* 包子報佳音 */
+    .xt-choir-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 18px 4px 0; cursor: pointer; }
+    .xt-choir-item .xt-bun2 { width: clamp(54px, 15vw, 84px); transition: transform .25s; }
+    .xt-choir-item .xt-hat { width: calc(clamp(48px, 13vw, 78px) * .62); top: 4px; left: 50%; transform: translateX(-38%) rotate(-10deg); }
+    .xt-choir-item:hover .xt-bun2, .xt-choir-item:focus-visible .xt-bun2 { transform: translateY(-4px) rotate(-3deg); }
+    .xt-choir-item:focus-visible { outline: 2px solid #c9a052; outline-offset: 4px; border-radius: 16px; }
+    .xt-choir-item.is-hop .xt-bun2, .xt-choir-item.is-hop .xt-hat { animation: xtHop .55s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes xtHop { 0% { translate: 0 0; } 40% { translate: 0 -18px; } 100% { translate: 0 0; } }
+    .xt-choir-name { font-size: 12px; color: #7a6a55; letter-spacing: .08em; white-space: nowrap; }
+    .xt-choir.is-in .xt-choir-item { animation: xtPopIn .7s cubic-bezier(.3, 1.5, .5, 1) backwards; animation-delay: calc(var(--i) * .12s); }
+    .xt-choir:not(.is-in) .xt-choir-item { opacity: 0; }
+    @keyframes xtPopIn { from { opacity: 0; transform: translateY(30px) scale(.7); } }
+    .xt-say {
+      position: absolute; left: 50%; bottom: calc(100% - 6px); transform: translateX(-50%) translateY(6px); width: max-content; max-width: 210px;
+      background: #fffdf8; color: #3b2f25; border: 1px solid #e3d2b0; border-radius: 14px; padding: 8px 12px; font-size: 13px; line-height: 1.6;
+      box-shadow: 0 10px 24px -10px rgba(60, 40, 10, .45); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 10; text-align: left;
+    }
+    .xt-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -7px; border: 7px solid transparent; border-top-color: #fffdf8; }
+    .xt-say.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* 雪人寶寶 */
+    #xt-snowman { position: fixed; left: 10px; bottom: -6px; width: 92px; z-index: 46; background: none; border: 0; padding: 0; cursor: pointer;
+      transform: translateY(110%); transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); }
+    #xt-snowman.is-up { transform: translateY(0); }
+    #xt-snowman:hover { transform: translateY(-4px); }
+    #xt-snowman:focus-visible { outline: 2px solid #c9a052; outline-offset: 2px; border-radius: 12px; }
+    #xt-snowman .arm-wave { transform-origin: 70px 66px; animation: xtWave 1.6s ease-in-out infinite; }
+    @keyframes xtWave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-22deg); } }
+    #xt-snowman-say { left: 100px; bottom: 70px; transform: translateY(6px); max-width: 230px; position: fixed; z-index: 47; }
+    #xt-snowman-say::after { left: -7px; top: auto; bottom: 14px; margin: 0; border: 7px solid transparent; border-right-color: #fffdf8; border-left: 0; }
+    #xt-snowman-say.is-show { transform: translateY(0); pointer-events: auto; }
+    #xt-snowman-say button { color: #a8322b; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
+
+    /* 特效開關 */
+    #xt-fx-toggle { position: fixed; right: 14px; bottom: 14px; z-index: 47; width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(180deg, #2a5d45, #1f4a36); color: #f1dca2; font-size: 20px; line-height: 1; border: 1px solid rgba(241,220,162,.5);
+      box-shadow: 0 8px 18px -8px rgba(20, 51, 38, .7); transition: transform .2s, opacity .2s; }
+    #xt-fx-toggle:hover { transform: scale(1.08); }
+    #xt-fx-toggle[aria-pressed="false"] { background: #fffdf8; color: #b5a58c; border-color: #e3d2b0; }
+    #xt-fx-toggle .tip { position: absolute; right: 52px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 12px; background: #1f4a36; color: #f8eccb; padding: 3px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    #xt-fx-toggle:hover .tip, #xt-fx-toggle:focus-visible .tip { opacity: 1; }
+
+    /* 牽手的聖誕包子（電腦版）*/
+    @keyframes xtIdle { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+    .xt-spark { position: fixed; z-index: 49; pointer-events: none; color: #e8bf62; font-size: 14px; animation: xtSpark .8s ease-out forwards; }
+    @keyframes xtSpark { from { opacity: 1; transform: translate(-50%, -50%) scale(.6); } to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); } }
+
+    /* 你提供的聖誕包子插圖 */
+    .xt-illus { position: relative; max-width: 48rem; margin: 0 auto 2.25rem; border-radius: 20px; overflow: hidden; border: 1px solid rgba(241, 220, 162, .55);
+      box-shadow: 0 0 0 6px rgba(241, 220, 162, .08), 0 24px 40px -20px rgba(0, 0, 0, .55); }
+    .xt-illus img { display: block; width: 100%; height: auto; }
+    /* 送出後的慶祝卡 */
+    #xt-celebrate { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 35, 28, .45); backdrop-filter: blur(2px); }
+    #xt-celebrate.is-show { display: flex; animation: xtFadeIn .25s ease-out; }
+    @keyframes xtFadeIn { from { opacity: 0; } }
+    #xt-celebrate .card { width: min(440px, 100%); border-radius: 22px; overflow: hidden; text-align: center; animation: xtPopIn .5s cubic-bezier(.3, 1.5, .5, 1); }
+    #xt-celebrate .card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    @media (prefers-reduced-motion: reduce) {
+      #xt-celebrate.is-show, #xt-celebrate .card { animation: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .xt-choir.is-in .xt-choir-item, #xt-snowman .arm-wave { animation: none; }
+      .xt-choir:not(.is-in) .xt-choir-item { opacity: 1; }
+    }
+    /* ==================== ❄ 冰雪魔法 ==================== */
+    #xt-frost { position: fixed; inset: 0; z-index: 44; pointer-events: none; opacity: 0; transition: opacity .15s linear;
+      background:
+        radial-gradient(ellipse 75% 70% at 50% 50%, transparent 58%, rgba(150, 205, 245, .5) 86%, rgba(200, 232, 255, .9) 100%),
+        repeating-conic-gradient(from 0deg at 0% 0%, rgba(255,255,255,0) 0deg 4deg, rgba(120,185,235,.3) 4deg 5deg),
+        repeating-conic-gradient(from 0deg at 100% 100%, rgba(255,255,255,0) 0deg 4deg, rgba(120,185,235,.3) 4deg 5deg);
+      -webkit-mask: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, #000 95%); mask: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, #000 95%); }
+    .xt-aurora { position: absolute; inset: -30% -10% 40% -10%; pointer-events: none; opacity: .55; filter: blur(30px); mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse 35% 45% at 25% 55%, rgba(120, 230, 210, .55), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 55% 45%, rgba(140, 180, 255, .45), transparent 70%),
+        radial-gradient(ellipse 30% 45% at 80% 60%, rgba(200, 150, 255, .4), transparent 70%);
+      animation: xtAurora 14s ease-in-out infinite alternate; }
+    @keyframes xtAurora { 0% { transform: translateX(-6%) skewX(-6deg); } 50% { transform: translateX(4%) skewX(4deg) scaleY(1.1); } 100% { transform: translateX(8%) skewX(-3deg); } }
+    .xt-glint { position: relative; }
+    .xt-glint { background-image: linear-gradient(110deg, transparent 40%, rgba(235, 248, 255, .95) 50%, transparent 60%), linear-gradient(180deg, #fff6d8 0%, #f1dca2 40%, #d8b064 75%, #f3e2b3 100%);
+      background-size: 250% 100%, 100% 100%; background-repeat: no-repeat; animation: xtGlint 5s ease-in-out infinite; }
+    @keyframes xtGlint { 0%, 55% { background-position: 150% 0, 0 0; } 100% { background-position: -100% 0, 0 0; } }
+    @media (prefers-reduced-motion: reduce) { .xt-aurora, .xt-glint { animation: none; } }
+
+    /* 魔法棒游標（電腦版；開關關閉時恢復一般游標）*/
+    html.xt-wand, html.xt-wand body, html.xt-wand * { cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cline x1='9' y1='9' x2='29' y2='29' stroke='%232d2147' stroke-width='3.4' stroke-linecap='round'/%3E%3Cline x1='9.5' y1='9' x2='28' y2='27.5' stroke='%238a72bd' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='24.5' y1='24.5' x2='29' y2='29' stroke='%23e6c06a' stroke-width='3.6' stroke-linecap='round'/%3E%3Cpolygon points='6.0,0.6 7.3,4.2 11.1,4.3 8.2,6.7 9.2,10.4 6.0,8.3 2.8,10.4 3.8,6.7 0.9,4.3 4.7,4.2' fill='%23ffd75e' stroke='%23b8822a' stroke-width='.9' stroke-linejoin='round'/%3E%3Ccircle cx='4.6' cy='4.4' r='1' fill='white'/%3E%3C/svg%3E") 6 6, auto; }
+    html.xt-wand #xt-snowman, html.xt-wand a, html.xt-wand button, html.xt-wand label, html.xt-wand summary, html.xt-wand [role="button"], html.xt-wand a *, html.xt-wand button *, html.xt-wand label * { cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cline x1='9' y1='9' x2='29' y2='29' stroke='%232d2147' stroke-width='3.4' stroke-linecap='round'/%3E%3Cline x1='9.5' y1='9' x2='28' y2='27.5' stroke='%238a72bd' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='24.5' y1='24.5' x2='29' y2='29' stroke='%23e6c06a' stroke-width='3.6' stroke-linecap='round'/%3E%3Ccircle cx='6' cy='6' r='6' fill='%23ffe9a0' opacity='.55'/%3E%3Cpolygon points='6.0,-0.2 7.5,3.9 11.9,4.1 8.5,6.8 9.6,11.0 6.0,8.6 2.4,11.0 3.5,6.8 0.1,4.1 4.5,3.9' fill='%23ffd75e' stroke='%23b8822a' stroke-width='.9' stroke-linejoin='round'/%3E%3Ccircle cx='4.6' cy='4.4' r='1' fill='white'/%3E%3C/svg%3E") 6 6, pointer; }
+    html.xt-wand textarea, html.xt-wand input[type="text"] { cursor: text; }
+
+    /* 溫暖 +1 */
+    .xt-like { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px 5px 10px; border-radius: 9999px; border: 1px solid #ecc9c2; background: #fff7f4; color: #a8322b; font-size: 13px; font-weight: 600; transition: all .2s; user-select: none; }
+    .xt-like:hover { background: #ffece6; border-color: #e0564b; transform: translateY(-1px); }
+    .xt-like .h { display: inline-block; font-size: 15px; line-height: 1; color: #e0564b; transition: transform .2s; }
+    .xt-like .n { min-width: 1.2em; text-align: center; font-family: 'Noto Serif TC', serif; font-weight: 700; color: #7a2a24; }
+    .xt-like.is-big { padding: 7px 18px 7px 14px; font-size: 14px; }
+    .xt-like.is-big .h { font-size: 18px; }
+    .xt-like.is-on { background: linear-gradient(180deg, #e3584c, #b02a22); border-color: #b02a22; color: #fff; box-shadow: 0 6px 14px -6px rgba(176, 42, 34, .6); }
+    .xt-like.is-on .h, .xt-like.is-on .n { color: #fff; }
+    .xt-like .h.is-pop { animation: xtHeartPop .5s cubic-bezier(.3, 1.8, .5, 1); }
+    @keyframes xtHeartPop { 0% { transform: scale(1); } 40% { transform: scale(1.7); } 100% { transform: scale(1); } }
+    .xt-fheart { position: fixed; z-index: 70; pointer-events: none; transform: translate(-50%, -50%); animation: xtFloatHeart 1.2s ease-out forwards; text-shadow: 0 2px 6px rgba(176, 42, 34, .25); }
+    @keyframes xtFloatHeart { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2) rotate(15deg); } }
+    .xt-bigheart { position: absolute; left: 50%; top: 45%; z-index: 5; font-size: 96px; line-height: 1; color: #e0564b; pointer-events: none; text-shadow: 0 8px 24px rgba(176, 42, 34, .35); animation: xtBigHeart .9s ease-out forwards; }
+    @keyframes xtBigHeart { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 25% { opacity: .95; transform: translate(-50%, -50%) scale(1.15); } 45% { transform: translate(-50%, -50%) scale(.95); } 100% { opacity: 0; transform: translate(-50%, -70%) scale(1); } }
+    [data-dbl] { cursor: pointer; }
+    .xt-orn.is-loved .ball { animation: xtLoved .8s ease-out; }
+    @keyframes xtLoved { 0% { box-shadow: 0 0 0 0 rgba(224, 86, 75, .7); } 100% { box-shadow: 0 0 0 18px rgba(224, 86, 75, 0); } }
+    @media (prefers-reduced-motion: reduce) { .xt-fheart, .xt-bigheart, .xt-like .h.is-pop, .xt-orn.is-loved .ball { animation-duration: .01ms; } }
+
+    /* ==================== 溫暖排行榜 + 感謝留言牆 ==================== */
+    .xt-rank-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 8px 10px; border-radius: 14px; border: 1px solid transparent; transition: all .2s; }
+    .xt-rank-item:hover { background: #fff6e6; border-color: #ecdcbc; }
+    .xt-medal { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 14px; color: #7a6a55; background: #f6ecd9; }
+    .xt-rank-item[data-r="1"] .xt-medal { background: radial-gradient(circle at 35% 30%, #fff1b8, #e3b23c 60%, #b8862a); color: #5b3d07; box-shadow: 0 2px 6px rgba(184, 134, 42, .45); }
+    .xt-rank-item[data-r="2"] .xt-medal { background: radial-gradient(circle at 35% 30%, #ffffff, #c9cfd6 60%, #8f98a3); color: #3f454c; }
+    .xt-rank-item[data-r="3"] .xt-medal { background: radial-gradient(circle at 35% 30%, #ffe0c2, #d08a4f 60%, #9a5b2a); color: #fff; }
+    .xt-rank-txt { flex: 1; min-width: 0; font-size: 15px; line-height: 1.5; color: #3b2f25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .xt-rank-cnt { flex-shrink: 0; font-size: 13px; font-weight: 700; color: #b02a22; font-family: 'Noto Serif TC', serif; }
+
+    .xt-wall { columns: 1; column-gap: 20px; }
+    @media (min-width: 640px)  { .xt-wall { columns: 2; } }
+    @media (min-width: 1024px) { .xt-wall { columns: 3; } }
+    .xt-card-note { position: relative; break-inside: avoid; margin: 0 0 22px; padding: 26px 20px 16px; border-radius: 6px 6px 18px 6px;
+      background: var(--bg); border: 1px solid var(--bd); box-shadow: 0 1px 0 #fff inset, 0 14px 26px -16px rgba(60, 40, 10, .4);
+      transform: rotate(var(--r, 0deg)); transition: transform .25s, box-shadow .25s; }
+    .xt-card-note:hover { box-shadow: 0 0 0 2px rgba(201, 160, 82, .35), 0 18px 30px -14px rgba(60, 40, 10, .45); z-index: 2; }
+    .xt-card-note::before { content: ""; position: absolute; top: -9px; left: 50%; width: 76px; height: 20px; margin-left: -38px; transform: rotate(var(--tr, -2deg));
+      background: var(--tape); opacity: .85; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+    .xt-card-note.person { --bg: linear-gradient(180deg, #fffaf8, #fff1ec); --bd: #f3d6cf; --tape: repeating-linear-gradient(45deg, #f5b7ac 0 6px, #f9cfc6 6px 12px); }
+    .xt-card-note.event  { --bg: linear-gradient(180deg, #fffdf6, #fff6e0); --bd: #f0e0b4; --tape: repeating-linear-gradient(45deg, #f2d58a 0 6px, #f7e4ae 6px 12px); }
+    .xt-card-note.thing  { --bg: linear-gradient(180deg, #f9fffc, #ecf8f2); --bd: #cfe7dc; --tape: repeating-linear-gradient(45deg, #a7dcc9 0 6px, #c4e9db 6px 12px); }
+    .xt-card-note .xt-txt { font-size: 1.15rem; line-height: 1.85; color: #3b2f25; margin: 12px 0 8px; cursor: pointer; }
+    .xt-ribbon { position: absolute; top: 12px; right: -6px; padding: 2px 10px 2px 12px; font-size: 12px; font-weight: 700; color: #5b3d07; letter-spacing: .05em;
+      background: linear-gradient(180deg, #ffe69a, #e3b23c); border-radius: 4px 0 0 4px; box-shadow: 0 3px 6px -2px rgba(184, 134, 42, .5); }
+    .xt-ribbon::after { content: ""; position: absolute; right: 0; bottom: -6px; border-left: 6px solid #a8791f; border-bottom: 6px solid transparent; }
+    .xt-card-note.is-flash { animation: xtFlash 1.6s ease-out; }
+    @keyframes xtFlash { 0%, 30% { box-shadow: 0 0 0 4px #f1dca2, 0 0 30px 8px rgba(255, 200, 90, .7); } 100% { box-shadow: 0 14px 26px -16px rgba(60, 40, 10, .4); } }
+    .xt-del { font-size: 12px; color: #b5a58c; }
+    .xt-del:hover, .xt-del.is-armed { color: #a8322b; font-weight: 600; }
+
+    /* 吊飾依排名移動 */
+    .xt-orn { transition: left .9s cubic-bezier(.3, 1.2, .4, 1), top .9s cubic-bezier(.3, 1.2, .4, 1), width .5s, transform .25s, opacity .3s; width: var(--w, 8%); }
+    .xt-orn.is-top .ball { box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 0 0 2px #fff6d6, 0 0 0 3.5px #e3b23c, 0 0 16px 4px rgba(255, 205, 100, .6); }
+    .xt-orn .rk { position: absolute; left: 50%; bottom: -34%; transform: translateX(-50%); font-size: 10px; font-weight: 700; line-height: 1; padding: 2px 5px; border-radius: 6px;
+      background: #fff8e6; color: #8a5f14; border: 1px solid #e3c47a; white-space: nowrap; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { .xt-orn { transition: opacity .3s; } .xt-card-note.is-flash { animation: none; outline: 3px solid #e3b23c; } }
+
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+  <div id="ie-blocked-notice" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 999999; text-align: center; padding-top: 10%;">
+    <div style="max-width: 600px; margin: 0 auto; font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif; color: #333; padding: 20px;">
+        <h2 style="color: #d9534f; margin-bottom: 20px; font-size: 28px; font-weight: bold;">⚠️ 瀏覽器版本過舊</h2>
+        <p style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 10px;">
+            您目前使用的是舊版 Internet Explorer 瀏覽器。為了保障您的資訊安全與最佳的網頁瀏覽體驗，本網站（SEL 學習小棧）已停止支援 IE。
+        </p>
+        <p style="font-size: 16px; font-weight: bold; margin-top: 20px; color: #333;">
+            請複製本頁網址，並改用 Google Chrome 或 Microsoft Edge 瀏覽器開啟：
+        </p>
+        <div style="background: #f5f5f5; padding: 12px; border: 1px solid #ddd; margin: 15px 0; word-break: break-all; border-radius: 4px; font-family: monospace; font-size: 14px; color: #0066cc;">
+            https://www.chimei.org.tw/main/cmh_department/59400/SEL/index-static.html
+        </div>
+        <p style="font-size: 14px; color: #999; margin-top: 40px;">
+            奇美醫院 視聽中心 敬啟
+        </p>
+    </div>
+  </div>
+  <script>
+    // 偵測是否為 IE (包含 IE 10 以前與 IE 11)
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); // IE 10 或更舊
+        var trident = ua.indexOf('Trident/'); // IE 11
+        return (msie > 0 || trident > 0);
+    }
+
+    // 如果是 IE，就顯示阻擋遮罩，並阻止後續網頁渲染
+    if (isIE()) {
+        document.getElementById('ie-blocked-notice').style.display = 'block';
+        // 優先使用 IE 專屬的強行停止指令，避免後續現代 JS (如 Tailwind) 導致 IE 狂噴錯誤視窗
+        try {
+            document.execCommand("Stop");
+        } catch (e) {
+            if (window.stop) window.stop();
+        }
+    }
+  </script>
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo -->
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">
+            SEL<span class="text-muted-orange">學習小棧</span>
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">首頁</a>
+          <a href="abilities.html"        class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+          <!-- 🎄 聖誕感恩活動 -->
+          <a href="#xmas-thanks"          class="hidden xl:inline-flex whitespace-nowrap px-5 py-2.5 rounded-full text-base font-semibold transition-all duration-200 bg-red-50 text-xmas-red hover:bg-red-100">🎄 聖誕感恩</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        <a href="#xmas-thanks"          class="xt-mobile-link block w-full text-left px-4 py-3 rounded-xl text-sm font-semibold mb-1 bg-red-50 text-xmas-red">🎄 聖誕感恩活動</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+
+    <!-- ==================== SELIntroHero ==================== -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-amber-50 via-[#FFF5E6] to-cream pt-12 sm:pt-16 pb-14 sm:pb-20">
+      <!-- 背景光暈 -->
+      <div class="absolute top-0 left-1/4 w-[28rem] h-[28rem] bg-orange-200/30 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-rose-100/35 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 left-1/3 w-80 h-80 bg-amber-200/35 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+
+          <!-- LEFT：文字 -->
+          <div class="flex-1 text-center lg:text-left order-2 lg:order-1 lg:max-w-xl">
+            <div class="mb-5 sm:mb-6 flex flex-wrap gap-2 justify-center lg:justify-start">
+              <span class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-amber-200/80 text-muted-orange text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm">
+                <span>🌸</span><span>奇美醫院 SEL 學習小棧</span>
+              </span>
+              <!-- 🎄 聖誕感恩活動入口 -->
+              <a href="#xmas-thanks" class="inline-flex items-center gap-1.5 bg-xmas-red text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm hover:brightness-110 transition-all">
+                <span>🎄</span><span>12月 聖誕感恩活動進行中</span><span aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <h1 class="text-[2rem] leading-[1.2] sm:text-5xl md:text-6xl font-bold text-warm-text mb-5 sm:mb-6 tracking-tight">
+              照顧別人的同時，<br />
+              <span class="bg-gradient-to-r from-muted-orange to-orange-500 bg-clip-text text-transparent">也別忘了照顧自己</span>
+            </h1>
+
+            <p class="text-sub-text text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10">
+              透過 <strong class="text-warm-text font-semibold">SEL 社會情緒學習</strong>的五大核心能力，
+              <br class="hidden sm:block" />
+              讓壓力有出口、情緒有理解、專業更有溫度。
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start max-w-sm sm:max-w-none mx-auto lg:mx-0">
+              <a href="abilities.html" class="btn-primary text-base sm:text-lg px-8 py-3 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all">開始探索 →</a>
+              <a href="selfcheck.html" class="btn-outline text-base sm:text-lg px-8 py-3 hover:scale-[1.02] transition-all">先做今日檢測</a>
+            </div>
+          </div>
+
+          <!-- RIGHT：透明 PNG 萌包群像 + 柔和舞台 -->
+          <div class="flex-1 lg:flex-[1.5] order-1 lg:order-2 w-full max-w-3xl lg:max-w-5xl xl:max-w-6xl">
+            <div class="relative py-2 sm:py-4">
+
+              <!-- 頂部聚光燈光束 -->
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[110%] h-[60%] pointer-events-none animate-spotlight"
+                   style="background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255,240,210,0.6) 0%, rgba(255,225,180,0.25) 40%, transparent 75%);"></div>
+
+              <!-- 舞台地面柔光 -->
+              <div class="absolute bottom-2 sm:bottom-4 left-[8%] right-[8%] h-12 sm:h-16 pointer-events-none"
+                   style="background: radial-gradient(ellipse 100% 100% at center, rgba(244,162,97,0.4) 0%, rgba(244,162,97,0.18) 45%, transparent 80%); filter: blur(12px);"></div>
+
+              <!-- 主圖 -->
+              <div class="relative z-10">
+                <img src="./public/sel-mascots-cutout.png"
+                     alt="SEL 五大能力 — 自我覺察、自我管理、社會覺察、人際關係技巧、負責任的決策"
+                     class="w-full h-auto block relative"
+                     loading="eager"
+                     style="filter: drop-shadow(0 20px 30px rgba(180,100,40,0.25)) drop-shadow(0 8px 16px rgba(0,0,0,0.1));"
+                     onerror="this.style.display='none'" />
+              </div>
+
+              <!-- 星塵點綴 -->
+              <div class="absolute top-[10%] left-[10%] text-amber-300/60 text-sm">✦</div>
+              <div class="absolute top-[18%] right-[8%] text-rose-300/60 text-base">✦</div>
+              <div class="absolute bottom-[20%] left-[6%] text-amber-200/60 text-xs">✦</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 🎄 聖誕感恩活動 跑馬燈 ==================== -->
+    <a href="#xmas-thanks" class="xt-marquee block relative overflow-hidden" aria-label="12月聖誕感恩活動：寫下這一年最想感謝的人、事、物，掛上感恩聖誕樹，點此立即參加">
+      <div class="xt-mq-track">
+        <div class="xt-mq-group"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--x:8.5%;--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--x:29.9%;--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--x:50.4%;--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--x:71.3%;--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--x:91.9%;--d:1.2s" aria-hidden="true"></span></div>
+        <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--x:8.5%;--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--x:29.9%;--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--x:50.4%;--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--x:71.3%;--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--x:91.9%;--d:1.2s" aria-hidden="true"></span></div>
+      </div>
+    </a>
+
+    <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
+    <section id="xmas-thanks" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 scroll-mt-24" aria-labelledby="xt-title">
+
+      <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
+        <div class="xt-aurora" aria-hidden="true"></div>
+        <div class="xt-frame" aria-hidden="true"></div>
+        <div class="xt-lights" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="xt-snow" aria-hidden="true"></div>
+
+        <!-- 標題 -->
+        <div class="relative text-center mb-9">
+          <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
+          <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
+          <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
+          <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
+          <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
+            在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
+            寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
+          </p>
+        </div>
+
+        <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
+        <figure class="xt-illus" id="xt-illus">
+          <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
+               onerror="this.closest('figure').remove()" />
+        </figure>
+
+        <!-- 填寫表單 -->
+        <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
+          <fieldset>
+            <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
+                <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
+              </label>
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="event" class="absolute opacity-0" />
+                <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
+              </label>
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
+                <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="mt-7">
+            <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
+            <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
+            <textarea id="xt-text" maxlength="200" rows="4"
+              class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
+              placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
+            <div class="flex justify-between text-xs mt-1.5">
+              <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
+              <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
+            </div>
+          </div>
+
+          <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
+            <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
+            <span class="text-sm leading-relaxed">
+              <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
+              <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
+            </span>
+          </label>
+
+          <div class="mt-4 flex flex-col sm:flex-row gap-3">
+            <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
+            <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
+          </div>
+          <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
+            感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
+            分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
+          </p>
+        </form>
+      </div>
+
+      <!-- 感恩聖誕樹 -->
+      <div id="xt-tree-area" class="text-center mt-16 mb-8 scroll-mt-24">
+        <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
+        <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感恩聖誕樹</h3>
+        <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+        <p class="text-sub-text text-sm">樹上已掛著 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝，點一顆吊飾，讀讀大家的心意</p>
+        <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
+      </div>
+
+      <div class="xt-tree-stage rounded-[28px] shadow-card p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
+        <!-- 左：樹 -->
+        <div class="xt-tree" id="xt-tree">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <defs>
+              <linearGradient id="xtLeaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a8a61"/><stop offset="1" stop-color="#1c5038"/></linearGradient>
+              <linearGradient id="xtTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a35"/><stop offset=".55" stop-color="#6b4224"/><stop offset="1" stop-color="#4c2d17"/></linearGradient>
+              <radialGradient id="xtStarG" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#fff8d6"/><stop offset=".45" stop-color="#f7d36a"/><stop offset="1" stop-color="#d49a2c"/></radialGradient>
+              <radialGradient id="xtGlow"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".9"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/></radialGradient>
+              <linearGradient id="xtSnowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e7eef2"/></linearGradient>
+              <pattern id="xtNeedle" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M2 3 Q9 10 16 3" fill="none" stroke="#0e3a26" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></pattern>
+              <filter id="xtShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#0b2a1c" flood-opacity=".35"/></filter>
+              <filter id="xtBlur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+              <clipPath id="xtTier0"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z"/></clipPath>
+              <clipPath id="xtTier1"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z"/></clipPath>
+              <clipPath id="xtTier2"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z"/></clipPath>
+              <clipPath id="xtTier3"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z"/></clipPath>
+            </defs>
+            <!-- 雪地 -->
+            <ellipse cx="200" cy="482" rx="196" ry="14" fill="#d9c8ae" opacity=".35" filter="url(#xtBlur)"/>
+            <path d="M8 482 Q60 452 140 458 Q200 446 262 458 Q342 450 392 482 Z" fill="url(#xtSnowG)"/>
+            <!-- 樹幹 -->
+            <rect x="182" y="430" width="36" height="42" rx="5" fill="url(#xtTrunk)"/>
+            <path d="M190 436 V468 M200 434 V470 M210 438 V466" stroke="#3e2412" stroke-opacity=".35" stroke-width="1.4"/>
+            <g filter="url(#xtShadow)"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier3)">
+              <rect x="0" y="248" width="400" height="212" fill="url(#xtNeedle)"/>
+              <path d="M200 243 L420 470 L200 470 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 243 L-20 470 L60 470 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="25.4" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="25.4" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="52.3" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="52.3" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="79.1" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="79.1" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="106.0" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="106.0" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.9" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.9" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.7" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.7" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.6" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.6" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.4" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.4" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.3" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.3" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.1" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.1" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.0" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.0" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="320.9" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="320.9" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="347.7" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="347.7" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="374.6" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="374.6" cy="427.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier2)">
+              <rect x="0" y="170" width="400" height="222" fill="url(#xtNeedle)"/>
+              <path d="M200 165 L420 402 L200 402 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 165 L-20 402 L60 402 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="48.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="48.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="76.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="76.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="103.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="103.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="131.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="131.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="158.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="158.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="241.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="241.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="268.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="268.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="296.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="296.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="323.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="323.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="351.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="351.2" cy="359.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier1)">
+              <rect x="0" y="100" width="400" height="200" fill="url(#xtNeedle)"/>
+              <path d="M200 95 L420 310 L200 310 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 95 L-20 310 L60 310 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="78.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="78.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="105.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="105.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.5" cy="271.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.5" cy="267.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="321.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="321.5" cy="267.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier0)">
+              <rect x="0" y="40" width="400" height="150" fill="url(#xtNeedle)"/>
+              <path d="M200 35 L420 200 L200 200 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 35 L-20 200 L60 200 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="119.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="119.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="142.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="142.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="165.5" cy="161.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="165.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="188.5" cy="157.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="188.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="211.5" cy="161.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="211.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="234.5" cy="157.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="234.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="257.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="257.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="280.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="280.5" cy="157.0" r="2.6" fill="#fffbe9"/></g>
+            <!-- 禮物 -->
+            <g>
+              <rect x="64" y="440" width="58" height="40" rx="3" fill="#a8322b"/><rect x="64" y="440" width="58" height="9" rx="2" fill="#c0443a"/>
+              <rect x="89" y="440" width="8" height="40" fill="#e7c06a"/>
+              <path d="M93 440 q-16 -16 -20 -4 q4 8 20 4 q16 -16 20 -4 q-4 8 -20 4" fill="#f0cf7e" stroke="#c9a04a" stroke-width="1"/>
+              <rect x="286" y="448" width="48" height="32" rx="3" fill="#2f7d68"/><rect x="286" y="448" width="48" height="8" rx="2" fill="#3c9580"/>
+              <rect x="306" y="448" width="7" height="32" fill="#fbf4e4"/>
+              <path d="M309.5 448 q-13 -13 -16 -3 q3 6 16 3 q13 -13 16 -3 q-3 6 -16 3" fill="#fffaf0" stroke="#e1d3b6" stroke-width="1"/>
+              <rect x="236" y="458" width="38" height="22" rx="3" fill="#e9b04f"/><rect x="236" y="458" width="38" height="6" rx="2" fill="#f2c56f"/>
+              <rect x="252" y="458" width="6" height="22" fill="#a8322b"/>
+            </g>
+            <!-- 星星 -->
+            <circle cx="200" cy="38" r="40" fill="url(#xtGlow)"/>
+            <path class="xt-rays" d="M226.0 38.0 L248.0 38.0 M224.0 47.9 L235.1 52.5 M218.4 56.4 L233.9 71.9 M209.9 62.0 L214.5 73.1 M200.0 64.0 L200.0 86.0 M190.1 62.0 L185.5 73.1 M181.6 56.4 L166.1 71.9 M176.0 47.9 L164.9 52.5 M174.0 38.0 L152.0 38.0 M176.0 28.1 L164.9 23.5 M181.6 19.6 L166.1 4.1 M190.1 14.0 L185.5 2.9 M200.0 12.0 L200.0 -10.0 M209.9 14.0 L214.5 2.9 M218.4 19.6 L233.9 4.1 M224.0 28.1 L235.1 23.5" stroke="#f3cf6e" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="xt-star" d="M200.0 16.0 L205.6 30.3 L220.9 31.2 L209.0 40.9 L212.9 55.8 L200.0 47.5 L187.1 55.8 L191.0 40.9 L179.1 31.2 L194.4 30.3 Z" fill="url(#xtStarG)" stroke="#b9822a" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <div id="xt-ornaments"></div>
+        </div>
+
+        <!-- 右：溫暖排行榜 -->
+        <div>
+          <div class="xt-paper xt-letter">
+            <div class="xt-letter-label">WARMEST ・ 溫暖排行榜</div>
+            <p class="text-center text-xs text-[#a8977d] mb-4">收到最多溫暖的感謝，會掛在聖誕樹最頂端 ✦</p>
+            <ol id="xt-rank" class="space-y-2"></ol>
+            <div class="xt-seal" aria-hidden="true">♥</div>
+          </div>
+          <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
+        </div>
+        <!-- 包子報佳音 -->
+        <div class="lg:col-span-2 text-center">
+          <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
+          <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
+          <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
+            <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:8.5%"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:29.9%"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:50.4%"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:71.3%"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:91.9%"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 感謝留言牆 -->
+      <div id="xt-wall-area" class="mt-16 scroll-mt-24">
+        <div class="text-center mb-7">
+          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
+          <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
+          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+          <p class="text-sub-text text-sm">一起讀讀大家的感謝，喜歡就送一份溫暖 ♥（在文字上點兩下也可以）</p>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+          <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
+            <button type="button" class="xt-pill" data-f="all" aria-pressed="true">全部</button>
+            <button type="button" class="xt-pill" data-f="person" aria-pressed="false"><span class="xt-dot person"></span>人</button>
+            <button type="button" class="xt-pill" data-f="event" aria-pressed="false"><span class="xt-dot event"></span>事</button>
+            <button type="button" class="xt-pill" data-f="thing" aria-pressed="false"><span class="xt-dot thing"></span>物</button>
+          </div>
+          <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
+          <div class="flex gap-2" id="xt-sort" role="group" aria-label="排序方式">
+            <button type="button" class="xt-pill" data-s="hot" aria-pressed="true">♥ 最多溫暖</button>
+            <button type="button" class="xt-pill" data-s="new" aria-pressed="false">最新</button>
+          </div>
+        </div>
+        <div id="xt-wall" class="xt-wall"></div>
+        <div class="text-center mt-4"><button type="button" id="xt-more" class="xt-pill" hidden>看更多感謝 ↓</button></div>
+      </div>
+    </section>
+
+    <!-- ==================== 什麼是 SEL ==================== -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-[#f0f7ff] via-[#fdf8f2] to-[#f0faf4] py-16 sm:py-20">
+      <div class="absolute top-0 right-0 w-72 h-72 bg-sky-100 rounded-full blur-3xl opacity-40 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber-100 rounded-full blur-3xl opacity-40 -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+
+      <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+
+        <div class="text-center mb-10 sm:mb-12">
+          <span class="inline-block bg-white border border-sky-200 text-sky-600 text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm mb-4">
+            🌱 Social-Emotional Learning
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-warm-text mb-3">什麼是 SEL？</h2>
+          <p class="text-sub-text text-base max-w-xl mx-auto leading-relaxed">
+            社會情緒學習是幫助我們<strong class="text-warm-text">認識自己、理解他人、做出負責任決定</strong>的學習方式，
+            讓醫療工作者在高壓環境中仍能保有溫度與穩定。
+          </p>
+        </div>
+
+        <!-- 雙視覺：左輪盤 + 右醫師 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 mb-12 sm:mb-14 items-center">
+
+          <!-- 左：SEL 輪盤 -->
+          <div class="relative flex items-center justify-center">
+            <div class="absolute w-[380px] h-[380px] sm:w-[460px] sm:h-[460px] rounded-full bg-gradient-to-br from-sky-100/80 via-amber-50/60 to-green-100/60 blur-2xl"></div>
+            <div class="absolute w-[350px] h-[350px] sm:w-[420px] sm:h-[420px] rounded-full border-2 border-dashed border-sky-200/80"></div>
+            <div class="relative w-[310px] h-[310px] sm:w-[380px] sm:h-[380px] rounded-full overflow-hidden shadow-2xl border-4 border-white"
+                 style="box-shadow: 0 12px 50px rgba(100,180,230,0.2), 0 4px 20px rgba(0,0,0,0.08);">
+              <img src="./public/sel-wheel.png" alt="SEL 五大能力圓餅圖" class="w-full h-full object-cover object-center" />
+            </div>
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-sky-400 to-teal-400 text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+              SEL 五大核心能力
+            </div>
+            <div class="absolute -top-4 left-8 text-yellow-300 text-xl">✦</div>
+            <div class="absolute top-6 -right-4 text-pink-300 text-base">✦</div>
+            <div class="absolute bottom-10 -left-5 text-green-300 text-sm">✦</div>
+          </div>
+
+          <!-- 右：醫師喘口氣 -->
+          <div class="relative flex items-center justify-center">
+            <div class="absolute w-[380px] h-[380px] sm:w-[460px] sm:h-[460px] rounded-full bg-gradient-to-br from-amber-100/80 via-orange-50/60 to-rose-100/60 blur-2xl"></div>
+
+            <div class="relative w-[340px] h-[370px] sm:w-[400px] sm:h-[430px] overflow-hidden shadow-2xl border-4 border-white"
+                 style="border-radius: 58% 42% 48% 52% / 52% 48% 52% 48%; box-shadow: 0 12px 50px rgba(244,162,97,0.22), 0 4px 20px rgba(0,0,0,0.08);">
+              <img src="./public/hero-doctor.png" alt="醫療人員喝茶放鬆插畫" class="w-full h-full object-cover object-center" />
+              <div class="absolute inset-0 bg-gradient-to-t from-amber-100/25 via-transparent to-transparent"></div>
+            </div>
+
+            <div class="absolute top-4 -right-2 sm:right-2 bg-white rounded-2xl shadow-card px-4 py-2 flex items-center gap-1.5 border border-amber-100 animate-soft-bounce">
+              <span class="text-xl">☕</span>
+              <span class="text-sm font-semibold text-warm-text">先喘口氣</span>
+            </div>
+
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-muted-orange to-orange-500 text-white text-xs sm:text-sm font-bold px-4 sm:px-5 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+              💛 給照顧者的溫柔
+            </div>
+
+            <div class="absolute top-8 left-4 text-pink-300 text-base opacity-70">✦</div>
+            <div class="absolute top-1/2 -right-4 text-amber-300 text-lg opacity-70">🌿</div>
+          </div>
+        </div>
+
+        <!-- 五大能力詳細介紹卡片 -->
+        <div id="abilityCards" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 max-w-4xl mx-auto"></div>
+
+        <div class="mt-8 sm:mt-10 text-center">
+          <a href="abilities.html" class="btn-primary text-base px-7 py-2.5 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all">
+            深入了解五大能力 →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FeatureCards：四個入口 ==================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <div class="text-center mb-10">
+        <h2 class="section-title">從這裡開始，找到適合你的方式</h2>
+        <p class="section-subtitle max-w-lg mx-auto">四個入口，四種照顧自己的起點，選一個最想嘗試的開始吧。</p>
+      </div>
+      <div id="featureCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+    </section>
+
+    <!-- ==================== 溫暖提示 Banner ==================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div class="bg-gradient-to-r from-sky-50 via-teal-50 to-green-50 rounded-3xl p-8 sm:p-10 text-center border border-sky-100">
+        <div class="text-3xl mb-4">💙</div>
+        <blockquote class="text-lg sm:text-xl font-medium text-warm-text leading-relaxed italic mb-4">
+          「你不需要等到撐不住，才開始照顧自己。」
+        </blockquote>
+        <p class="text-sub-text text-sm">真正長久的照顧，是在日常裡，慢慢練習理解自己、支持自己、調整自己。</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+          <a href="selfcheck.html" class="btn-primary">先做今日自我檢測</a>
+          <a href="learning-support.html" class="btn-outline">前往學習補給</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== 互動邏輯 ==================== -->
+  <script>
+    // ---- 1. 漢堡選單 ----
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1');
+    const mb2 = document.getElementById('mb2');
+    const mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen);
+      mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen);
+      mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // ---- 2. 五大能力卡片資料 ----
+    const abilities = [
+      { num: '1', emoji: '🌸', name: '自我覺察', english: 'Self-Awareness',           desc: '認識自己的情緒、目標和價值觀，正確評估優缺點，肯定自我價值。', color: 'from-rose-50 to-pink-50',    border: 'border-rose-100',   numBg: 'bg-rose-400',    tag: 'bg-rose-100 text-rose-700' },
+      { num: '2', emoji: '🌿', name: '自我管理', english: 'Self-Management',           desc: '調節情緒、管理壓力，設定目標並持之以恆，面對挑戰不輕易衝動。', color: 'from-emerald-50 to-green-50', border: 'border-emerald-100', numBg: 'bg-emerald-400', tag: 'bg-emerald-100 text-emerald-700' },
+      { num: '3', emoji: '💙', name: '社會覺察', english: 'Social Awareness',          desc: '具備同理心，理解他人感受，尊重不同背景與文化的多元差異。',     color: 'from-sky-50 to-blue-50',     border: 'border-sky-100',    numBg: 'bg-sky-400',     tag: 'bg-sky-100 text-sky-700' },
+      { num: '4', emoji: '🤝', name: '人際技巧', english: 'Relationship Skills',       desc: '有效溝通、積極傾聽、協調合作，在需要時主動尋求或給予協助。',   color: 'from-amber-50 to-orange-50', border: 'border-amber-100',  numBg: 'bg-amber-400',   tag: 'bg-amber-100 text-amber-700' },
+      { num: '5', emoji: '⚖️', name: '負責任的決策', english: 'Responsible Decision-Making', desc: '考量道德規範與後果，做出對自己、對他人都負責任的明智決定。', color: 'from-violet-50 to-purple-50', border: 'border-violet-100', numBg: 'bg-violet-400',  tag: 'bg-violet-100 text-violet-700' },
+    ];
+
+    const abilityHTML = abilities.map(a => `
+      <div class="flex items-start gap-4 p-4 rounded-2xl bg-gradient-to-r ${a.color} border ${a.border} hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+        <div class="flex-shrink-0 w-11 h-11 ${a.numBg} rounded-xl flex items-center justify-center text-white font-black text-lg shadow-sm">${a.num}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1 flex-wrap">
+            <span class="text-xl">${a.emoji}</span>
+            <span class="font-bold text-warm-text text-base">${a.name}</span>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${a.tag}">${a.english}</span>
+          </div>
+          <p class="text-sub-text text-sm leading-relaxed">${a.desc}</p>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('abilityCards').innerHTML = abilityHTML;
+
+    // ---- 3. 四個入口卡片 ----
+    const features = [
+      { href: 'abilities.html',        emoji: '✨', title: 'SEL 五大能力', description: '認識 SEL 五大核心能力，建立自我理解與人際互動的基礎。', bgColor: 'bg-gradient-to-br from-pink-50 to-rose-50',   borderColor: 'border-pink-200',   hoverBorder: 'hover:border-pink-300',   iconBg: 'bg-pink-100' },
+      { href: 'selfcheck.html',        emoji: '🌡️', title: '自我檢測',     description: '透過今日壓力指數與簡易檢測，快速了解自己的狀態。',     bgColor: 'bg-gradient-to-br from-amber-50 to-orange-50', borderColor: 'border-amber-200',  hoverBorder: 'hover:border-amber-300',  iconBg: 'bg-amber-100' },
+      { href: 'scenario.html',         emoji: '🎭', title: '情境應用',     description: '用醫療職場情境練習思考與回應，提升情緒調節與應對能力。', bgColor: 'bg-gradient-to-br from-sky-50 to-blue-50',     borderColor: 'border-sky-200',    hoverBorder: 'hover:border-sky-300',    iconBg: 'bg-sky-100' },
+      { href: 'learning-support.html', emoji: '🌈', title: '學習補給',     description: '提供有趣紓壓遊戲、放鬆活動與實用資源，幫自己充電。',     bgColor: 'bg-gradient-to-br from-green-50 to-teal-50',   borderColor: 'border-green-200',  hoverBorder: 'hover:border-green-300',  iconBg: 'bg-green-100' },
+    ];
+
+    const featureHTML = features.map(f => `
+      <a href="${f.href}" class="group text-left p-6 rounded-2xl border ${f.bgColor} ${f.borderColor} ${f.hoverBorder} card-hover transition-all duration-300 cursor-pointer shadow-sm hover:shadow-card-hover block">
+        <div class="w-12 h-12 ${f.iconBg} rounded-xl flex items-center justify-center text-2xl mb-4 shadow-sm group-hover:scale-110 transition-transform duration-200">${f.emoji}</div>
+        <h3 class="font-bold text-warm-text text-base mb-2">${f.title}</h3>
+        <p class="text-sub-text text-sm leading-relaxed">${f.description}</p>
+        <div class="mt-4 text-muted-orange text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+          <span>了解</span><span>→</span>
+        </div>
+      </a>
+    `).join('');
+    document.getElementById('featureCards').innerHTML = featureHTML;
+  </script>
+
+  <!-- ==================== 🎄 聖誕互動特效（雪花、雪人、牽手包子） ==================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="xtHatRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2463b"/><stop offset="1" stop-color="#9c2a24"/></linearGradient>
+      <symbol id="xtHatSym" viewBox="0 0 64 52">
+        <path d="M8 40 C11 20 24 5 40 5 C53 5 60 15 59 28 C55 22 49 20 45 22 C46 30 50 36 55 40 Z" fill="url(#xtHatRed)"/>
+        <path d="M40 5 C53 5 60 15 59 28 C55 22 49 20 45 22 C42 16 40 10 40 5 Z" fill="#000" opacity=".12"/>
+        <rect x="3" y="36" width="58" height="12" rx="6" fill="#fffaf2" stroke="#e7ddcc"/>
+        <circle cx="59" cy="29" r="6.5" fill="#fffaf2" stroke="#e7ddcc"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <canvas id="xt-snowfx" aria-hidden="true"></canvas>
+  <div id="xt-frost" aria-hidden="true"></div>
+
+  <button type="button" id="xt-snowman" aria-label="雪人寶寶，點我說話">
+    <svg viewBox="0 0 100 130" width="92" aria-hidden="true">
+      <ellipse cx="50" cy="126" rx="40" ry="6" fill="#000" opacity=".08"/>
+      <circle cx="50" cy="96" r="30" fill="#fff" stroke="#dfe7ec" stroke-width="2"/>
+      <circle cx="50" cy="52" r="22" fill="#fff" stroke="#dfe7ec" stroke-width="2"/>
+      <path d="M22 80 L6 68" stroke="#6b4224" stroke-width="3" stroke-linecap="round"/>
+      <g class="arm-wave"><path d="M74 72 L94 56 M88 61 L93 66" stroke="#6b4224" stroke-width="3" stroke-linecap="round"/></g>
+      <path d="M30 68 Q50 78 70 68 L70 74 Q50 84 30 74 Z" fill="#a8322b"/>
+      <path d="M60 72 L66 92 L58 92 L55 76 Z" fill="#c0443a"/>
+      <circle cx="42" cy="48" r="2.6" fill="#2b2b2b"/><circle cx="58" cy="48" r="2.6" fill="#2b2b2b"/>
+      <path d="M50 54 L66 57 L50 59 Z" fill="#f08a3a"/>
+      <path d="M42 62 Q50 67 58 62" stroke="#2b2b2b" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="57" r="3.5" fill="#f6b6b0" opacity=".7"/><circle cx="63" cy="57" r="3.5" fill="#f6b6b0" opacity=".7"/>
+      <circle cx="50" cy="90" r="2.6" fill="#2b2b2b"/><circle cx="50" cy="102" r="2.6" fill="#2b2b2b"/>
+      <use href="#xtHatSym" x="26" y="16" width="50" height="40"/>
+    </svg>
+  </button>
+  <div id="xt-snowman-say" class="xt-say" role="status"><span class="txt"></span></div>
+
+
+  <div id="xt-celebrate" role="dialog" aria-modal="true" aria-labelledby="xt-cel-title">
+    <div class="card xt-paper">
+      <!-- 慶祝圖：把圖檔放到 public/xmas-buns-snow.jpg 即會顯示 -->
+      <img src="./public/xmas-buns-snow.jpg" alt="SEL 包子們開心地在雪地裡打雪仗" onerror="this.remove()" />
+      <div class="relative px-6 pt-5 pb-6">
+        <p class="xt-script text-[#c9a052] text-3xl leading-none" aria-hidden="true">Thank you</p>
+        <h4 id="xt-cel-title" class="xt-serif text-xl font-bold text-warm-text mt-2">你的感謝已經掛上聖誕樹了！</h4>
+        <p id="xt-cel-msg" class="text-sm text-[#8a7458] mt-2 leading-relaxed"></p>
+        <button type="button" id="xt-cel-close" class="xt-btn mt-5">去看看我的吊飾 <span aria-hidden="true">✦</span></button>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" id="xt-fx-toggle" aria-pressed="true" aria-label="魔法特效開關">✦<span class="tip">魔法特效：開</span></button>
+
+  <script>
+    (function () {
+      var FX_KEY = 'selXmasFx';
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var on = !reduce;
+      try { var v = localStorage.getItem(FX_KEY); if (v === '0') on = false; if (v === '1') on = true; } catch (e) {}
+      var toggle = document.getElementById('xt-fx-toggle');
+
+      /* ---------- 1. 全頁雪花（隨捲動飄移）---------- */
+      var cv = document.getElementById('xt-snowfx'), ctx = cv.getContext('2d'), W = 0, H = 0, DPR = 1, flakes = [];
+      function resize() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        var n = Math.round(Math.min(110, Math.max(40, W / 12)));
+        flakes = []; for (var i = 0; i < n; i++) flakes.push(newFlake(true));
+      }
+      function newFlake(any) {
+        var r = Math.random() < .12 ? 3.2 + Math.random() * 2 : .8 + Math.random() * 2.2;
+        return { x: Math.random() * W, y: any ? Math.random() * H : -10, r: r, vy: .12 + r * .1, ph: Math.random() * 6.28, a: .45 + Math.random() * .45, rot: Math.random() * 6 };
+      }
+      var lastY = scrollY, scrollV = 0, raf = null;
+      addEventListener('scroll', function () { var y = scrollY; scrollV += (y - lastY); lastY = y; }, { passive: true });
+      function drawFlake(f) {
+        ctx.globalAlpha = f.a;
+        if (f.r > 3) { // 大雪花畫成六角
+          ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.2; ctx.beginPath();
+          for (var k = 0; k < 6; k++) { ctx.moveTo(0, 0); ctx.lineTo(0, -f.r * 1.6); ctx.rotate(Math.PI / 3); }
+          ctx.stroke(); ctx.restore();
+        } else { ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
+      }
+      /* ---- 冰雪魔法粒子 ---- */
+      var parts = [], MAXP = 420;
+      function crystal(x, y, r, rot, alpha, lw) { // 帶分枝的六角冰晶
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.globalAlpha = alpha; ctx.lineWidth = lw; ctx.beginPath();
+        for (var k = 0; k < 6; k++) {
+          ctx.moveTo(0, 0); ctx.lineTo(0, -r);
+          ctx.moveTo(0, -r * .45); ctx.lineTo(-r * .22, -r * .62); ctx.moveTo(0, -r * .45); ctx.lineTo(r * .22, -r * .62);
+          ctx.moveTo(0, -r * .72); ctx.lineTo(-r * .14, -r * .84); ctx.moveTo(0, -r * .72); ctx.lineTo(r * .14, -r * .84);
+          ctx.rotate(Math.PI / 3);
+        }
+        ctx.stroke(); ctx.restore();
+      }
+      function starPath(x, y, R, rot, n, inner) { // n 角星
+        ctx.beginPath();
+        for (var k = 0; k < n * 2; k++) { var rr = k % 2 ? R * inner : R, a = rot + k * Math.PI / n - Math.PI / 2; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+        ctx.closePath();
+      }
+      var GOLD = ['#ffd75e', '#ffe9a0', '#fff6d6', '#ffffff', '#f7c548'];
+      function addP(p) { if (parts.length < MAXP) parts.push(p); }
+      function iceBurst(x, y) {
+        addP({ t: 'bloom', x: x, y: y, life: 0, max: 60, rot: Math.random() * 6 });
+        for (var k = 0; k < 26; k++) {
+          var a = Math.random() * 6.283, v = 1.5 + Math.random() * 4.5;
+          addP({ t: 'dust', c: GOLD[(Math.random() * GOLD.length) | 0], x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 0, max: 40 + Math.random() * 30, s: 1 + Math.random() * 2.2 });
+        }
+        for (var j = 0; j < 6; j++) {
+          var b = j / 6 * 6.283 + Math.random() * .4, w = 2.5 + Math.random() * 2;
+          addP({ t: 'shard', x: x, y: y, vx: Math.cos(b) * w, vy: Math.sin(b) * w, life: 0, max: 55, s: 5 + Math.random() * 5, rot: Math.random() * 6 });
+        }
+        if (!raf) raf = requestAnimationFrame(tick);
+      }
+      var TRAIL_C = ['#ffd75e', '#ffe9a0', '#fff6d6', '#ffffff', '#f7c548'];
+      function trail(x, y) {
+        for (var k = 0; k < 2; k++) addP({ t: 'dust', c: TRAIL_C[(Math.random() * TRAIL_C.length) | 0], x: x + (Math.random() - .5) * 6, y: y + (Math.random() - .5) * 6, vx: (Math.random() - .5) * .6, vy: .3 + Math.random() * .6, life: 0, max: 30 + Math.random() * 25, s: .8 + Math.random() * 1.8 });
+        if (Math.random() < .08) addP({ t: 'shard', x: x, y: y, vx: (Math.random() - .5) * .8, vy: .6, life: 0, max: 50, s: 2.5 + Math.random() * 2.5, rot: Math.random() * 6 });
+      }
+      function swirl(cx, cy) {
+        for (var k = 0; k < 70; k++) addP({ t: 'orbit', cx: cx, cy: cy, a: Math.random() * 6.283, r: 10 + Math.random() * 30, va: .08 + Math.random() * .06, vr: .9 + Math.random() * 1.6, life: 0, max: 80 + Math.random() * 40, s: 1 + Math.random() * 2.4 });
+        if (!raf) raf = requestAnimationFrame(tick);
+      }
+      function drawParts() {
+        ctx.shadowColor = 'rgba(230,160,40,.9)'; ctx.shadowBlur = 10;
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i]; p.life++;
+          var k = p.life / p.max; if (k >= 1) { parts.splice(i, 1); continue; }
+          if (p.t === 'bloom') {
+            var e = 1 - Math.pow(1 - k, 3);
+            // 星芒綻放：大四角星芒 + 金色光環
+            ctx.globalAlpha = (1 - k) * .28; ctx.fillStyle = '#ffe9a0'; ctx.beginPath(); ctx.arc(p.x, p.y, 10 + e * 34, 0, 6.283); ctx.fill();
+            ctx.globalAlpha = (1 - k) * .9; ctx.strokeStyle = '#f2c14e'; ctx.lineWidth = 2 - k * 1.5; ctx.beginPath(); ctx.arc(p.x, p.y, 8 + e * 44, 0, 6.283); ctx.stroke();
+            ctx.globalAlpha = 1 - k; ctx.fillStyle = '#ffd75e'; starPath(p.x, p.y, 8 + e * 30, p.rot * .2 + e * .6, 4, .22); ctx.fill();
+            ctx.fillStyle = '#fffbe8'; starPath(p.x, p.y, 4 + e * 15, p.rot * .2 + e * .6, 4, .25); ctx.fill();
+          } else if (p.t === 'shard') {
+            p.x += p.vx; p.y += p.vy; p.vx *= .96; p.vy = p.vy * .96 + .04; p.rot += .06;
+            ctx.globalAlpha = 1 - k; ctx.fillStyle = p.s > 6 ? '#ffd75e' : '#ffe9a0'; starPath(p.x, p.y, p.s, p.rot, 5, .45); ctx.fill();
+          } else {
+            if (p.t === 'orbit') { p.a += p.va; p.r += p.vr; p.x = p.cx + Math.cos(p.a) * p.r; p.y = p.cy + Math.sin(p.a) * p.r * .7 - p.life * .6; }
+            else { p.x += p.vx; p.y += p.vy; p.vx *= .97; p.vy = p.vy * .97 + .02; }
+            ctx.globalAlpha = (1 - k) * (.6 + Math.random() * .4); ctx.fillStyle = p.c || (Math.random() < .35 ? '#ffffff' : (Math.random() < .5 ? '#8fd0fa' : '#5fb4ea'));
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.s * (1 - k * .5), 0, 6.283); ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      }
+
+      /* ---- 冰霜邊框：快速捲動時結霜，再慢慢融化 ---- */
+      var frost = document.getElementById('xt-frost'), frostLv = 0;
+
+      function tick(t) {
+        raf = null;
+        if (!on || document.hidden) return;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(150,170,190,.6)'; ctx.shadowBlur = 2;
+        var sv = scrollV; scrollV *= .0; // 每幀吃掉捲動量
+        for (var i = 0; i < flakes.length; i++) {
+          var f = flakes[i];
+          f.y += f.vy - sv * (.25 + f.r * .12);       // 捲動時雪花反向位移，越大的越近、動越多
+          f.x += Math.sin(t / 2200 + f.ph) * .25 + (sv > 0 ? .15 : -.15) * Math.min(Math.abs(sv), 30) / 30;
+          f.rot += .004;
+          if (f.y > H + 12) { flakes[i] = newFlake(false); continue; }
+          if (f.y < -14) { f.y = H + 10; f.x = Math.random() * W; }
+          if (f.x > W + 10) f.x = -10; if (f.x < -10) f.x = W + 10;
+          drawFlake(f);
+        }
+        ctx.globalAlpha = 1;
+        drawParts();
+        frostLv = Math.min(1, frostLv + Math.min(Math.abs(sv), 120) / 900) * .985;
+        frost.style.opacity = frostLv > .02 ? frostLv.toFixed(3) : '0';
+        raf = requestAnimationFrame(tick);
+      }
+      function startSnow() { cv.style.display = on ? '' : 'none'; if (on && !raf) raf = requestAnimationFrame(tick); }
+      addEventListener('resize', resize); document.addEventListener('visibilitychange', startSnow);
+      var lastTrail = 0;
+      addEventListener('pointermove', function (e) {
+        if (!on || reduce) return; var n = performance.now(); if (n - lastTrail < 16) return; lastTrail = n;
+        trail(e.clientX, e.clientY); if (!raf) raf = requestAnimationFrame(tick);
+      }, { passive: true });
+      // 點擊（電腦與手機）都會綻放冰晶
+      addEventListener('pointerdown', function (e) {
+        if (!on || e.target.closest('#xt-fx-toggle, #xt-celebrate')) return;
+        iceBurst(e.clientX, e.clientY);
+      }, { passive: true });
+
+      /* ---------- 2. 雪人寶寶 ---------- */
+      var snowman = document.getElementById('xt-snowman'), smSay = document.getElementById('xt-snowman-say'), smTxt = smSay.querySelector('.txt');
+      var target = document.getElementById('xmas-thanks');
+      var LINES = [
+        '嗨！我是雪人寶寶 ⛄<br>這個月一起來寫「感謝」吧！',
+        '今天也辛苦了，記得喝口熱水、伸個懶腰 ☕',
+        '說一聲謝謝，心也會跟著變暖喔 ✦',
+        '看見你手上的魔法棒了嗎？✦ 在畫面上點一點，會灑出星光喔',
+        '覺得特效太熱鬧？右下角的 ✦ 可以關掉～'
+      ];
+      var li = 0, smTimer = null, arrived = false;
+      function smSpeak(html, withGo) {
+        smTxt.innerHTML = html + (withGo ? '<br><button type="button" class="xt-go">前往寫感謝 →</button>' : '');
+        smSay.classList.add('is-show'); clearTimeout(smTimer);
+        smTimer = setTimeout(function () { smSay.classList.remove('is-show'); }, 6000);
+      }
+      snowman.addEventListener('click', function () {
+        smSpeak(LINES[li % LINES.length], li % LINES.length === 0); li++;
+        if (on) { var r = snowman.getBoundingClientRect(); swirl(r.left + r.width / 2, r.top + r.height * .55); }
+      });
+      smSay.addEventListener('click', function (e) {
+        if (e.target.closest('.xt-go')) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); smSay.classList.remove('is-show'); }
+      });
+      function onScrollSnowman() {
+        if (!on) { snowman.classList.remove('is-up'); return; }
+        snowman.classList.toggle('is-up', scrollY > 380);
+        if (scrollY <= 380) smSay.classList.remove('is-show');
+      }
+      addEventListener('scroll', onScrollSnowman, { passive: true });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting && !arrived && on) { arrived = true; smSpeak('你到啦！就是這裡 ✦<br>寫下這一年最想感謝的人吧'); } });
+        }, { threshold: .25 }).observe(target);
+      }
+
+      /* ---------- 3. 包子報佳音 ---------- */
+      var choir = document.getElementById('xt-choir');
+      var WHISPER = [
+        ['停一下，問問自己：今天的心情是什麼顏色？', '這一年，你最驕傲的一刻是什麼？'],
+        ['累了就深呼吸三次，給自己一杯熱可可 ☕', '休息不是偷懶，是為了走更長的路。'],
+        ['身邊的同事今天看起來好嗎？一句關心就很暖。', '每位病人背後，都有一個等他回家的家。'],
+        ['說聲「謝謝你」，是最好的聖誕禮物 🎁', '今天，試著稱讚一位夥伴吧！'],
+        ['好好休息，也是負責任的選擇。', '新的一年，為自己定一個溫柔的小目標。']
+      ];
+      var wIdx = [0, 0, 0, 0, 0];
+      choir.addEventListener('click', function (e) {
+        var b = e.target.closest('.xt-choir-item'); if (!b) return;
+        var i = +b.dataset.i, say = b.querySelector('.xt-say');
+        choir.querySelectorAll('.xt-say').forEach(function (s) { if (s !== say) s.classList.remove('is-show'); });
+        say.textContent = WHISPER[i][wIdx[i]++ % WHISPER[i].length];
+        say.classList.add('is-show');
+        b.classList.remove('is-hop'); void b.offsetWidth; b.classList.add('is-hop');
+        clearTimeout(b._t); b._t = setTimeout(function () { say.classList.remove('is-show'); }, 4500);
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es, ob) {
+          es.forEach(function (e) { if (e.isIntersecting) { choir.classList.add('is-in'); ob.disconnect(); } });
+        }, { threshold: .4 }).observe(choir);
+      } else choir.classList.add('is-in');
+
+
+      /* ---------- 送出後的慶祝卡 ---------- */
+      var cel = document.getElementById('xt-celebrate'), celMsg = document.getElementById('xt-cel-msg'), celClose = document.getElementById('xt-cel-close'), celBack = null;
+      function closeCel() { cel.classList.remove('is-show'); if (celBack) celBack.focus(); }
+      window.xtCelebrate = function (text) {
+        celBack = document.activeElement;
+        celMsg.textContent = text + ' 包子們開心得在雪地裡打滾～';
+        cel.classList.add('is-show'); celClose.focus();
+        if (on) { iceBurst(innerWidth / 2, innerHeight / 2 - 120); iceBurst(innerWidth / 2 - 150, innerHeight / 2 + 40); iceBurst(innerWidth / 2 + 150, innerHeight / 2 + 40); }
+        if (on) for (var k = 0; k < 18; k++) {
+          var s = document.createElement('span'); s.className = 'xt-spark'; s.textContent = k % 3 ? '✦' : '✧';
+          var a = Math.random() * 6.28, r = 80 + Math.random() * 140;
+          s.style.left = innerWidth / 2 + 'px'; s.style.top = innerHeight / 2 + 'px'; s.style.fontSize = (12 + Math.random() * 12) + 'px';
+          s.style.setProperty('--dx', Math.cos(a) * r + 'px'); s.style.setProperty('--dy', Math.sin(a) * r + 'px');
+          document.body.appendChild(s); setTimeout(function (n) { n.remove(); }.bind(null, s), 800);
+        }
+      };
+      celClose.addEventListener('click', function (e) { e.stopPropagation(); closeCel(); document.getElementById('xt-tree-area').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      cel.addEventListener('click', function (e) { if (e.target === cel) closeCel(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && cel.classList.contains('is-show')) closeCel(); });
+
+      /* ---------- 魔法棒游標 ---------- */
+      var finePointer = window.matchMedia && matchMedia('(pointer: fine)').matches;
+      function setWand() { document.documentElement.classList.toggle('xt-wand', on && finePointer); }
+
+      /* ---------- 開關 ---------- */
+      function apply() {
+        toggle.setAttribute('aria-pressed', on);
+        toggle.querySelector('.tip').textContent = '魔法特效：' + (on ? '開' : '關');
+        if (!on) { ctx.clearRect(0, 0, W, H); smSay.classList.remove('is-show'); parts = []; frostLv = 0; frost.style.opacity = '0'; }
+        startSnow(); setWand(); onScrollSnowman();
+      }
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation(); on = !on; try { localStorage.setItem(FX_KEY, on ? '1' : '0'); } catch (err) {} apply();
+      });
+
+      resize(); apply();
+    })();
+  </script>
+
+  <!-- ==================== 🎄 聖誕感恩活動 互動邏輯 ==================== -->
+  <script>
+    (function () {
+      /* =========================================================
+         ⚙️ 設定：把 Google Apps Script 部署後的「網頁應用程式網址」貼在這裡
+         例：'https://script.google.com/macros/s/AKfycb..../exec'
+         留空 = 尚未開放分享（只會存在每個人自己的瀏覽器）
+         ========================================================= */
+      var API_URL = '';
+      var REFRESH_MS = 60000; // 每 60 秒自動更新大家的感謝
+
+      var STORE_KEY = 'selXmasThanks2026v2';
+      var LIKE_KEY = 'selXmasLiked2026'; // 這台裝置送過溫暖的留言 id
+      var KIND = {
+        person: { label: '感謝的人', icon: '♥', tag: 'bg-[#fbe4e0] text-[#9c2a24]' },
+        event:  { label: '感謝的事', icon: '✦', tag: 'bg-[#fbf0d4] text-[#8a5f14]' },
+        thing:  { label: '感謝的物', icon: '★', tag: 'bg-[#dcf1ea] text-[#1c6b59]' }
+      };
+      var BADGE = {
+        mine:    '<span class="text-xs px-2 py-0.5 rounded-full border border-[#cfe3d9] text-[#1f6b52]">已分享給大家</span>',
+        private: '<span class="text-xs px-2 py-0.5 rounded-full border border-[#e3d2b0] text-[#8a7458]">僅自己可見</span>',
+        pending: '<span class="text-xs px-2 py-0.5 rounded-full border border-[#ecd49a] text-[#8a5f14]">審核中</span>',
+        sample:  '<span class="text-xs px-2 py-0.5 rounded-full border border-[#e3d2b0] text-[#a8977d]">範例</span>',
+        public:  ''
+      };
+      var STARTERS = [
+        { k: 'person', t: '謝謝同事', s: '謝謝同事＿＿＿，在我最忙的時候' },
+        { k: 'person', t: '謝謝病人與家屬', s: '謝謝那位病人／家屬，一句「辛苦了」讓我' },
+        { k: 'person', t: '謝謝家人', s: '謝謝家人，在我輪班回家時' },
+        { k: 'person', t: '謝謝自己', s: '謝謝自己，這一年即使很累，還是' },
+        { k: 'event',  t: '謝謝某個時刻', s: '謝謝今年＿＿＿的那一天，讓我覺得' },
+        { k: 'thing',  t: '謝謝陪伴我的小物', s: '謝謝陪我值班的＿＿＿，' }
+      ];
+      var SAMPLES = [
+        { id: 's1', k: 'person', t: '謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。', n: '護理師小安', ts: 1, l: 12 },
+        { id: 's2', k: 'event',  t: '謝謝出院那天阿嬤握著我的手說「謝謝你們」，提醒我為什麼選擇這份工作。', n: '', ts: 2, l: 27 },
+        { id: 's3', k: 'thing',  t: '謝謝護理站那台咖啡機，陪我度過每一個凌晨三點。☕', n: 'R2 醫師', ts: 3, l: 8 }
+      ];
+
+      var $ = function (id) { return document.getElementById(id); };
+      var form = $('xt-form'), textEl = $('xt-text'), nameEl = $('xt-name'), msgEl = $('xt-msg'), shareEl = $('xt-share');
+      var submitBtn = $('xt-submit'), syncEl = $('xt-sync');
+      var ornBox = $('xt-ornaments');
+      var filterBox = $('xt-filter');
+      var filter = 'all', newestId = null, busy = false;
+
+      /* ---------- 資料 ----------
+         mine   ：自己寫的（存在本機）{id,k,t,n,ts,shared,token,pending}
+         shared ：從試算表讀到、大家公開的 {id,k,t,n,ts}
+         items  ：畫面上要顯示的合併結果 */
+      function loadMine() {
+        try { var d = JSON.parse(localStorage.getItem(STORE_KEY)); if (Array.isArray(d)) return d; } catch (e) {}
+        return [];
+      }
+      function saveMine() { try { localStorage.setItem(STORE_KEY, JSON.stringify(mine)); } catch (e) {} }
+      function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+      function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+      var mine = loadMine(), shared = [], items = [], online = false;
+
+      var liked = (function () { try { return JSON.parse(localStorage.getItem(LIKE_KEY)) || {}; } catch (e) { return {}; } })();
+      function saveLiked() { try { localStorage.setItem(LIKE_KEY, JSON.stringify(liked)); } catch (e) {} }
+
+      function rebuild() {
+        var mineById = {}, sharedIds = {};
+        mine.forEach(function (m) { mineById[m.id] = m; });
+        shared.forEach(function (s) { sharedIds[s.id] = 1; });
+        var list = shared.map(function (s) {
+          return { id: s.id, k: s.k, t: s.t, n: s.n, ts: s.ts, l: s.l || 0, status: mineById[s.id] ? 'mine' : 'public' };
+        });
+        mine.forEach(function (m) {
+          if (sharedIds[m.id]) return;
+          if (!m.shared) list.push({ id: m.id, k: m.k, t: m.t, n: m.n, ts: m.ts, l: liked[m.id] ? 1 : 0, status: 'private' });
+          else if (m.pending) list.push({ id: m.id, k: m.k, t: m.t, n: m.n, ts: m.ts, l: 0, status: 'pending' });
+        });
+        if (!API_URL) SAMPLES.forEach(function (s) { list.push({ id: s.id, k: s.k, t: s.t, n: s.n, ts: s.ts, l: s.l + (liked[s.id] ? 1 : 0), status: 'sample' }); });
+        list.sort(function (a, b) { return a.ts - b.ts; });
+        items = list;
+      }
+      function indexOfId(id) { for (var i = 0; i < items.length; i++) if (items[i].id === id) return i; return -1; }
+
+      /* ---------- 與 Google 試算表連線 ---------- */
+      function api(body) {
+        return fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // 用 text/plain 避免 CORS 預檢
+          body: JSON.stringify(body)
+        }).then(function (r) { return r.json(); });
+      }
+      var lastSig = '';
+      function fetchShared() {
+        if (!API_URL) { setSync(); return; }
+        fetch(API_URL + '?action=list&_=' + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (!d || !d.ok) throw new Error('bad');
+            online = true;
+            shared = (d.items || []).filter(function (x) { return x && x.id && x.t; }).map(function (x) {
+              return { id: String(x.id), k: KIND[x.k] ? x.k : 'person', t: String(x.t), n: x.n ? String(x.n) : '', ts: +x.ts || 0, l: Math.max(0, +x.l || 0) };
+            });
+            // 審核通過的，從「審核中」移除
+            var ids = {}; shared.forEach(function (s) { ids[s.id] = 1; });
+            mine.forEach(function (m) { if (m.pending && ids[m.id]) m.pending = false; });
+            saveMine();
+            var sig = shared.map(function (s) { return s.id; }).join(',');
+            if (sig !== lastSig) { lastSig = sig; renderAll(false); } else { renderAll(true); }
+            setSync();
+          })
+          .catch(function () { online = false; setSync(); if (!lastSig) renderAll(false); });
+      }
+      function setSync() {
+        if (!API_URL) { syncEl.textContent = '（目前為預覽模式：分享功能尚未開通，留言只會存在你的瀏覽器）'; return; }
+        syncEl.textContent = online ? '🌍 大家的感謝會自動更新' : '⚠️ 暫時連不上大家的聖誕樹，稍後會自動重試';
+      }
+
+      /* ---------- 吊飾位置：依「溫暖排名」由上往下掛 ---------- */
+      var TIERS = [[40, 170, 92], [100, 280, 135], [170, 372, 165], [248, 440, 188]]; // [頂點y, 底部y, 底部半寬]，中心 x=200
+      function halfWidth(y, m) {
+        var hw = -1;
+        for (var i = 0; i < TIERS.length; i++) {
+          var t = TIERS[i];
+          if (y < t[0] + 38 || y > t[1] - 8) continue;
+          hw = Math.max(hw, (y - t[0]) / (t[1] - t[0]) * t[2] - m);
+        }
+        return hw;
+      }
+      // 產生「由上而下」排好的掛點；數量不夠就把間距縮小
+      function buildSlots(n) {
+        var sp = 46, slots = [];
+        while (true) {
+          slots = [];
+          var row = 0;
+          for (var y = 80; y <= 425; y += sp * .8, row++) {
+            var hw = halfWidth(y, 14); if (hw < 0) continue;
+            var cnt = Math.max(1, Math.floor(hw * 2 / sp) + 1);
+            var span = (cnt - 1) * sp, off = (row % 2 && cnt > 1 && span + sp / 2 <= hw * 2) ? sp / 4 : 0;
+            for (var c = 0; c < cnt; c++) slots.push([200 - span / 2 + c * sp + off, y]);
+          }
+          if (slots.length >= n || sp <= 20) break;
+          sp *= .9;
+        }
+        slots.sort(function (a, b) { return a[1] - b[1] || Math.abs(a[0] - 200) - Math.abs(b[0] - 200); });
+        return slots;
+      }
+      function rankSort(a, b) { return (b.l - a.l) || (b.ts - a.ts); }
+      var ranked = [], positions = {};
+      function placeAll() {
+        ranked = items.slice().sort(rankSort);
+        var n = ranked.length, slots = buildSlots(n);
+        positions = {};
+        for (var i = 0; i < n; i++) {
+          // 少量吊飾時平均分散在整棵樹，順序仍是第 1 名在最上面
+          var si = n <= slots.length ? Math.floor(i * slots.length / n) : i % slots.length;
+          positions[ranked[i].id] = slots[si] || [200, 300];
+        }
+      }
+
+      /* ---------- 畫面：聖誕樹 ---------- */
+      var ornEls = {};
+      function renderTree() {
+        $('xt-total').textContent = items.length;
+        var n = ranked.length, seen = {};
+        var base = n > 80 ? 5.5 : n > 55 ? 6 : n > 30 ? 7 : 8;
+        ranked.forEach(function (it, i) {
+          var b = ornEls[it.id], k = KIND[it.k] || KIND.person, p = positions[it.id];
+          if (!b) {
+            b = document.createElement('button'); b.type = 'button'; b.dataset.id = it.id;
+            b.innerHTML = '<span class="swing"><span class="cap"></span><span class="ball"><i>' + k.icon + '</i></span></span>';
+            ornBox.appendChild(b); ornEls[it.id] = b;
+          }
+          seen[it.id] = 1;
+          var top3 = i < 3 && it.l > 0;
+          b.className = 'xt-orn ' + it.k + (top3 ? ' is-top' : '') + (it.id === newestId ? ' is-new' : '') + (filter !== 'all' && it.k !== filter ? ' is-dim' : '');
+          b.style.left = (p[0] / 4) + '%'; b.style.top = (p[1] / 5) + '%';
+          b.style.setProperty('--w', (top3 ? base + [2, 1.4, 1][i] : base) + '%');
+          b.style.setProperty('--d', (-(i % 5) * 0.6) + 's');
+          b.setAttribute('aria-label', '溫暖第 ' + (i + 1) + ' 名，' + it.l + ' 份溫暖：' + it.t.slice(0, 24));
+        });
+        Object.keys(ornEls).forEach(function (id) { if (!seen[id]) { ornEls[id].remove(); delete ornEls[id]; } });
+      }
+
+      /* ---------- 畫面：溫暖排行榜 ---------- */
+      function renderRank() {
+        var top = ranked.slice(0, 5);
+        $('xt-rank').innerHTML = top.length ? top.map(function (it, i) {
+          return '<li><button type="button" class="xt-rank-item" data-goto="' + esc(it.id) + '" data-r="' + (i + 1) + '">' +
+            '<span class="xt-medal">' + (i + 1) + '</span>' +
+            '<span class="xt-rank-txt xt-hand">' + esc(it.t) + '</span>' +
+            '<span class="xt-rank-cnt">♥ ' + it.l + '</span></button></li>';
+        }).join('') : '<li class="xt-hand text-center text-[#8a7458] py-6">還沒有感謝，寫下第一份吧 ✦</li>';
+      }
+
+      /* ---------- 畫面：感謝留言牆 ---------- */
+      var sortBy = 'hot', PAGE = 24, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
+      function likeBtn(it) {
+        var on = !!liked[it.id];
+        if (it.status === 'pending') return '<span></span>';
+        return '<button type="button" class="xt-like' + (on ? ' is-on' : '') + '" data-like="' + esc(it.id) + '" aria-pressed="' + on + '" aria-label="' + (on ? '收回溫暖' : '送出溫暖 +1') + '，目前 ' + it.l + ' 份溫暖">' +
+               '<span class="h" aria-hidden="true">♥</span><span class="t">' + (on ? '已送出溫暖' : '溫暖 +1') + '</span><b class="n">' + it.l + '</b></button>';
+      }
+      function cardHTML(it) {
+        var k = KIND[it.k] || KIND.person, rank = ranked.indexOf(it);
+        var canDel = it.status === 'mine' || it.status === 'private' || it.status === 'pending';
+        var r = ((it.id.charCodeAt(it.id.length - 1) || 0) % 5 - 2) * .5;
+        return '<article class="xt-card-note ' + it.k + '" data-card="' + esc(it.id) + '" style="--r:' + r + 'deg;--tr:' + (-r * 2) + 'deg">' +
+          (rank > -1 && rank < 3 && it.l > 0 ? '<span class="xt-ribbon">🏆 溫暖第 ' + (rank + 1) + ' 名</span>' : '') +
+          '<div class="flex flex-wrap items-center gap-2"><span class="inline-block text-xs font-semibold tracking-wider px-2.5 py-0.5 rounded-full ' + k.tag + '">' + k.label + '</span>' + BADGE[it.status] + '</div>' +
+          '<p class="xt-hand xt-txt" data-dbl="' + esc(it.id) + '" title="點兩下送出溫暖">' + esc(it.t) + '</p>' +
+          '<p class="xt-hand xt-sign text-sm text-right">— ' + (it.n ? esc(it.n) : '一位匿名的聖誕小精靈') + '</p>' +
+          '<div class="flex items-center justify-between gap-3 mt-3">' + likeBtn(it) +
+          (canDel ? '<button type="button" class="xt-del' + (armedDel === it.id ? ' is-armed' : '') + '" data-del="' + esc(it.id) + '">' + (armedDel === it.id ? '⚠️ 再按一次確認刪除' : '刪除') + '</button>' : '') +
+          '</div></article>';
+      }
+      function wallList() {
+        var list = items.filter(function (it) { return filter === 'all' || it.k === filter; });
+        list.sort(sortBy === 'hot' ? rankSort : function (a, b) { return b.ts - a.ts; });
+        return list;
+      }
+      // keepOrder：按溫暖時不立刻重排留言牆，避免卡片從手指下跳走
+      function renderWall(keepOrder) {
+        var list;
+        if (keepOrder && wallOrder.length) {
+          var byId = {}; items.forEach(function (it) { byId[it.id] = it; });
+          list = wallOrder.map(function (id) { return byId[id]; }).filter(Boolean);
+        } else {
+          list = wallList(); wallOrder = list.map(function (it) { return it.id; });
+        }
+        var vis = list.slice(0, shown);
+        $('xt-wall').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<p class="xt-hand text-center text-[#8a7458] text-lg py-10" style="column-span:all">這裡還沒有感謝，寫下第一份吧 ✦</p>';
+        var more = $('xt-more'); more.hidden = list.length <= shown;
+        more.textContent = '看更多感謝 ↓（還有 ' + Math.max(0, list.length - shown) + ' 則）';
+      }
+
+      function renderAll(keepWall) { rebuild(); placeAll(); renderTree(); renderRank(); renderWall(keepWall); }
+
+      function pause() {}
+      function say(text, ok) { msgEl.textContent = text; msgEl.className = ok ? 'text-[#1f4a36] font-semibold' : 'text-[#a8322b] font-semibold'; }
+
+      /* ---------- 找到某則感謝：捲到留言牆並發亮 ---------- */
+      function flashOrn(id) { var o = ornEls[id]; if (o) { o.classList.remove('is-loved'); void o.offsetWidth; o.classList.add('is-loved'); } }
+      function gotoCard(id) {
+        var it = items[indexOfId(id)]; if (!it) return;
+        if (filter !== 'all' && it.k !== filter) { filter = 'all'; syncPills(); renderWall(false); }
+        var pos = wallOrder.indexOf(id);
+        if (pos >= shown) { shown = pos + 1; renderWall(true); }
+        var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
+        c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
+        flashOrn(id);
+      }
+      ornBox.addEventListener('click', function (e) { var b = e.target.closest('.xt-orn'); if (b) gotoCard(b.dataset.id); });
+      $('xt-rank').addEventListener('click', function (e) { var b = e.target.closest('[data-goto]'); if (b) gotoCard(b.getAttribute('data-goto')); });
+      $('xt-wall').addEventListener('mouseover', function (e) {
+        var c = e.target.closest('.xt-card-note'); var id = c && c.getAttribute('data-card');
+        Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.toggle('is-active', k === id); });
+      });
+      $('xt-wall').addEventListener('mouseleave', function () { Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.remove('is-active'); }); });
+      $('xt-more').addEventListener('click', function () { shown += PAGE; renderWall(true); });
+
+      /* ---------- 送出 ---------- */
+      function addThanks() {
+        if (busy) return;
+        var t = textEl.value.trim();
+        if (!t) { say('請先寫下想感謝的話喔 🙂'); textEl.focus(); return; }
+        if (t.indexOf('＿＿＿') > -1) { say('記得把「＿＿＿」換成你想寫的內容喔'); textEl.focus(); return; }
+        var kind = (form.querySelector('input[name="kind"]:checked') || {}).value || 'person';
+        var rec = { id: uid(), k: kind, t: t, n: nameEl.value.trim(), ts: Date.now(), shared: false };
+
+        if (shareEl.checked && API_URL) {
+          rec.shared = true; rec.token = uid() + uid();
+          busy = true; submitBtn.disabled = true; say('🎄 正在掛上大家的聖誕樹…', true);
+          api({ action: 'add', id: rec.id, token: rec.token, k: rec.k, t: rec.t, n: rec.n })
+            .then(function (d) {
+              if (!d || !d.ok) throw new Error(d && d.error);
+              if (d.item && d.item.ts) rec.ts = +d.item.ts;
+              if (d.visible) shared.push({ id: rec.id, k: rec.k, t: rec.t, n: rec.n, ts: rec.ts, l: 0 }); else rec.pending = true;
+              finishAdd(rec, d.visible ? '🎉 已掛上大家的聖誕樹，謝謝你的分享！' : '⏳ 已送出！管理者確認後，大家就看得到囉');
+            })
+            .catch(function () { say('網路好像不太順，留言還在，請再按一次試試 🙏'); })
+            .then(function () { busy = false; submitBtn.disabled = false; });
+        } else {
+          finishAdd(rec, shareEl.checked
+            ? '🔒 分享功能尚未開通，已先掛在你自己的樹上'
+            : '🔒 已掛上你的聖誕樹（只有你看得到）');
+        }
+      }
+      function finishAdd(rec, text) {
+        mine.push(rec); saveMine();
+        newestId = rec.id; shown = Math.max(shown, PAGE);
+        if (filter !== 'all' && filter !== rec.k) { filter = 'all'; syncPills(); }
+        textEl.value = ''; nameEl.value = ''; shareEl.checked = false; updateCount();
+        renderAll(false);
+        say(text, true);
+        if (window.xtCelebrate) window.xtCelebrate(text.replace(/^\S+\s/, ''));
+        setTimeout(function () { newestId = null; }, 1200);
+      }
+      submitBtn.addEventListener('click', addThanks);
+      form.addEventListener('submit', function (e) { e.preventDefault(); addThanks(); });
+      textEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) addThanks(); });
+      nameEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); addThanks(); } });
+
+      /* ---------- 起頭句 ---------- */
+      $('xt-starters').innerHTML = STARTERS.map(function (x, i) {
+        return '<button type="button" data-i="' + i + '" class="xt-chip">＋ ' + x.t + '</button>';
+      }).join('');
+      $('xt-starters').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var x = STARTERS[+b.dataset.i];
+        form.querySelector('input[name="kind"][value="' + x.k + '"]').checked = true;
+        textEl.value = x.s; textEl.focus();
+        var p = textEl.value.indexOf('＿＿＿');
+        if (p > -1) textEl.setSelectionRange(p, p + 3); else textEl.setSelectionRange(textEl.value.length, textEl.value.length);
+        updateCount();
+      });
+      function updateCount() { $('xt-count').textContent = textEl.value.length; }
+      textEl.addEventListener('input', function () { updateCount(); msgEl.textContent = ''; });
+
+      /* ---------- 溫暖 +1 ---------- */
+      function floatHearts(x, y, n) {
+        for (var k = 0; k < n; k++) {
+          var h = document.createElement('span'); h.className = 'xt-fheart'; h.textContent = '♥';
+          h.style.left = x + 'px'; h.style.top = y + 'px';
+          h.style.color = ['#e0564b', '#f08a7e', '#f7c548', '#ff9fb2'][k % 4];
+          h.style.fontSize = (12 + Math.random() * 14) + 'px';
+          h.style.setProperty('--dx', ((Math.random() - .5) * 90) + 'px');
+          h.style.setProperty('--dy', (-60 - Math.random() * 80) + 'px');
+          h.style.animationDelay = (k * 40) + 'ms';
+          document.body.appendChild(h); setTimeout(function (el) { el.remove(); }.bind(null, h), 1300 + k * 40);
+        }
+      }
+      function bigHeart(id) {
+        var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
+        var h = document.createElement('span'); h.className = 'xt-bigheart'; h.textContent = '♥'; h.setAttribute('aria-hidden', 'true');
+        c.appendChild(h); setTimeout(function () { h.remove(); }, 900);
+      }
+      var liking = {};
+      function toggleLike(id, el, viaDbl) {
+        var it = items[indexOfId(id)]; if (!it || it.status === 'pending' || liking[id]) return;
+        var wasOn = !!liked[id];
+        if (viaDbl && wasOn) { bigHeart(id); return; } // 點兩下只會送出，不會收回
+        var delta = wasOn ? -1 : 1;
+        if (wasOn) delete liked[id]; else liked[id] = 1;
+        saveLiked();
+        var srv = null; shared.forEach(function (s) { if (s.id === id) srv = s; });
+        if (srv) srv.l = Math.max(0, (srv.l || 0) + delta);
+        var r = (el || document.body).getBoundingClientRect();
+        renderAll(true); // 樹上的吊飾會依新的溫暖數滑到新位置
+        if (delta > 0) {
+          floatHearts(r.left + r.width / 2, r.top + r.height / 2, 7);
+          if (viaDbl) bigHeart(id);
+          var nb = document.querySelector('.xt-like[data-like="' + id + '"] .h'); if (nb) { nb.classList.remove('is-pop'); void nb.offsetWidth; nb.classList.add('is-pop'); }
+          flashOrn(id);
+        }
+        if (srv && API_URL) {
+          liking[id] = 1;
+          api({ action: 'like', id: id, delta: delta })
+            .then(function (d) { if (!d || !d.ok) throw new Error(); if (typeof d.l === 'number') srv.l = d.l; })
+            .catch(function () { // 失敗就還原
+              if (wasOn) liked[id] = 1; else delete liked[id]; saveLiked();
+              srv.l = Math.max(0, srv.l - delta); say('網路不太順，溫暖沒送出去，稍後再試試 🙏');
+            })
+            .then(function () { delete liking[id]; renderAll(true); });
+        }
+      }
+      $('xt-wall').addEventListener('click', function (e) {
+        var b = e.target.closest('.xt-like'); if (b) { toggleLike(b.getAttribute('data-like'), b, false); return; }
+        var d = e.target.closest('[data-del]'); if (d) { deleteOwn(d.getAttribute('data-del'), d); return; }
+        var c = e.target.closest('.xt-card-note'); if (c) flashOrn(c.getAttribute('data-card'));
+      });
+      $('xt-wall').addEventListener('dblclick', function (e) {
+        var p = e.target.closest('[data-dbl]'); if (!p) return;
+        if (window.getSelection) try { window.getSelection().removeAllRanges(); } catch (err) {}
+        toggleLike(p.getAttribute('data-dbl'), p, true);
+      });
+
+      /* ---------- 刪除自己的留言（按兩次確認）---------- */
+      function deleteOwn(id, b) {
+        if (armedDel !== id) {
+          armedDel = id; b.textContent = '⚠️ 再按一次確認刪除'; b.classList.add('is-armed');
+          clearTimeout(armTimer); armTimer = setTimeout(function () { armedDel = null; renderWall(true); }, 3000);
+          return;
+        }
+        armedDel = null; clearTimeout(armTimer);
+        var m = null; mine.forEach(function (x) { if (x.id === id) m = x; });
+        if (!m) return;
+        function removeLocal() {
+          mine = mine.filter(function (x) { return x.id !== id; });
+          shared = shared.filter(function (x) { return x.id !== id; });
+          lastSig = shared.map(function (s) { return s.id; }).join(',');
+          saveMine(); renderAll(false);
+        }
+        if (m.shared && API_URL) {
+          b.textContent = '刪除中…'; b.disabled = true;
+          api({ action: 'delete', id: id, token: m.token })
+            .then(function (d) { if (d && (d.ok || d.error === 'not_found')) removeLocal(); else throw new Error(); })
+            .catch(function () { b.disabled = false; b.textContent = '刪除失敗，請稍後再試'; });
+        } else {
+          removeLocal();
+        }
+      }
+
+      /* ---------- 篩選 / 排序 ---------- */
+      function syncPills() {
+        filterBox.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === filter); });
+        $('xt-sort').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.s === sortBy); });
+      }
+      function setFilter(f) { filter = f; shown = PAGE; syncPills(); renderAll(false); }
+      filterBox.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setFilter(b.dataset.f); });
+      $('xt-sort').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; sortBy = b.dataset.s; shown = PAGE; syncPills(); renderWall(false); });
+
+      /* ---------- 自動更新 ---------- */
+      if (API_URL) setInterval(function () { if (!document.hidden) fetchShared(); }, REFRESH_MS);
+
+      // 手機選單：點「聖誕感恩」後收起選單
+      var mLink = document.querySelector('.xt-mobile-link');
+      if (mLink) mLink.addEventListener('click', function () { if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click(); });
+
+      /* ---------- 飄雪 ---------- */
+      var snow = document.querySelector('#xmas-thanks .xt-snow');
+      for (var i = 0; i < 45; i++) {
+        var s = document.createElement('i'), z = 2 + Math.random() * 5;
+        s.style.left = (Math.random() * 100) + '%';
+        s.style.width = s.style.height = z + 'px';
+        s.style.animationDuration = (16 + Math.random() * 14) + 's';
+        s.style.animationDelay = (-Math.random() * 30) + 's';
+        snow.appendChild(s);
+      }
+
+      syncPills(); renderAll(false);
+      fetchShared();
+    })();
+  </script>
+</body>
+</html>
