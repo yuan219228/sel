@@ -234,13 +234,10 @@
     .xt-mq-item { white-space: nowrap; padding: 0 18px; color: #fff4dc; }
     .xt-mq-item b { color: #f1dca2; font-weight: 700; }
     .xt-mq-cta { margin: 0 18px; padding: 3px 16px; border-radius: 9999px; color: #4a2c0c; background: linear-gradient(180deg, #f7e3a6, #d8ad55); box-shadow: 0 1px 0 rgba(255,255,255,.5) inset; }
-    /* 跑馬燈上的五顆 SEL 包子：從首頁主圖 sel-mascots-cutout.png 裁切
-       若位置有偏差，微調 --x（每顆的水平位置）與 background-position 的第二個值（垂直位置）即可；目前數值依原圖 1672×941 實測 */
+    /* 跑馬燈上的五顆 SEL 包子：public/xmas-bun-1.png ～ xmas-bun-5.png（已去背、去光暈） */
     .xt-bun {
-      flex-shrink: 0; height: 80px; aspect-ratio: 296 / 490; margin: 0 6px;
-      background: url(./public/sel-mascots-cutout.png) no-repeat;
-      background-size: 564.86% 192.04%;
-      background-position: var(--x) 78.71%;
+      flex-shrink: 0; height: 80px; aspect-ratio: 262 / 420; margin: 0 6px;
+      background: var(--img) center / contain no-repeat;
       filter: drop-shadow(0 3px 4px rgba(0,0,0,.3));
       animation: softBounce 2.5s ease-in-out infinite; animation-delay: var(--d, 0s);
     }
@@ -325,10 +322,8 @@
     .xt-hat { position: absolute; pointer-events: none; overflow: visible; filter: drop-shadow(0 2px 2px rgba(0,0,0,.18)); }
     /* 包子（只裁身體，不含標籤）*/
     .xt-bun2 {
-      display: block; aspect-ratio: 296 / 490;
-      background: url(./public/sel-mascots-cutout.png) no-repeat;
-      background-size: 564.86% 192.04%;
-      background-position: var(--x) 78.71%;
+      display: block; aspect-ratio: 262 / 420;
+      background: var(--img) center / contain no-repeat;
       filter: drop-shadow(0 4px 5px rgba(80, 50, 10, .25));
     }
     /* 全頁雪花 */
@@ -652,8 +647,8 @@
     <!-- ==================== 🎄 聖誕感恩活動 跑馬燈 ==================== -->
     <a href="#xmas-thanks" class="xt-marquee block relative overflow-hidden" aria-label="12月聖誕感恩活動：寫下這一年最想感謝的人、事、物，掛上感恩聖誕樹，點此立即參加">
       <div class="xt-mq-track">
-        <div class="xt-mq-group"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--x:7.19%;--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--x:28.71%;--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--x:49.64%;--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--x:70.13%;--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--x:91.86%;--d:1.2s" aria-hidden="true"></span></div>
-        <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--x:7.19%;--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--x:28.71%;--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--x:49.64%;--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--x:70.13%;--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--x:91.86%;--d:1.2s" aria-hidden="true"></span></div>
+        <div class="xt-mq-group"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--img:url(./public/xmas-bun-1.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-2.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-3.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-5.png);--d:1.2s" aria-hidden="true"></span></div>
+        <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--img:url(./public/xmas-bun-1.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-2.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-3.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-5.png);--d:1.2s" aria-hidden="true"></span></div>
       </div>
     </a>
 
@@ -845,11 +840,11 @@
           <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
           <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
           <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
-            <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:7.19%"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:28.71%"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:49.64%"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:70.13%"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--x:91.86%"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-1.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-2.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-3.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-4.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-5.png)"></span></button>
           </div>
         </div>
       </div>
