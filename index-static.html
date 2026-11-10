@@ -480,6 +480,10 @@
       background: #fff8e6; color: #8a5f14; border: 1px solid #e3c47a; white-space: nowrap; pointer-events: none; }
     @media (prefers-reduced-motion: reduce) { .xt-orn { transition: opacity .3s; } .xt-card-note.is-flash { animation: none; outline: 3px solid #e3b23c; } }
 
+    /* 從入口跳過來時，標題閃一下 */
+    .xt-arrive { animation: xtArrive 1.4s ease-out; }
+    @keyframes xtArrive { 0%, 40% { filter: drop-shadow(0 0 18px rgba(255, 220, 140, .95)); transform: scale(1.04); } 100% { transform: none; } }
+
   </style>
 </head>
 
@@ -1757,9 +1761,25 @@
       /* ---------- 自動更新 ---------- */
       if (API_URL) setInterval(function () { if (!document.hidden) fetchShared(); }, REFRESH_MS);
 
+      // 所有「聖誕感恩」入口（導覽列、大標徽章、跑馬燈、手機選單）：一律平滑捲到活動，並讓標題閃一下
+      document.querySelectorAll('a[href="#xmas-thanks"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click(); // 先收起手機選單，避免位置算錯
+          requestAnimationFrame(function () {
+            var sec = document.getElementById('xmas-thanks');
+            var y = sec.getBoundingClientRect().top + window.pageYOffset - 90;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          });
+          try { history.replaceState(null, '', '#xmas-thanks'); } catch (err) {}
+          var t = document.getElementById('xt-title');
+          if (t) { t.classList.remove('xt-arrive'); void t.offsetWidth; t.classList.add('xt-arrive'); }
+        });
+      });
+
       // 手機選單：點「聖誕感恩」後收起選單
       var mLink = document.querySelector('.xt-mobile-link');
-      if (mLink) mLink.addEventListener('click', function () { if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click(); });
+      // （手機選單的收合已在上方的入口處理中完成）
 
       /* ---------- 飄雪 ---------- */
       var snow = document.querySelector('#xmas-thanks .xt-snow');
