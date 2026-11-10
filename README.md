@@ -7,12 +7,20 @@
 
 ## 檔案說明
 
+這個儲存庫是 **SEL 學習小棧的完整網站**（原網站所有頁面與圖片 ＋ 新的聖誕感恩活動），整個資料夾就能直接運作。
+
 | 檔案 | 用途 |
 |---|---|
-| `index-static.html` | **要上傳到網站的首頁**（取代原本的 `index-static.html`） |
-| `google-apps-script/Code.gs` | 讓大家看到彼此留言的後端程式（貼到 Google 試算表的 Apps Script） |
+| `index-static.html` | 首頁（**已加入聖誕感恩活動**，上線時只需更新這個檔案） |
+| `index.html` | 自動轉到 `index-static.html`（讓網站根網址也能打開首頁） |
+| `abilities.html`、`selfcheck.html`、`scenario.html`、`learning-support.html`、`message-wall.html`、`game-heart.html`、`game-communication.html`、`quiz.html` | 原網站其他頁面（從正式網站複製，未修改；`game-heart.html` 的「首頁」連結已由不存在的 `index.html` 改為 `index-static.html`） |
+| `public/` | 網站圖片（Logo、包子、插圖等） |
+| `assets/quiz-data.js` | 測驗題庫 |
+| `google-apps-script/Code.gs` | 聖誕感恩留言的後端程式（貼到 Google 試算表的 Apps Script） |
 | `google-apps-script/設定教學.md` | Google 試算表開通的詳細步驟與日常管理 |
 | `docs/screenshots/` | 畫面截圖 |
+
+> 瀏覽人次計數器只在醫院正式網站上運作，在其他地方打開時不會顯示，屬正常現象。
 
 ## 功能
 
@@ -69,7 +77,7 @@ var API_URL = 'https://script.google.com/macros/s/xxxxxxxx/exec';
 
 ### 步驟 4：上傳網站
 
-把 `index-static.html` 上傳到網站，**取代**原本的
+正式網站上**只需要更新 `index-static.html`**（其他頁面與圖片原本就在網站上）。把它上傳，**取代**原本的
 `https://www.chimei.org.tw/main/cmh_department/59400/SEL/index-static.html`
 （要和 `public/` 資料夾在同一層）。上傳前建議先備份原檔。
 

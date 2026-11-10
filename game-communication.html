@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>溝通練習室｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0; color: #3D3D3D;
+      line-height: 1.8; font-size: 18px;
+    }
+    h1, h2, h3 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">SEL<span class="text-muted-orange">學習小棧</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium bg-soft-orange text-muted-orange font-semibold">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+
+      <a href="learning-support.html" class="flex items-center gap-1 text-sub-text text-sm mb-6 hover:text-warm-text transition-colors">← 返回學習補給</a>
+
+      <div class="text-center mb-8">
+        <div class="text-4xl mb-3">💬</div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-warm-text mb-2">溝通練習室</h1>
+        <p class="text-sub-text text-sm sm:text-base max-w-2xl mx-auto">從四個顏色的詞庫各挑一句，連連看配對組合。沒有標準答案，怎麼搭都可以。</p>
+      </div>
+
+      <!-- 上方填空句型 -->
+      <div class="bg-gradient-to-br from-amber-50/60 via-cream to-rose-50/60 rounded-2xl border border-amber-100 p-5 mb-5">
+        <p id="topSentence" class="text-warm-text text-base sm:text-lg font-medium leading-loose"></p>
+      </div>
+
+      <!-- 四欄詞庫 -->
+      <div id="banks" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-5"></div>
+
+      <!-- 控制按鈕 -->
+      <div id="controls" class="flex flex-wrap gap-2 mb-5"></div>
+
+      <!-- 下方完整句子 -->
+      <div id="resultBox" class="rounded-2xl p-5 mb-5 border transition-colors duration-300 bg-gray-50 border-gray-200">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-base">📝</span>
+          <span id="resultLabel" class="text-xs font-semibold text-sub-text">你目前的句子：</span>
+        </div>
+        <p id="bottomSentence" class="text-warm-text text-base sm:text-lg leading-loose"></p>
+      </div>
+
+      <p class="text-center text-xs text-sub-text italic">好好說話，是專業，也是溫柔。</p>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // 四大詞庫
+    const empathyBank     = ['很忙', '這件事情比較複雜', '這件事情比較急', '這件事有點困難', '這個結果可能不如預期', '能量快耗盡了', '覺得這項規定很繁瑣', '壓力比較大', '時間比較緊迫'];
+    const describeBank    = ['目前還有某項資料尚未完成', '這個步驟還沒有被確認', '系統顯示有欄位未填寫', '交班內容還缺少重要資訊', '這項流程尚未符合規範', '這是為了符合醫療評鑑要求', '病人安全核對清單還沒簽', '給藥紀錄缺少時間註記'];
+    const specifyBank     = ['再確認一次數據', '補上這個欄位', '協助完成這個步驟', '花一分鐘檢查', '現在先處理這一項', '再花兩分鐘補齊關鍵數值', '協助補上這欄簽名', '完成這份核對表', '幫忙再確認病人 ID'];
+    const consequenceBank = ['降低錯誤風險', '確保病人安全', '讓流程更順暢', '避免後續重工', '維持照護品質', '共同維護病房的照護品質', '減少作業疏失的機會', '讓交班更安心'];
+
+    const sections = [
+      { key: 'e', label: 'E', title: 'Empathy 理解感受',     dot: 'bg-amber-400',   chipBase: 'bg-amber-50 border-amber-200 text-amber-900 hover:bg-amber-100',     chipActive: 'bg-amber-300 border-amber-400 text-amber-950 shadow-sm',     bank: empathyBank,     color: 'amber' },
+      { key: 'd', label: 'D', title: 'Describe 描述事實',    dot: 'bg-sky-400',     chipBase: 'bg-sky-50 border-sky-200 text-sky-900 hover:bg-sky-100',             chipActive: 'bg-sky-300 border-sky-400 text-sky-950 shadow-sm',           bank: describeBank,    color: 'sky' },
+      { key: 's', label: 'S', title: 'Specify 明確要求',     dot: 'bg-emerald-400', chipBase: 'bg-emerald-50 border-emerald-200 text-emerald-900 hover:bg-emerald-100', chipActive: 'bg-emerald-300 border-emerald-400 text-emerald-950 shadow-sm', bank: specifyBank,    color: 'emerald' },
+      { key: 'c', label: 'C', title: 'Consequence 說明效益', dot: 'bg-rose-400',    chipBase: 'bg-rose-50 border-rose-200 text-rose-900 hover:bg-rose-100',         chipActive: 'bg-rose-300 border-rose-400 text-rose-950 shadow-sm',        bank: consequenceBank, color: 'rose' },
+    ];
+
+    const filledColors = { amber: 'text-amber-700', sky: 'text-sky-700', emerald: 'text-emerald-700', rose: 'text-rose-700' };
+    const emptyColors  = {
+      amber:   'text-amber-600 border-amber-300 bg-amber-50/60',
+      sky:     'text-sky-600 border-sky-300 bg-sky-50/60',
+      emerald: 'text-emerald-600 border-emerald-300 bg-emerald-50/60',
+      rose:    'text-rose-600 border-rose-300 bg-rose-50/60',
+    };
+
+    let picks = { e: null, d: null, s: null, c: null };
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    function topSlot(text, label, color) {
+      if (text) return `<span class="font-semibold ${filledColors[color]}">${esc(text)}</span>`;
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 mx-0.5 text-xs font-mono rounded-md border-2 border-dashed ${emptyColors[color]}">
+        <span class="font-bold">${label}</span><span class="tracking-widest opacity-70">_______</span>
+      </span>`;
+    }
+    function plainSlot(text, color) {
+      if (text) return `<span class="font-semibold ${filledColors[color]} mx-0.5">${esc(text)}</span>`;
+      return `<span class="inline-block mx-1 text-gray-300 tracking-widest select-none">＿＿＿＿</span>`;
+    }
+
+    function render() {
+      // 上方句子
+      document.getElementById('topSentence').innerHTML =
+        `我知道你現在 ${topSlot(picks.e, 'E', 'amber')}，但 ${topSlot(picks.d, 'D', 'sky')}，請你 ${topSlot(picks.s, 'S', 'emerald')}，這樣我們就能 ${topSlot(picks.c, 'C', 'rose')}。`;
+
+      // 下方句子
+      document.getElementById('bottomSentence').innerHTML =
+        `我知道你現在${plainSlot(picks.e, 'amber')}，但${plainSlot(picks.d, 'sky')}，請你${plainSlot(picks.s, 'emerald')}，這樣我們就能${plainSlot(picks.c, 'rose')}。`;
+
+      // 四欄
+      document.getElementById('banks').innerHTML = sections.map(sec => `
+        <div class="bg-gray-50/70 rounded-2xl p-4 border border-gray-100">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full ${sec.dot}"></span>
+            <span class="font-bold text-warm-text text-sm">${sec.label}・${esc(sec.title)}</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${sec.bank.map(item => {
+              const active = picks[sec.key] === item;
+              const cls = active ? sec.chipActive : sec.chipBase;
+              return `<button data-sec="${sec.key}" data-val="${esc(item)}" class="chip text-xs px-3 py-1.5 rounded-full border transition-all duration-150 ${cls}">${esc(item)}</button>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      // 控制按鈕
+      const isComplete = picks.e && picks.d && picks.s && picks.c;
+      const hasAny     = picks.e || picks.d || picks.s || picks.c;
+      const okBadge = isComplete ? `<span class="text-xs font-medium px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">✓ 一段完整的話完成了</span>` : '';
+      document.getElementById('controls').innerHTML = `
+        <button id="randomBtn" class="text-xs font-medium px-4 py-2 rounded-full bg-white border border-gray-200 text-warm-text hover:bg-gray-50 transition-colors">🎲 隨機抽一組</button>
+        <button id="clearBtn"  class="text-xs font-medium px-4 py-2 rounded-full bg-white border border-gray-200 text-sub-text hover:bg-gray-50 transition-colors" ${hasAny ? '' : 'disabled'}>✨ 清空重來</button>
+        ${okBadge}
+      `;
+
+      // 結果區外觀
+      const resultBox = document.getElementById('resultBox');
+      const resultLabel = document.getElementById('resultLabel');
+      if (isComplete) {
+        resultBox.className = 'rounded-2xl p-5 mb-5 border transition-colors duration-300 bg-emerald-50/50 border-emerald-200';
+        resultLabel.textContent = '你完成的句子：';
+      } else {
+        resultBox.className = 'rounded-2xl p-5 mb-5 border transition-colors duration-300 bg-gray-50 border-gray-200';
+        resultLabel.textContent = '你目前的句子：';
+      }
+
+      // 綁定 chip 點擊
+      document.querySelectorAll('.chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const k = btn.getAttribute('data-sec');
+          const v = btn.getAttribute('data-val');
+          picks[k] = picks[k] === v ? null : v;
+          render();
+        });
+      });
+      document.getElementById('randomBtn').addEventListener('click', () => {
+        picks = {
+          e: empathyBank[Math.floor(Math.random() * empathyBank.length)],
+          d: describeBank[Math.floor(Math.random() * describeBank.length)],
+          s: specifyBank[Math.floor(Math.random() * specifyBank.length)],
+          c: consequenceBank[Math.floor(Math.random() * consequenceBank.length)],
+        };
+        render();
+      });
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        picks = { e: null, d: null, s: null, c: null };
+        render();
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>

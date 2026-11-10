@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>情境應用｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0; color: #3D3D3D;
+      line-height: 1.8; font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-primary:hover { background-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .section-title { font-size: 1.5rem; font-weight: 700; color: #3D3D3D; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+    .section-subtitle { color: #6B7280; font-size: 1rem; line-height: 1.625; margin-bottom: 2rem; }
+
+    .card-base {
+      background: #fff; border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">SEL<span class="text-muted-orange">學習小棧</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 bg-sky-50 border border-sky-200 text-sky-600 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          🎭 情境應用
+        </div>
+        <h1 class="section-title">在情境中，練習更好的自己</h1>
+        <p class="section-subtitle max-w-2xl mx-auto">
+          透過真實醫療場域情境，練習自我覺察、情緒調節、人際互動與決策能力。
+          每個職類都有專屬情境，請選擇您的角色開始。
+        </p>
+      </div>
+
+      <div id="scenarioGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
+
+      <div class="bg-gradient-to-br from-sky-50 to-teal-50 rounded-3xl border border-sky-100 p-10 sm:p-14 text-center">
+        <div class="text-5xl mb-4">💡</div>
+        <h3 class="font-bold text-warm-text text-2xl mb-3">測驗怎麼設計的？</h3>
+        <p class="text-sub-text text-base leading-relaxed max-w-xl mx-auto mb-6">
+          每個情境測驗對應 SEL 五大能力，透過真實臨床情境讓你練習覺察、管理、同理、溝通與決策，
+          完成後會有能力分析報告，幫助你了解自己的強項與成長空間。
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="bg-white border border-sky-100 text-sky-700 text-sm px-4 py-1.5 rounded-full font-medium">自我覺察</span>
+          <span class="bg-white border border-sky-100 text-sky-700 text-sm px-4 py-1.5 rounded-full font-medium">自我管理</span>
+          <span class="bg-white border border-sky-100 text-sky-700 text-sm px-4 py-1.5 rounded-full font-medium">社會覺察</span>
+          <span class="bg-white border border-sky-100 text-sky-700 text-sm px-4 py-1.5 rounded-full font-medium">人際技巧</span>
+          <span class="bg-white border border-sky-100 text-sky-700 text-sm px-4 py-1.5 rounded-full font-medium">負責任的決策</span>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-8">
+        <a href="abilities.html" class="btn-outline">先了解 SEL 五大能力</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // 漢堡選單
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1'), mb2 = document.getElementById('mb2'), mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen); mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen); mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // 10 個職類情境（對應 src/data.js 的 professionsConfig / scenarioCategories）
+    const scenarios = [
+      { id: 'pharmacist',         name: '藥師情境測驗',       englishName: 'Pharmacist Scenario',              emoji: '💊', description: '在用藥安全、病人溝通與臨床壓力中，練習情緒調節與專業判斷。',  bgColor: 'bg-soft-blue',  accentColor: 'bg-sky-500',    borderColor: 'border-sky-200' },
+      { id: 'doctor',             name: '醫師情境測驗',       englishName: 'Physician Scenario',                emoji: '🩺', description: '在門診壅塞、處置決策與病人溝通中，練習壓力下的專業核心。',  bgColor: 'bg-red-50',     accentColor: 'bg-red-400',    borderColor: 'border-red-200' },
+      { id: 'resident',           name: '住院醫師情境測驗',   englishName: 'Resident Physician Scenario',       emoji: '👨‍⚕️', description: '在值班連勤、層級壓力與夜間決策中，練習穩定與自我照顧。',  bgColor: 'bg-rose-50',    accentColor: 'bg-rose-400',   borderColor: 'border-rose-200' },
+      { id: 'nurse',              name: '護理師情境測驗',     englishName: 'Nursing Scenario',                   emoji: '🏥', description: '面對病人需求、家屬情緒與臨床壓力，學習在高強度環境中保持穩定。', bgColor: 'bg-pink-50',    accentColor: 'bg-pink-400',   borderColor: 'border-pink-200' },
+      { id: 'medTech',            name: '醫檢師情境測驗',     englishName: 'Medical Technologist Scenario',     emoji: '🔬', description: '在精準檢驗與時間壓力中，練習專注、判斷與自我調節。',         bgColor: 'bg-purple-50',  accentColor: 'bg-purple-400', borderColor: 'border-purple-200' },
+      { id: 'radiologist',        name: '放射師情境測驗',     englishName: 'Radiology Technologist Scenario',   emoji: '📷', description: '在影像品質、輻射溝通與檢查節奏中，練習穩定與專業判斷。',      bgColor: 'bg-indigo-50',  accentColor: 'bg-indigo-400', borderColor: 'border-indigo-200' },
+      { id: 'nutritionist',       name: '營養師情境測驗',     englishName: 'Dietitian Scenario',                 emoji: '🥗', description: '在飲食衛教、跨團隊溝通與行為改變中，練習同理與堅持。',         bgColor: 'bg-green-50',   accentColor: 'bg-green-400',  borderColor: 'border-green-200' },
+      { id: 'respiratory',        name: '呼吸治療師情境測驗', englishName: 'Respiratory Therapist Scenario',     emoji: '🫁', description: '在呼吸器調整、急性處置與家屬焦慮中，練習穩定與安全決策。',    bgColor: 'bg-cyan-50',    accentColor: 'bg-cyan-400',   borderColor: 'border-cyan-200' },
+      { id: 'socialWorker',       name: '社工師情境測驗',     englishName: 'Social Worker Scenario',             emoji: '🤲', description: '在情緒承接、出院安置與倫理拉扯中，練習專業界線與自我照顧。',  bgColor: 'bg-amber-50',   accentColor: 'bg-amber-400',  borderColor: 'border-amber-200' },
+      { id: 'physicalTherapist',  name: '物理治療師情境測驗', englishName: 'Physical Therapist Scenario',        emoji: '🦴', description: '在復健進度、訓練設計與病人配合度中，練習耐心與彈性溝通。',    bgColor: 'bg-teal-50',    accentColor: 'bg-teal-400',   borderColor: 'border-teal-200' },
+    ];
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    document.getElementById('scenarioGrid').innerHTML = scenarios.map(cat => `
+      <a href="quiz.html?profession=${cat.id}" class="card-base border ${cat.borderColor} overflow-hidden card-hover cursor-pointer block">
+        <div class="h-2 ${cat.accentColor}"></div>
+        <div class="p-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-14 h-14 ${cat.bgColor} rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 shadow-sm">${cat.emoji}</div>
+            <div>
+              <h3 class="font-bold text-warm-text text-lg leading-tight">${esc(cat.name)}</h3>
+              <span class="text-sub-text text-xs">${esc(cat.englishName)}</span>
+            </div>
+          </div>
+          <p class="text-sub-text text-sm leading-relaxed mb-5">${esc(cat.description)}</p>
+          <div class="btn-primary w-full text-sm">開始測驗</div>
+        </div>
+      </a>
+    `).join('');
+  </script>
+</body>
+</html>

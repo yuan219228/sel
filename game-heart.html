@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>初心補給站｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+
+  <!-- html2canvas（用於下載卡片成圖） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0; color: #3D3D3D;
+      line-height: 1.8; font-size: 18px;
+    }
+    h1, h2, h3 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background-color: #f97316; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Modal 結構 ── */
+    @keyframes backdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes cardPopIn {
+      0%   { opacity: 0; transform: translateY(20px) scale(0.85) rotate(-3deg); }
+      60%  { opacity: 1; transform: translateY(-4px) scale(1.02) rotate(0.5deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+    }
+    .warm-modal-backdrop {
+      position: fixed; inset: 0; z-index: 1000;
+      background: radial-gradient(circle at 50% 40%, rgba(40,20,40,0.55) 0%, rgba(20,10,30,0.78) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; overflow-y: auto;
+      animation: backdropFadeIn 0.25s ease-out;
+    }
+    .warm-modal-backdrop.hidden { display: none; }
+    .warm-modal-content {
+      position: relative; width: 100%; max-width: 440px; margin: auto;
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .warm-close-btn {
+      position: absolute; top: -12px; right: -12px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #fff; color: #6B7280;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 6px 16px -4px rgba(0,0,0,0.25);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 20;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+    .warm-close-btn:hover { transform: rotate(90deg); color: #3D3D3D; }
+
+    /* ── 拍立得卡片本體 ── */
+    .polaroid-card {
+      position: relative; border-radius: 4px;
+      padding: 48px 22px 18px;
+      box-shadow:
+        0 22px 40px -16px rgba(80,50,30,0.35),
+        0 8px 16px -6px rgba(80,50,30,0.18),
+        0 0 0 1px rgba(180,140,90,0.08) inset;
+      overflow: visible;
+    }
+    .washi-tape {
+      position: absolute; width: 92px; height: 22px;
+      opacity: 0.92; box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      z-index: 5;
+    }
+    .washi-left  { top: 10px; left: -10px; transform: rotate(-6deg); }
+    .washi-right { top: 14px; right: -10px; transform: rotate(7deg); width: 72px; }
+
+    .stamp-frame {
+      position: absolute; top: 46px; right: 14px;
+      width: 60px; height: 70px; padding: 5px;
+      background: #fdf6e8;
+      border: 1.5px dashed #C99A6B;
+      z-index: 4; transform: rotate(3deg);
+      box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
+    }
+    .stamp-inner {
+      width: 100%; height: 100%; border: 1px solid #E5B98A;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px; padding: 2px;
+    }
+    .stamp-divider { width: 60%; height: 1px; background: #C99A6B; opacity: 0.5; }
+
+    .postmark {
+      position: absolute; bottom: 80px; left: 8px;
+      width: 80px; height: 80px;
+      transform: rotate(-12deg); opacity: 0.75;
+      z-index: 3; pointer-events: none;
+    }
+
+    .card-inner-dashed {
+      position: relative;
+      border: 1.5px dashed #D7B895;
+      padding: 22px 18px 18px;
+      background: transparent; z-index: 2;
+    }
+
+    .hand-line { display: inline-block; width: 24px; height: 1px; background: #C99A6B; opacity: 0.6; }
+
+    .sticky-note { padding: 12px 14px; border-radius: 2px; position: relative; }
+
+    .polaroid-footer { padding-top: 18px; padding-bottom: 14px; text-align: center; }
+    .footer-handwritten {
+      font-family: 'Brush Script MT', 'Noto Sans TC', cursive;
+      font-style: italic; font-size: 13px;
+      color: #8B5E34; letter-spacing: 0.1em;
+    }
+
+    .sticker { position: absolute; font-size: 22px; z-index: 6; pointer-events: none; opacity: 0.85; }
+    .sticker-heart { bottom: 14px; right: 18px; color: #E26A6A; transform: rotate(12deg); }
+    .sticker-star  { top: 100px; left: 16px; color: #E5B98A; font-size: 18px; transform: rotate(-15deg); }
+
+    @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">SEL<span class="text-muted-orange">學習小棧</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium bg-soft-orange text-muted-orange font-semibold">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+
+      <a href="learning-support.html" class="flex items-center gap-1 text-sub-text text-sm mb-6 hover:text-warm-text transition-colors">← 返回學習補給</a>
+
+      <div class="text-center mb-8">
+        <div class="text-4xl mb-3">🌱</div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-warm-text mb-2">初心補給站</h1>
+        <p class="text-sub-text text-sm sm:text-base leading-relaxed">
+          在忙碌的臨床工作中，是什麼讓你在辛苦中仍願意堅持？
+          選出 <span class="font-semibold text-muted-orange">三個</span> 屬於你的初心，讓它成為你的行動指標。
+        </p>
+        <p class="text-xs text-sub-text/80 italic mt-2">沒有標準答案，今天的你選了什麼，就是今天的你需要的。</p>
+      </div>
+
+      <div class="flex items-center justify-between mb-5 px-1">
+        <div class="text-xs text-sub-text">
+          已選擇 <span id="pickCount" class="font-bold text-warm-text">0</span> / 3
+        </div>
+        <button id="resetBtn" class="text-xs text-sub-text hover:text-warm-text underline-offset-2 hover:underline transition-colors hidden">清空重選</button>
+      </div>
+
+      <div id="zonesContainer" class="space-y-4 mb-6"></div>
+
+      <div class="text-center mb-5">
+        <button id="generateBtn" class="btn-primary" disabled>✨ 生成我的今日初心卡</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="cardModal" class="warm-modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="warm-modal-content" id="modalContent">
+      <button id="closeModalBtn" class="warm-close-btn" aria-label="關閉">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+      </button>
+
+      <div id="polaroidCard" class="polaroid-card" style="background: radial-gradient(circle at 20% 30%, rgba(180,120,60,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(180,120,60,0.04) 0%, transparent 50%), #FFFCF4;"></div>
+
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <button id="downloadBtn" class="btn-primary" style="min-width: 150px;">📥 下載成圖片</button>
+        <button id="shareWallBtn" class="btn-outline" style="min-width: 150px;">✍️ 分享到留言牆</button>
+        <button id="closeBtn2"  class="btn-outline">關閉</button>
+      </div>
+      <p class="text-center text-[11px] text-sub-text/70 mt-3">點卡片外面或按 Esc 也可以關閉</p>
+    </div>
+  </div>
+
+  <!-- 分享到留言牆 表單 Modal -->
+  <div id="shareModal" class="warm-modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="warm-modal-content" style="max-width: 420px;">
+      <button id="closeShareBtn" class="warm-close-btn" aria-label="關閉">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+      </button>
+
+      <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-xl">
+        <div class="text-center mb-5">
+          <div class="text-3xl mb-2">🧡</div>
+          <h3 class="text-xl font-bold text-warm-text">分享你的初心</h3>
+          <p class="text-xs text-sub-text mt-1.5 leading-relaxed">願意的話，留下你的名字與一段話，<br/>讓你的初心也溫暖留言牆上的夥伴。</p>
+        </div>
+
+        <div id="shareForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-warm-text mb-1.5">你的稱呼 <span class="text-muted-orange">*</span></label>
+            <input id="shareName" type="text" maxlength="20" placeholder="例如：恩典病房 小護理師" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-warm-text mb-1.5">想說的一段話 <span class="text-muted-orange">*</span></label>
+            <textarea id="shareMessage" rows="3" maxlength="150" placeholder="這份初心對你的意義、或想對自己/夥伴說的話…" class="w-full px-4 py-2.5 rounded-xl border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm resize-none"></textarea>
+            <div class="text-right text-[11px] text-sub-text/70 mt-1"><span id="msgCount">0</span>/150</div>
+          </div>
+
+          <div id="shareValuesPreview" class="rounded-xl bg-cream/60 border border-amber-100 px-4 py-3 text-xs text-sub-text"></div>
+
+          <label class="flex items-start gap-2.5 cursor-pointer select-none">
+            <input id="shareConsent" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#F4A261]" />
+            <span class="text-xs text-sub-text leading-relaxed">我同意將上述內容（稱呼、留言、所選初心）公開顯示在留言牆上。</span>
+          </label>
+
+          <!-- ── 院內同仁抽獎（活動期間限定，由 LOTTERY_OPEN 控制顯示）── -->
+          <div id="lotterySection" class="hidden rounded-xl border-2 border-dashed border-amber-200 bg-amber-50/40 p-4 space-y-3">
+            <label class="flex items-start gap-2.5 cursor-pointer select-none">
+              <input id="joinLottery" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#F4A261]" />
+              <span class="text-sm font-semibold text-warm-text leading-relaxed">🎁 我是奇美院內同仁，想參加抽獎</span>
+            </label>
+
+            <div id="lotteryFields" class="hidden space-y-3 pt-1">
+              <p class="text-[11px] text-sub-text leading-relaxed">以下資料<strong>僅供本次抽獎聯絡與資格核對</strong>，只會存於主辦單位後台、<strong>不會顯示在留言牆</strong>。</p>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="col-span-2 sm:col-span-1">
+                  <label class="block text-xs font-semibold text-warm-text mb-1">員工姓名 <span class="text-muted-orange">*</span></label>
+                  <input id="empName" type="text" maxlength="20" class="w-full px-3 py-2 rounded-lg border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm" />
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                  <label class="block text-xs font-semibold text-warm-text mb-1">人事號 <span class="text-muted-orange">*</span></label>
+                  <input id="empId" type="text" maxlength="20" class="w-full px-3 py-2 rounded-lg border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm" />
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                  <label class="block text-xs font-semibold text-warm-text mb-1">分機</label>
+                  <input id="empExt" type="text" maxlength="20" class="w-full px-3 py-2 rounded-lg border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm" />
+                </div>
+                <div class="col-span-2 sm:col-span-1">
+                  <label class="block text-xs font-semibold text-warm-text mb-1">Email</label>
+                  <input id="empEmail" type="email" maxlength="60" class="w-full px-3 py-2 rounded-lg border-2 border-gray-200 focus:border-muted-orange focus:outline-none text-sm" />
+                </div>
+              </div>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input id="lotteryConsent" type="checkbox" class="mt-0.5 w-4 h-4 accent-[#F4A261]" />
+                <span class="text-[11px] text-sub-text leading-relaxed">我同意提供上述個人資料作為本次抽獎之聯絡與資格核對使用，僅限主辦單位、不對外公開。</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="submitShareBtn" class="btn-primary w-full" disabled>送出分享</button>
+          <p id="shareHint" class="text-center text-[11px] text-sub-text/70">填寫稱呼與留言，並勾選同意後即可送出</p>
+        </div>
+
+        <div id="shareSuccess" class="hidden text-center py-6">
+          <div class="text-4xl mb-3">🌸</div>
+          <p class="font-semibold text-warm-text">分享成功，謝謝你！</p>
+          <p class="text-xs text-sub-text mt-1.5">你的初心已留在留言牆上。</p>
+          <a href="message-wall.html" class="btn-primary mt-4 inline-flex">前往留言牆看看 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════════════════
+    //  留言牆設定：Google Apps Script 網頁應用程式網址
+    // ════════════════════════════════════════════════════════════
+    const WALL_API_URL = 'https://script.google.com/macros/s/AKfycbxdpG3vcRXpROSQ7sZo_y81QaSdpuCiyqvw6JRYtQoLSEx7dktDpoWmy8pKbyavGoY/exec';
+
+    // ════════════════════════════════════════════════════════════
+    //  院內同仁抽獎開關（一次性活動用）
+    //    LOTTERY_OPEN     = true 時，分享表單才會出現抽獎報名區；活動結束改成 false 即整段消失。
+    //    LOTTERY_DEADLINE = 設日期（YYYY-MM-DD）後，超過當天會自動關閉；不想用就設成 ''。
+    // ════════════════════════════════════════════════════════════
+    const LOTTERY_OPEN = true;
+    const LOTTERY_DEADLINE = '';   // 例：'2026-07-31'；留空字串表示不設截止日
+
+    function lotteryActive() {
+      if (!LOTTERY_OPEN) return false;
+      if (LOTTERY_DEADLINE) {
+        const end = new Date(LOTTERY_DEADLINE + 'T23:59:59');
+        if (!isNaN(end.getTime()) && new Date() > end) return false;
+      }
+      return true;
+    }
+
+    // ── 初心價值（不分區，自行選擇）──────────────────────────
+    const palette = [
+      { dotHex: '#FB7185', tapeHex: '#F8C7CC' }, // rose
+      { dotHex: '#2DD4BF', tapeHex: '#BCEDDF' }, // teal
+      { dotHex: '#FBBF24', tapeHex: '#FCE7AE' }, // amber
+      { dotHex: '#60A5FA', tapeHex: '#C6DDFB' }, // blue
+    ];
+
+    const values = [
+      { name: '感謝', desc: '來自病人與家屬的感謝' },
+      { name: '信任', desc: '被毫無保留地信任' },
+      { name: '醫治', desc: '看到病況改善和恢復' },
+      { name: '陪伴', desc: '陪著病人和家屬走過艱難' },
+      { name: '專業', desc: '用自己的專業好好照顧人' },
+      { name: '合作', desc: '團隊們一起並肩作戰' },
+      { name: '價值', desc: '感覺自己的能力被需要' },
+      { name: '關懷', desc: '幫病人和家屬安頓身心' },
+      { name: '成長', desc: '發現自己又變強了一點' },
+      { name: '尊嚴', desc: '守護生命的尊嚴' },
+      { name: '看見', desc: '聽見每個生命背後的故事' },
+      { name: '傳承', desc: '把自己的經驗傳遞下去' },
+    ].map((v, i) => ({ ...v, ...palette[i % palette.length] }));
+
+    const MAX_PICKS = 3;
+    let selected = []; // 形式：'感謝'
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    function shade(hex, percent) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      let r = (num >> 16) + percent;
+      let g = ((num >> 8) & 0xff) + percent;
+      let b = (num & 0xff) + percent;
+      r = Math.min(255, Math.max(0, r));
+      g = Math.min(255, Math.max(0, g));
+      b = Math.min(255, Math.max(0, b));
+      return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+    }
+
+    function isSelected(name) { return selected.includes(name); }
+    function getSelectedItems() {
+      return selected.map(name => values.find(v => v.name === name)).filter(Boolean);
+    }
+
+    function toggle(name) {
+      const idx = selected.indexOf(name);
+      if (idx >= 0) selected.splice(idx, 1);
+      else if (selected.length < MAX_PICKS) selected.push(name);
+      renderZones();
+    }
+
+    function renderZones() {
+      document.getElementById('zonesContainer').innerHTML = `
+        <div class="rounded-2xl border-2 border-amber-100 bg-cream/40 p-4 sm:p-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            ${values.map(item => {
+              const active = isSelected(item.name);
+              const disabled = !active && selected.length >= MAX_PICKS;
+              const cls = active
+                ? 'border-warm-text/30 shadow-sm'
+                : 'bg-white border-gray-200 hover:border-amber-300';
+              const style = active ? `background:${item.tapeHex};` : '';
+              return `<button data-name="${esc(item.name)}" style="${style}" class="chip flex items-center gap-2.5 text-left text-sm px-4 py-3 rounded-xl border-2 transition-all duration-150 ${cls} ${disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}" ${disabled ? 'disabled' : ''}>
+                <span class="w-4 h-4 flex-shrink-0 rounded-[5px] border-2 flex items-center justify-center" style="border-color:${item.dotHex}; background:${active ? item.dotHex : 'transparent'};">${active ? '<svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 12l5 5L19 7\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>' : ''}</span>
+                <span class="flex-1 min-w-0"><span class="font-bold text-warm-text">【${esc(item.name)}】</span><span class="text-sub-text"> ${esc(item.desc)}</span></span>
+              </button>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('pickCount').textContent = selected.length;
+      const resetBtn = document.getElementById('resetBtn');
+      const genBtn = document.getElementById('generateBtn');
+      if (selected.length > 0) resetBtn.classList.remove('hidden');
+      else resetBtn.classList.add('hidden');
+      genBtn.disabled = selected.length === 0;
+
+      // 綁定 chips
+      document.querySelectorAll('.chip').forEach(btn => {
+        if (btn.disabled) return;
+        btn.addEventListener('click', () => {
+          toggle(btn.getAttribute('data-name'));
+        });
+      });
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      selected = []; renderZones();
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      if (selected.length === 0) return;
+      renderCard();
+      document.getElementById('cardModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeModal() {
+      document.getElementById('cardModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('closeBtn2').addEventListener('click', closeModal);
+    document.getElementById('cardModal').addEventListener('click', (e) => {
+      if (e.target.id === 'cardModal') closeModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !document.getElementById('cardModal').classList.contains('hidden')) closeModal();
+    });
+
+    function todayText() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const weekdays = ['日','一','二','三','四','五','六'];
+      return `${y}.${m}.${day}　星期${weekdays[d.getDay()]}`;
+    }
+
+    function renderCard() {
+      const items = getSelectedItems();
+      const tilts = ['-1.1deg', '0.8deg', '-0.6deg'];
+      const tapeColors = items.length > 0
+        ? items.map(it => it.tapeHex)
+        : ['#F8C7CC', '#BCEDDF', '#FCE7AE'];
+      const today = todayText();
+      const dateNo = String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0');
+      const cardSentence = items.length === 0 ? '' : `以${items.map(it => `【${it.name}】`).join('、')}走過今天的每一個照護時刻。`;
+
+      const stickyNotes = items.map((item, idx) => `
+        <div class="sticky-note" style="transform: rotate(${tilts[idx] || '0deg'}); background: #FFFFFF; border-left: 4px solid ${item.dotHex}; box-shadow: 2px 4px 8px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04);">
+          <div class="flex items-baseline gap-2 mb-1.5">
+            <span class="text-[10px] font-bold tracking-[0.2em]" style="color: ${item.dotHex}; font-family: serif;">NO.0${idx + 1}</span>
+            <span class="text-[15px] font-bold" style="color: #3D3D3D;">【${esc(item.name)}】</span>
+          </div>
+          <p class="text-[12.5px] leading-relaxed" style="color: #6B6B6B; padding-left: 2px;">${esc(item.desc)}</p>
+        </div>
+      `).join('');
+
+      const tape0 = tapeColors[0];
+      const tape1 = tapeColors[1] || tape0;
+      const tapeStyle0 = `repeating-linear-gradient(135deg, ${tape0} 0px, ${tape0} 8px, ${shade(tape0, -8)} 8px, ${shade(tape0, -8)} 12px)`;
+      const tapeStyle1 = `repeating-linear-gradient(135deg, ${tape1} 0px, ${tape1} 8px, ${shade(tape1, -8)} 8px, ${shade(tape1, -8)} 12px)`;
+
+      document.getElementById('polaroidCard').innerHTML = `
+        <div class="washi-tape washi-left"  style="background: ${tapeStyle0};"></div>
+        <div class="washi-tape washi-right" style="background: ${tapeStyle1};"></div>
+
+        <div class="stamp-frame">
+          <div class="stamp-inner">
+            <div class="text-[10px] tracking-[0.25em] font-bold" style="color: #B85042;">初心</div>
+            <div class="stamp-divider"></div>
+            <div class="text-[9px]" style="color: #B85042;">NO.${dateNo}</div>
+          </div>
+        </div>
+
+        <div class="postmark">
+          <svg viewBox="0 0 80 80" width="80" height="80">
+            <circle cx="40" cy="40" r="36" fill="none" stroke="#B85042" stroke-width="1.5" stroke-dasharray="3 2" />
+            <circle cx="40" cy="40" r="30" fill="none" stroke="#B85042" stroke-width="1" />
+            <text x="40" y="32" text-anchor="middle" fill="#B85042" font-size="7" font-weight="bold" letter-spacing="1">CHIMEI</text>
+            <text x="40" y="46" text-anchor="middle" fill="#B85042" font-size="11" font-weight="bold">SEL</text>
+            <text x="40" y="56" text-anchor="middle" fill="#B85042" font-size="6">${today.replace(/\s+/g,'').split('星期')[0]}</text>
+          </svg>
+        </div>
+
+        <div class="card-inner-dashed">
+          <div class="text-center mb-1 mt-2">
+            <div class="inline-block px-3 py-1 text-[11px] font-bold tracking-[0.5em]" style="color: #8B5E34; border-top: 1px solid #C7A47C; border-bottom: 1px solid #C7A47C;">
+              今日初心卡
+            </div>
+          </div>
+
+          <div class="text-center mb-5">
+            <div class="inline-flex items-center gap-2 text-[11px]" style="color: #A87C50; font-style: italic;">
+              <span class="hand-line"></span>${esc(today)}<span class="hand-line"></span>
+            </div>
+          </div>
+
+          <div class="text-center mb-7 px-2">
+            <p class="font-semibold leading-[2]" style="color: #3D3D3D; font-size: 17px; letter-spacing: 0.04em;">${esc(cardSentence)}</p>
+          </div>
+
+          <div class="space-y-4">${stickyNotes}</div>
+
+          <div class="mt-7 mb-1">
+            <div class="flex items-center justify-center gap-3 mb-3">
+              <span style="font-size: 13px;">🌿</span>
+              <span class="text-[12px] italic" style="color: #8B5E34; letter-spacing: 0.05em;">讓初心成為今天的行動指標</span>
+              <span style="font-size: 13px;">🌿</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="polaroid-footer">
+          <div class="footer-handwritten">ChiMei Hospital · SEL 醫護初心</div>
+        </div>
+
+        <div class="sticker sticker-heart">❤︎</div>
+        <div class="sticker sticker-star">✦</div>
+      `;
+    }
+
+    // 下載成圖片
+    let downloading = false;
+    document.getElementById('downloadBtn').addEventListener('click', async () => {
+      if (downloading) return;
+      const btn = document.getElementById('downloadBtn');
+      const card = document.getElementById('polaroidCard');
+      if (!window.html2canvas) { alert('html2canvas 還沒載入，請稍後再試'); return; }
+      downloading = true;
+      btn.innerHTML = `<svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="3"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg> 下載中…`;
+      try {
+        const canvas = await window.html2canvas(card, { backgroundColor: null, scale: 2, useCORS: true, logging: false });
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 10);
+        link.download = `我的今日初心卡_${stamp}.png`;
+        link.href = dataUrl;
+        link.click();
+      } catch (err) {
+        console.error(err);
+        alert('下載失敗，請再試一次，或截圖儲存喔～');
+      } finally {
+        downloading = false;
+        btn.innerHTML = '📥 下載成圖片';
+      }
+    });
+
+    // ════════ 分享到留言牆 ════════
+    const shareModal   = document.getElementById('shareModal');
+    const shareNameEl  = document.getElementById('shareName');
+    const shareMsgEl   = document.getElementById('shareMessage');
+    const shareConsent = document.getElementById('shareConsent');
+    const submitShare  = document.getElementById('submitShareBtn');
+    // 抽獎相關元素
+    const lotterySection = document.getElementById('lotterySection');
+    const joinLottery    = document.getElementById('joinLottery');
+    const lotteryFields  = document.getElementById('lotteryFields');
+    const empName  = document.getElementById('empName');
+    const empId    = document.getElementById('empId');
+    const empExt   = document.getElementById('empExt');
+    const empEmail = document.getElementById('empEmail');
+    const lotteryConsent = document.getElementById('lotteryConsent');
+
+    function openShare() {
+      const items = getSelectedItems();
+      document.getElementById('shareValuesPreview').innerHTML =
+        '你今天的初心：' + items.map(it => `<span class="font-bold text-warm-text">【${esc(it.name)}】</span>`).join('、');
+      // 依開關決定是否顯示抽獎報名區
+      lotterySection.classList.toggle('hidden', !lotteryActive());
+      document.getElementById('shareForm').classList.remove('hidden');
+      document.getElementById('shareSuccess').classList.add('hidden');
+      shareModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      validateShare();
+    }
+    function closeShare() {
+      shareModal.classList.add('hidden');
+      if (document.getElementById('cardModal').classList.contains('hidden')) document.body.style.overflow = '';
+    }
+    function validateShare() {
+      let ok = shareNameEl.value.trim() && shareMsgEl.value.trim() && shareConsent.checked;
+      // 若勾選參加抽獎，需另外填妥姓名、人事號並同意個資使用
+      if (lotteryActive() && joinLottery.checked) {
+        ok = ok && empName.value.trim() && empId.value.trim() && lotteryConsent.checked;
+      }
+      submitShare.disabled = !ok;
+    }
+
+    document.getElementById('shareWallBtn').addEventListener('click', openShare);
+    document.getElementById('closeShareBtn').addEventListener('click', closeShare);
+    shareModal.addEventListener('click', e => { if (e.target.id === 'shareModal') closeShare(); });
+    shareNameEl.addEventListener('input', validateShare);
+    shareConsent.addEventListener('change', validateShare);
+    shareMsgEl.addEventListener('input', () => {
+      document.getElementById('msgCount').textContent = shareMsgEl.value.length;
+      validateShare();
+    });
+    // 抽獎報名：勾選後展開欄位
+    joinLottery.addEventListener('change', () => {
+      lotteryFields.classList.toggle('hidden', !joinLottery.checked);
+      validateShare();
+    });
+    [empName, empId, empExt, empEmail].forEach(el => el.addEventListener('input', validateShare));
+    lotteryConsent.addEventListener('change', validateShare);
+
+    let submitting = false;
+    submitShare.addEventListener('click', async () => {
+      if (submitting) return;
+      if (WALL_API_URL.indexOf('PASTE_YOUR') === 0) {
+        alert('留言牆網址尚未設定，請先依說明部署 Google Apps Script 並填入 WALL_API_URL。');
+        return;
+      }
+      submitting = true;
+      submitShare.disabled = true;
+      submitShare.innerHTML = '<svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:inline-block;vertical-align:middle;margin-right:6px;"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.25" stroke-width="3"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>送出中…';
+
+      const items = getSelectedItems();
+      const joining = lotteryActive() && joinLottery.checked;
+      const payload = {
+        name: shareNameEl.value.trim(),
+        message: shareMsgEl.value.trim(),
+        values: items.map(it => it.name),
+        sentence: items.map(it => `【${it.name}】`).join('、'),
+        date: todayText(),
+        // 抽獎報名資料（只存後台、不公開）；未報名則為空
+        joinLottery: joining ? '是' : '',
+        empName:  joining ? empName.value.trim()  : '',
+        empId:    joining ? empId.value.trim()    : '',
+        empExt:   joining ? empExt.value.trim()   : '',
+        empEmail: joining ? empEmail.value.trim() : ''
+      };
+      try {
+        // no-cors：Apps Script 回應會轉址導致 CORS 讀取被擋，
+        // 用 no-cors 讓請求照常送達、資料照常存入，前端不讀回應即可。
+        await fetch(WALL_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        document.getElementById('shareForm').classList.add('hidden');
+        document.getElementById('shareSuccess').classList.remove('hidden');
+      } catch (err) {
+        console.error(err);
+        alert('送出失敗，請檢查網路或稍後再試。');
+        submitShare.disabled = false;
+        submitShare.innerHTML = '送出分享';
+      } finally {
+        submitting = false;
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !shareModal.classList.contains('hidden')) closeShare();
+    });
+
+    // 初始化
+    renderZones();
+  </script>
+</body>
+</html>

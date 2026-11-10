@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>情境測驗｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0; color: #3D3D3D;
+      line-height: 1.8; font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+    .whitespace-pre-line { white-space: pre-line; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-primary:hover { background-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .card-base {
+      background: #fff; border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+    }
+
+    .progress-bar-fill { transition: width 0.8s ease-in-out; }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">SEL<span class="text-muted-orange">學習小棧</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="quizMain" class="page-enter"></main>
+
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- 題庫資料 -->
+  <script src="assets/quiz-data.js"></script>
+
+  <!-- 互動邏輯 -->
+  <script>
+    // ========== 漢堡選單 ==========
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1'), mb2 = document.getElementById('mb2'), mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen); mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen); mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // ========== Quiz 主流程 ==========
+    const { professionsConfig, calculateQuestionScore, calculatePercentage,
+            getAbilityStatus, generateSummaryText, getAbilitySuggestion } = window.SEL_QUIZ;
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // 取得 URL 中的 profession 參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const professionId = urlParams.get('profession');
+    const profession = professionsConfig[professionId];
+
+    // 狀態
+    let stage = 'intro';   // 'intro' | 'quiz' | 'results'
+    let currentQ = 0;
+    let answers = {};
+
+    const main = document.getElementById('quizMain');
+
+    // ========== 找不到職類 ==========
+    if (!profession) {
+      main.innerHTML = `
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 py-20 text-center">
+          <div class="text-5xl mb-4">😅</div>
+          <h2 class="text-xl font-bold text-warm-text mb-3">找不到這個職類的測驗</h2>
+          <p class="text-sub-text text-sm mb-6">可能是網址錯誤，請回到情境應用重新選擇。</p>
+          <a href="scenario.html" class="btn-primary">回到情境應用</a>
+        </div>
+      `;
+    } else {
+      render(true);
+    }
+
+    // scroll = true 才捲回頂端；點選項時傳 false，保持當前捲動位置
+    function render(scroll) {
+      if (stage === 'intro') renderIntro();
+      else if (stage === 'results') renderResults();
+      else renderQuiz();
+      if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ========== Intro ==========
+    function renderIntro() {
+      const previews = profession.quizData.map(q => `
+        <div class="bg-white rounded-xl border border-amber-100 p-3 text-center shadow-sm">
+          <div class="text-xl mb-1">${q.abilityEmoji}</div>
+          <div class="text-xs font-semibold text-warm-text">${esc(q.abilityName)}</div>
+        </div>
+      `).join('');
+
+      main.innerHTML = `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+          <a href="scenario.html" class="flex items-center gap-1 text-sub-text text-sm mb-6 hover:text-warm-text transition-colors">← 返回情境應用</a>
+          <div class="max-w-2xl mx-auto text-center py-8">
+            <div class="text-5xl mb-4">${profession.emoji}</div>
+            <h2 class="text-2xl font-bold text-warm-text mb-3">${esc(profession.title)}</h2>
+            <p class="text-sub-text leading-relaxed mb-6">
+              本測驗共 <strong>${profession.quizData.length} 題</strong>，每題對應一項 SEL 能力。
+              請根據真實的醫療情境，勾選「你實際上會做到」的選項（可複選）。
+              完成後將產生你的 SEL 能力分析報告。
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">${previews}</div>
+            <button id="startBtn" class="btn-primary text-base px-10 py-3">開始測驗 →</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('startBtn').addEventListener('click', () => {
+        stage = 'quiz'; currentQ = 0; answers = {}; render(true);
+      });
+    }
+
+    // ========== Quiz ==========
+    function renderQuiz() {
+      const q = profession.quizData[currentQ];
+      const total = profession.quizData.length;
+      const currentAns = answers[q.id] || [];
+      const progress = (currentQ / total) * 100;
+
+      const options = q.options.map(opt => {
+        const isSelected = currentAns.includes(opt.id);
+        const optionClass = isSelected
+          ? 'border-muted-orange bg-soft-orange'
+          : 'border-gray-100 bg-white hover:border-amber-200 hover:bg-amber-50/50';
+        const checkmarkClass = isSelected ? 'border-muted-orange bg-muted-orange' : 'border-gray-300';
+        const checkmark = isSelected
+          ? `<svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>`
+          : '';
+        const textClass = isSelected ? 'text-warm-text font-medium' : 'text-sub-text';
+        return `
+          <label data-optid="${opt.id}" class="opt-label flex items-start gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all duration-200 ${optionClass}">
+            <div class="mt-0.5 w-6 h-6 rounded border-2 flex-shrink-0 flex items-center justify-center transition-all ${checkmarkClass}">
+              ${checkmark}
+            </div>
+            <span class="text-base leading-relaxed ${textClass}">${esc(opt.text)}</span>
+          </label>
+        `;
+      }).join('');
+
+      // 即時回饋（如果有選）
+      let feedback = '';
+      if (currentAns.length > 0) {
+        const score = calculateQuestionScore(q, currentAns);
+        const passed = score >= 3;
+        const fbClass = passed ? 'bg-green-50 border-green-200 text-green-700' : 'bg-amber-50 border-amber-200 text-amber-700';
+        const fbIcon = passed ? '✅' : '💪';
+        const fbText = passed ? q.feedback.pass : q.feedback.fail;
+        feedback = `
+          <div class="mt-4 p-4 rounded-xl border text-sm font-medium ${fbClass}">
+            <span class="mr-2">${fbIcon}</span>${esc(fbText)}
+          </div>
+        `;
+      }
+
+      main.innerHTML = `
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+          <a href="scenario.html" class="flex items-center gap-1 text-sub-text text-sm mb-6 hover:text-warm-text transition-colors">← 返回情境應用</a>
+
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-300 to-orange-400 rounded-full progress-bar-fill" style="width: ${progress}%"></div>
+            </div>
+            <span class="text-xs text-sub-text font-medium whitespace-nowrap">${currentQ + 1} / ${total}</span>
+          </div>
+
+          <div class="card-base border border-amber-100 overflow-hidden">
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex-shrink-0 w-8 h-8 bg-soft-orange rounded-full flex items-center justify-center text-muted-orange font-bold text-sm">${q.id}</div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-lg">${q.abilityEmoji}</span>
+                    <span class="text-sm font-semibold text-muted-orange">${esc(q.abilityName)}</span>
+                    <span class="text-xs text-sub-text">｜${esc(q.abilityEnglish)}</span>
+                  </div>
+                </div>
+                <div class="ml-auto text-xs text-sub-text font-medium">${currentQ + 1} / ${total}</div>
+              </div>
+
+              <div class="bg-amber-50/60 border border-amber-100 rounded-xl p-5 mb-6">
+                <div class="flex gap-2 mb-2"><span class="text-base font-semibold text-amber-700">📋 情境</span></div>
+                <p class="text-warm-text text-base leading-relaxed whitespace-pre-line">${esc(q.scenario)}</p>
+              </div>
+
+              <p class="font-semibold text-warm-text text-lg mb-5">${esc(q.question)}</p>
+
+              <div class="space-y-4">${options}</div>
+              <p class="text-sm text-sub-text mt-5 text-center">可複選，選出你實際上會做到的選項</p>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-5">
+            <button id="prevBtn" ${currentQ === 0 ? 'disabled' : ''}
+              class="flex-1 py-3 rounded-full border border-gray-200 text-sub-text text-sm font-medium hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all">← 上一題</button>
+            <button id="nextBtn"
+              class="flex-1 py-3 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all">
+              ${currentQ === total - 1 ? '查看結果 →' : '下一題 →'}
+            </button>
+          </div>
+
+          ${feedback}
+        </div>
+      `;
+
+      // 綁定選項點擊（不捲動）
+      document.querySelectorAll('.opt-label').forEach(label => {
+        label.addEventListener('click', () => {
+          const optId = label.getAttribute('data-optid');
+          const cur = answers[q.id] || [];
+          answers[q.id] = cur.includes(optId) ? cur.filter(x => x !== optId) : [...cur, optId];
+          render(false);
+        });
+      });
+
+      // 上一題 / 下一題（要捲到頂）
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentQ > 0) { currentQ--; render(true); }
+      });
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentQ < total - 1) { currentQ++; render(true); }
+        else { stage = 'results'; render(true); }
+      });
+    }
+
+    // ========== Results ==========
+    const SECTION_BY_ABILITY = {
+      'self-awareness':       { name: '紓壓小幫手',     anchor: 'section-stress-relief', emoji: '🎈' },
+      'self-management':      { name: '紓壓小幫手',     anchor: 'section-stress-relief', emoji: '🎈' },
+      'social-awareness':     { name: '自我支持工具區', anchor: 'section-self-support',  emoji: '💞' },
+      'relationship-skills':  { name: '自我支持工具區', anchor: 'section-self-support',  emoji: '💞' },
+      'responsible-decision': { name: '自我支持工具區', anchor: 'section-self-support',  emoji: '💞' },
+    };
+
+    function renderResults() {
+      const results = profession.quizData.map(q => {
+        const selectedIds = answers[q.id] || [];
+        const rawScore = calculateQuestionScore(q, selectedIds);
+        const clamped = Math.max(0, Math.min(q.maxScore, rawScore));
+        const percentage = calculatePercentage(clamped, q.maxScore);
+        return {
+          abilityKey: q.abilityKey,
+          abilityName: q.abilityName,
+          abilityEnglish: q.abilityEnglish,
+          abilityEmoji: q.abilityEmoji,
+          score: clamped,
+          maxScore: q.maxScore,
+          percentage,
+        };
+      });
+
+      const summary = generateSummaryText(results);
+      const avgRaw = results.reduce((s, r) => s + (Number.isFinite(r.percentage) ? r.percentage : 0), 0) / results.length;
+      const avg = Math.round(avgRaw) || 0;
+
+      // 每個能力卡片
+      const cards = results.map(r => {
+        const status = getAbilityStatus(r.percentage);
+        const suggestion = getAbilitySuggestion(r.abilityKey, r.percentage);
+        const section = SECTION_BY_ABILITY[r.abilityKey];
+
+        let actionTier = null;
+        if (r.percentage < 50) actionTier = 'practice';
+        else if (r.percentage < 80) actionTier = 'optimize';
+
+        const tierStyle = {
+          practice: { cardBorder: 'border-rose-200 bg-rose-50/30',    btnClass: 'border-rose-300 text-rose-600 hover:bg-rose-50',     verb: '延伸練習' },
+          optimize: { cardBorder: 'border-amber-200 bg-amber-50/30',  btnClass: 'border-amber-300 text-amber-600 hover:bg-amber-50',  verb: '再優化' },
+        };
+        const t = actionTier ? tierStyle[actionTier] : null;
+        const cardBorderCls = t ? t.cardBorder : 'border-gray-100';
+
+        const actionBtn = (t && section) ? `
+          <a href="learning-support.html#${section.anchor}" class="mt-3 w-full inline-flex items-center justify-center gap-1 py-2 px-3 rounded-full bg-white border text-sm font-medium transition-all ${t.btnClass}">
+            <span>${section.emoji}</span><span>前往${esc(section.name)}</span><span>→</span>
+          </a>
+        ` : '';
+
+        return `
+          <div class="card-base border p-5 ${cardBorderCls}">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-2xl">${r.abilityEmoji}</span>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-0.5">
+                  <span class="font-bold text-warm-text text-sm">${esc(r.abilityName)}</span>
+                  <span class="text-xs font-semibold ${status.color}">${status.label}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-sub-text">${esc(r.abilityEnglish)}</span>
+                  <span class="text-xs text-sub-text">·</span>
+                  <span class="text-xs text-sub-text">${r.score} / ${r.maxScore} 分</span>
+                </div>
+              </div>
+              <div class="text-right flex-shrink-0">
+                <span class="text-2xl font-black ${status.color}">${r.percentage}%</span>
+              </div>
+            </div>
+            <div class="h-3 bg-gray-100 rounded-full overflow-hidden mb-3">
+              <div class="h-full ${status.barColor} rounded-full progress-bar-fill" style="width: ${r.percentage}%"></div>
+            </div>
+            <p class="text-xs text-sub-text leading-relaxed bg-gray-50 rounded-lg p-3">💡 ${esc(suggestion)}</p>
+            ${actionBtn}
+          </div>
+        `;
+      }).join('');
+
+      main.innerHTML = `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+          <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-8">
+              <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-sm font-medium px-4 py-1.5 rounded-full mb-4">📊 SEL 能力分析報告</div>
+              <h2 class="text-2xl font-bold text-warm-text mb-2">您的 SEL 能力分析報告</h2>
+              <p class="text-sub-text text-sm">${esc(profession.name)}・以下是您在五大能力面向的表現</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-5 mb-6 text-center">
+              <div class="text-4xl font-black text-muted-orange mb-1">${avg}%</div>
+              <div class="text-sub-text text-sm">整體 SEL 能力平均</div>
+              <div class="mt-3 h-3 bg-amber-100 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-300 to-orange-400 rounded-full progress-bar-fill" style="width: ${avg}%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-4 mb-6">${cards}</div>
+
+            <div class="bg-gradient-to-br from-sky-50 to-teal-50 border border-sky-100 rounded-2xl p-6 mb-6">
+              <h3 class="font-bold text-warm-text mb-2 flex items-center gap-2"><span>💙</span> 給你的話</h3>
+              <p class="text-sub-text text-sm leading-relaxed">${esc(summary)}</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <button id="retestBtn" class="col-span-2 sm:col-span-1 py-2.5 px-4 rounded-full border-2 border-muted-orange text-muted-orange text-sm font-medium hover:bg-soft-orange transition-all">再測驗一次</button>
+              <a href="scenario.html"         class="py-2.5 px-4 rounded-full border border-gray-200 text-sub-text text-sm font-medium hover:bg-gray-50 transition-all inline-flex items-center justify-center">回到情境應用</a>
+              <a href="learning-support.html" class="py-2.5 px-4 rounded-full border border-gray-200 text-sub-text text-sm font-medium hover:bg-gray-50 transition-all inline-flex items-center justify-center">前往學習補給</a>
+              <a href="abilities.html"        class="py-2.5 px-4 rounded-full bg-warm-teal text-white text-sm font-medium hover:opacity-90 transition-all inline-flex items-center justify-center">查看五大能力</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('retestBtn').addEventListener('click', () => {
+        stage = 'intro'; currentQ = 0; answers = {};
+        // 回到情境應用頁
+        window.location.href = 'scenario.html';
+      });
+    }
+  </script>
+</body>
+</html>

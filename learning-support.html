@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>學習補給｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0;
+      color: #3D3D3D;
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-primary:hover { background-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .section-title { font-size: 1.5rem; font-weight: 700; color: #3D3D3D; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+    .section-subtitle { color: #6B7280; font-size: 1rem; line-height: 1.625; margin-bottom: 2rem; }
+
+    .card-base {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* line-clamp utility */
+    .line-clamp-2 {
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .line-clamp-3 {
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* 呼吸練習動畫 */
+    @keyframes breathScale {
+      0%   { transform: scale(1); }
+      100% { transform: scale(var(--scale, 1)); }
+    }
+
+    /* 氣泡浮動 */
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* 紙團揉爛 */
+    @keyframes paperCrumple {
+      0%   { transform: scale(1) rotate(0); border-radius: 12px; }
+      50%  { transform: scale(0.6) rotate(10deg); border-radius: 42% 50% 38% 48%; }
+      100% { transform: scale(0.34) rotate(18deg); border-radius: 50%; }
+    }
+    @keyframes paperToss {
+      0%   { transform: translate(-50%, -50%) scale(0.34) rotate(0); }
+      50%  { transform: translate(80px, -120px) scale(0.34) rotate(360deg); }
+      100% { transform: translate(160px, 20px) scale(0.34) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── 3D 雙手擁抱 ── */
+    @keyframes tsLeftHand {
+      0%   { transform: translate3d(-180px, 30px, -400px) rotate(-40deg) scale(0.25); opacity: 0; }
+      55%  { transform: translate3d(-50px,  5px,  0)      rotate(-12deg) scale(1.25); opacity: 1; }
+      100% { transform: translate3d(-25px,  0,    120px)  rotate(0deg)   scale(1.55); opacity: 1; }
+    }
+    @keyframes tsRightHand {
+      0%   { transform: translate3d(180px,  30px, -400px) rotate(40deg)  scale(0.25); opacity: 0; }
+      55%  { transform: translate3d(50px,   5px,  0)      rotate(12deg)  scale(1.25); opacity: 1; }
+      100% { transform: translate3d(25px,   0,    120px)  rotate(0deg)   scale(1.55); opacity: 1; }
+    }
+    @keyframes tsHuggedIn {
+      0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+      60%  { transform: translate(-50%, -55%) scale(1.15); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    @keyframes tsHeart {
+      0%   { transform: translateY(0) scale(0.5);  opacity: 0; }
+      25%  { opacity: 1; }
+      100% { transform: translateY(-70px) scale(1.2); opacity: 0; }
+    }
+    @keyframes tsGlow {
+      0%, 100% { opacity: 0.55; }
+      50%      { opacity: 1; }
+    }
+    @keyframes tsPop {
+      0%   { transform: scale(0.85) translateY(14px); opacity: 0; }
+      60%  { transform: scale(1.03) translateY(-2px); opacity: 1; }
+      100% { transform: scale(1)    translateY(0);    opacity: 1; }
+    }
+
+    /* 種花脈動（剛種下） */
+    @keyframes flowerPop {
+      0%   { transform: translate(-50%, -50%) scale(0); }
+      60%  { transform: translate(-50%, -50%) scale(1.25); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    /* 盛開（最後一階） */
+    @keyframes flowerBloom {
+      0%   { transform: translate(-50%, -50%) scale(0.6) rotate(-12deg); }
+      60%  { transform: translate(-50%, -50%) scale(1.3) rotate(8deg); }
+      100% { transform: translate(-50%, -50%) scale(1)   rotate(0deg); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+
+    .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-mask.hidden { display: none; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">
+            SEL<span class="text-muted-orange">學習小棧</span>
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+
+    <!-- ==================== Hero ==================== -->
+    <div class="bg-gradient-to-br from-teal-50 via-cream to-green-50 pt-12 pb-10">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div class="inline-flex items-center gap-2 bg-white/80 border border-teal-200 text-teal-600 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          🌈 學習補給
+        </div>
+        <h1 class="section-title">給忙碌中的你，一些剛剛好的補給</h1>
+        <p class="section-subtitle max-w-2xl mx-auto">
+          醫療工作常常需要長時間專注、快速應對與持續付出。
+          這個頁面提供簡單、有趣、可立即開始的紓壓方式，
+          也整理了可延伸學習與放鬆的網站資源，
+          讓你在繁忙之中，也能為自己留一點空間。
+        </p>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+      <!-- ==================== 紓壓小幫手 ==================== -->
+      <div id="section-stress-relief" class="mb-14 scroll-mt-24">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-xl">🎈</div>
+          <div>
+            <h2 class="text-xl font-bold text-warm-text">紓壓小幫手</h2>
+            <p class="text-sub-text text-sm">立即可以使用的互動紓壓工具</p>
+          </div>
+        </div>
+        <div id="toolGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+
+      <!-- ==================== 自我支持工具區 ==================== -->
+      <div id="section-self-support" class="mb-14 scroll-mt-24">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center text-xl">💞</div>
+          <div>
+            <h2 class="text-xl font-bold text-warm-text">自我支持工具區</h2>
+          </div>
+        </div>
+        <div class="space-y-5">
+          <a href="game-communication.html" id="game-communication" class="card-base border-2 border-amber-200 overflow-hidden block scroll-mt-24 hover:shadow-card-hover transition-all">
+            <div class="w-full text-left flex items-center gap-4 p-5 sm:p-6 bg-gradient-to-r from-amber-50 via-cream to-rose-50">
+              <div class="text-3xl flex-shrink-0">💬</div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-warm-text text-base sm:text-lg mb-0.5">溝通練習室</h3>
+                <p class="text-sub-text text-xs sm:text-sm leading-relaxed">從四個顏色的詞庫各挑一句，組出一段溝通話術。</p>
+              </div>
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center">
+                <svg class="w-4 h-4 text-warm-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <a href="game-heart.html" id="game-originalheart" class="card-base border-2 border-rose-200 overflow-hidden block scroll-mt-24 hover:shadow-card-hover transition-all">
+            <div class="w-full text-left flex items-center gap-4 p-5 sm:p-6 bg-gradient-to-r from-rose-50 via-cream to-amber-50">
+              <div class="text-3xl flex-shrink-0">🌱</div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-warm-text text-base sm:text-lg mb-0.5">初心補給站</h3>
+                <p class="text-sub-text text-xs sm:text-sm leading-relaxed">選定 1-3 個核心價值，生成屬於你今天的初心卡。</p>
+              </div>
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center">
+                <svg class="w-4 h-4 text-warm-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ==================== 好站連結 ==================== -->
+      <div class="mb-14">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-sky-100 rounded-xl flex items-center justify-center text-xl">🔗</div>
+          <div>
+            <h2 class="text-xl font-bold text-warm-text">好站連結</h2>
+            <p class="text-sub-text text-sm">延伸閱讀與實用心理健康資源</p>
+          </div>
+        </div>
+        <div id="resourceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+      </div>
+
+      <!-- ==================== 底部 banner ==================== -->
+      <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 rounded-3xl border border-amber-100 p-8 sm:p-10 text-center">
+        <div class="text-4xl mb-4">🌸</div>
+        <h3 class="text-xl sm:text-2xl font-bold text-warm-text mb-4">你不需要等到撐不住，才開始照顧自己</h3>
+        <p class="text-sub-text text-sm leading-relaxed max-w-2xl mx-auto mb-6">
+          真正長久的照顧，不是把自己逼到極限後才休息，
+          而是在日常裡，慢慢練習理解自己、支持自己、調整自己。
+          願你在照顧他人的路上，也能保有照顧自己的能力。
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="selfcheck.html" class="btn-outline">前往今日自我檢測</a>
+          <a href="abilities.html" class="btn-primary">認識 SEL 五大能力</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== Modal 容器（所有工具共用） ==================== -->
+  <div id="toolModal" class="modal-mask hidden">
+    <div id="toolModalInner" class="bg-white rounded-3xl shadow-2xl w-full max-w-md"></div>
+  </div>
+
+  <!-- ==================== 互動邏輯 ==================== -->
+  <script>
+    // ========== 漢堡選單 ==========
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1');
+    const mb2 = document.getElementById('mb2');
+    const mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen);
+      mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen);
+      mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // ========== 紓壓小幫手卡片資料 ==========
+    const tools = [
+      { id: 'breathing',  action: 'breathing',  emoji: '🫁', title: '1分鐘呼吸調節站', description: '當腦袋很滿、心跳很快、情緒快要衝上來時，先回到呼吸。跟著節奏慢慢吸氣、停留、吐氣，幫助自己從忙亂中慢慢穩下來。', buttonLabel: '開始呼吸練習', bgColor: 'bg-sky-50',   borderColor: 'border-sky-200',   btnColor: 'bg-sky-500 hover:bg-sky-600' },
+      { id: 'emotion',    action: 'emotion',    emoji: '💬', title: '今天的情緒戳戳樂', description: '透過可愛互動方式，點選今天最接近你的心情。每一種情緒都會有一句溫柔提醒，讓你知道：原來現在的我，不需要假裝沒事。', buttonLabel: '來戳一下情緒', bgColor: 'bg-pink-50',  borderColor: 'border-pink-200',  btnColor: 'bg-pink-400 hover:bg-pink-500' },
+      { id: 'buncard',    action: 'buncard',    emoji: '🥟', title: '包子舒壓翻翻卡',   description: '用輕鬆小遊戲的方式，翻出今天屬於你的療癒包子卡。每一張卡片都附上一句 SEL 小提醒或暖心話。', buttonLabel: '翻出今日包子卡', bgColor: 'bg-amber-50', borderColor: 'border-amber-200', btnColor: 'bg-amber-400 hover:bg-amber-500' },
+      { id: 'throwstress', action: 'throwstress', emoji: '🗑️', title: '把壓力丟出去',    description: '把今天讓你煩躁、疲累、委屈或卡住的事情，用互動方式寫下來、揉成紙團丟掉它。幫自己透過小小儀式放下一點重量。', buttonLabel: '開始丟掉壓力', bgColor: 'bg-green-50', borderColor: 'border-green-200', btnColor: 'bg-green-500 hover:bg-green-600' },
+      { id: 'bubblepop',  action: 'bubblepop',  emoji: '🫧', title: '戳氣泡紓壓',       description: '把壓力詞彙裝進氣泡裡，一顆一顆戳破它們！每戳破一顆，就少一份煩惱。', buttonLabel: '開始戳氣泡', bgColor: 'bg-blue-50',  borderColor: 'border-blue-200',  btnColor: 'bg-blue-400 hover:bg-blue-500' },
+      { id: 'growflower', action: 'growflower', emoji: '🌸', title: '種花朵遊戲',       description: '照顧自己就像種花一樣。點擊澆水，讓每朵花從種子慢慢開花，種滿花圃就完成了！', buttonLabel: '開始種花', bgColor: 'bg-rose-50',  borderColor: 'border-rose-200',  btnColor: 'bg-rose-400 hover:bg-rose-500' },
+    ];
+
+    // ========== 包子卡 / 情緒戳戳樂資料 ==========
+    const bunCards = [
+      { emoji: '🌸', message: '今天辛苦了，你已經做得很好了。' },
+      { emoji: '🌿', message: '先深呼吸，每一次吐氣都是放鬆的開始。' },
+      { emoji: '☀️', message: '壓力是一種訊號，不是弱點，可以用來提醒你對它的重視程度。' },
+      { emoji: '🍵', message: '給自己泡杯茶的時間，這也是專業能力。' },
+      { emoji: '🌈', message: '覺察到情緒，已是自我照顧的第一步。' },
+      { emoji: '💙', message: '你的善良和付出，都有它的價值。' },
+      { emoji: '🍀', message: '今天已經完成許多事。明天，我們繼續努力。' },
+      { emoji: '🌙', message: '讓自己休息，不是放棄，是為了繼續前行。' },
+    ];
+
+    const emotionPunch = [
+      { id: 1, emoji: '😤', name: '煩躁', message: '煩躁代表你在乎，先讓自己喘一口氣吧。' },
+      { id: 2, emoji: '😔', name: '失落', message: '失落的時候，溫柔對待自己比任何事都重要。' },
+      { id: 3, emoji: '😰', name: '焦慮', message: '焦慮是心在提醒你，不妨先停下來深呼吸。' },
+      { id: 4, emoji: '😪', name: '疲憊', message: '疲憊是真實的，你值得好好休息。' },
+      { id: 5, emoji: '😊', name: '平靜', message: '這份平靜是你努力來的，好好珍惜。' },
+      { id: 6, emoji: '😄', name: '開心', message: '今天的好心情，值得記錄下來！' },
+      { id: 7, emoji: '😢', name: '委屈', message: '委屈也是一種真實感受，你不需要假裝沒事。' },
+      { id: 8, emoji: '😌', name: '放鬆', message: '能放鬆是一種能力，享受這一刻。' },
+    ];
+
+    const catchResponses = [
+      { emoji: '🫂', title: '接住了',   accent: 'from-teal-400 to-emerald-500',  message: '你願意說出來，就已經很勇敢了。\n這份重，不用再一個人扛。有人在這裡，接住你了。', note: '說出口的那一刻，就輕了一點點。' },
+      { emoji: '🌊', title: '沖走了',   accent: 'from-sky-400 to-blue-500',      message: '就像海浪沖走沙灘上的痕跡，\n那些讓你壓著喘不過氣的，現在可以隨浪漂走了。', note: '你值得有人為你承接這一切。' },
+      { emoji: '🌸', title: '放下了',   accent: 'from-pink-400 to-rose-400',     message: '能把壓著心口的話說出來，\n本身就需要很大的力氣。你做到了，真的很好。', note: '你的感受，一直都是真實的。' },
+      { emoji: '🕊️', title: '飛走了',   accent: 'from-violet-400 to-purple-500', message: '讓它飛吧。\n那份重量不是你的錯，也不該由你一個人承擔。', note: '釋放，是另一種照顧自己的方式。' },
+      { emoji: '🌙', title: '卸下了',   accent: 'from-indigo-400 to-blue-500',   message: '你撐了很久。\n現在可以先放下來，哪怕只是這一刻，也讓自己輕一點。', note: '撐著，也需要勇氣。休息，更需要。' },
+      { emoji: '☀️', title: '過去了',   accent: 'from-amber-400 to-orange-400',  message: '不是每件事都要撐過去，\n有些重量，可以先放在這裡，讓陽光幫你曬一曬。', note: '你已經做得夠多了，今天先到這。' },
+      { emoji: '💙', title: '有人在',   accent: 'from-blue-400 to-sky-500',      message: '你不孤單。\n就算今天很難，也有人在旁邊，默默撐著你。', note: '被接住的感覺，你值得擁有。' },
+      { emoji: '🌈', title: '鬆一點了', accent: 'from-fuchsia-400 to-pink-400',  message: '壓力不會因為說出來就消失，\n但它會因為有人接住，而變得沒那麼重。', note: '每一次說出口，都是一點點的釋放。' },
+    ];
+
+    const resources = [
+      { source: '雞湯來了',      title: '30年間，SEL 從選修到必修',             description: '社會情緒學習一詞，隨著科技和社群媒體的演變，以及後疫情時代的種種需求而受到廣泛重視，從選修成為必修課題。', tag: '#SEL的核心概念', url: 'https://chickensoupfamily.com/2023/06/27/sel/',  image: './public/link-chickensoup.jpg.png' },
+      { source: '親子天下',      title: 'SEL 是什麼？社會情緒學習技巧、優點有哪些？', description: '社會情緒學習（SEL）對孩子有什麼幫助？在家這樣教，從生活中培養自我覺察與人際互動的能力。',                 tag: '#SEL的核心概念', url: 'https://site.parenting.com.tw/topic/SEL-927',    image: './public/link-parenting.jpg.png' },
+      { source: '教育家',        title: 'SEL 是什麼？4方法讓社會情緒學習融入課程',     description: '從課程設計到日常互動，教育工作者如何透過四大實踐方法，將社會情緒學習帶入教室與職場。',                   tag: '#SEL教學應用',    url: 'https://teachersblog.edu.tw/events/1956',         image: './public/link-educator.jpg.png' },
+      { source: 'SEL in Taiwan', title: '社會情緒學習 SEL in Taiwan',             description: '台灣 SEL 推廣社群，持續分享最新社會情緒學習資訊、活動消息與教育實踐資源。',                                 tag: '#SEL台灣社群',    url: 'https://www.facebook.com/SELinTaiwan/',           image: './public/link-sel-taiwan.jpg.png' },
+    ];
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // ========== 紓壓工具卡片 ==========
+    document.getElementById('toolGrid').innerHTML = tools.map(t => `
+      <div class="card-base border ${t.borderColor} ${t.bgColor} card-hover p-6 flex flex-col">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="text-3xl">${t.emoji}</div>
+          <div><h3 class="font-bold text-warm-text text-base mb-1">${esc(t.title)}</h3></div>
+        </div>
+        <p class="text-sub-text text-sm leading-relaxed mb-4 flex-1">${esc(t.description)}</p>
+        <button data-tool="${t.action}" class="tool-btn w-full text-white text-sm font-medium py-2.5 px-4 rounded-full ${t.btnColor} transition-all shadow-sm hover:shadow-md mt-auto">${esc(t.buttonLabel)}</button>
+      </div>
+    `).join('');
+
+    // ========== 好站連結卡片 ==========
+    document.getElementById('resourceGrid').innerHTML = resources.map(r => `
+      <div class="card-base overflow-hidden card-hover flex flex-col">
+        <div class="relative h-36 overflow-hidden">
+          <img src="${r.image}" alt="${esc(r.title)}" class="w-full h-full object-cover" />
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">${esc(r.source)}</span>
+        </div>
+        <div class="p-4 flex flex-col flex-1">
+          <h3 class="font-bold text-warm-text text-sm leading-snug mb-2 line-clamp-2">${esc(r.title)}</h3>
+          <p class="text-sub-text text-xs leading-relaxed mb-3 flex-1 line-clamp-3">${esc(r.description)}</p>
+          <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+            <span class="text-xs font-medium text-sub-text">${esc(r.tag)}</span>
+            <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-semibold text-muted-orange hover:text-orange-600 transition-colors">
+              閱讀全文
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // ========== Modal 系統 ==========
+    const modal = document.getElementById('toolModal');
+    const modalInner = document.getElementById('toolModalInner');
+    let activeTimer = null;
+
+    function openModal(html, widthClass = 'max-w-md') {
+      modalInner.className = `bg-white rounded-3xl shadow-2xl w-full ${widthClass}`;
+      modalInner.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+    function closeModal() {
+      modal.classList.add('hidden');
+      modalInner.innerHTML = '';
+      if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
+    }
+    // 點背景關閉
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+    // ========== Tool 路由 ==========
+    document.querySelectorAll('.tool-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tool = btn.getAttribute('data-tool');
+        if (tool === 'breathing')   openBreathing();
+        if (tool === 'emotion')     openEmotion();
+        if (tool === 'buncard')     openBunCard();
+        if (tool === 'throwstress') openThrowStress();
+        if (tool === 'bubblepop')   openBubblePop();
+        if (tool === 'growflower')  openGrowFlower();
+      });
+    });
+
+    // ========== 工具 1：呼吸練習 ==========
+    function openBreathing() {
+      const phases = [
+        { key: 'inhale', label: '吸氣', duration: 4, color: 'bg-sky-400',    scale: 1.25 },
+        { key: 'hold',   label: '停留', duration: 4, color: 'bg-amber-400',  scale: 1.25 },
+        { key: 'exhale', label: '吐氣', duration: 6, color: 'bg-green-400',  scale: 0.75 },
+      ];
+      let state = 'idle';
+      function render() {
+        let circle = '';
+        if (state === 'idle') {
+          circle = `<div class="w-28 h-28 rounded-full bg-sky-100 flex items-center justify-center"><span class="text-4xl">🫁</span></div>`;
+        } else if (state === 'done') {
+          circle = `<div class="w-28 h-28 rounded-full bg-green-100 flex flex-col items-center justify-center"><span class="text-4xl">🌿</span><span class="text-green-600 text-sm font-semibold mt-1">完成！</span></div>`;
+        } else if (typeof state === 'object') {
+          const p = state;
+          circle = `<div class="w-28 h-28 rounded-full ${p.color} flex flex-col items-center justify-center shadow-lg" style="transition: transform 1s ease-in-out; transform: scale(${p.scale});"><span class="text-white text-3xl font-black">${p.count}</span><span class="text-white/90 text-sm font-semibold">${p.label}</span></div>`;
+        }
+        const btn = state === 'idle'
+          ? `<button id="bStart" class="btn-primary flex-1">開始練習</button>`
+          : state === 'done'
+            ? `<button id="bRestart" class="btn-outline flex-1">再來一次</button>`
+            : `<button id="bStop" class="btn-outline flex-1">停止</button>`;
+        openModal(`
+          <div class="p-8 text-center">
+            <h3 class="font-bold text-warm-text text-xl mb-2">1分鐘呼吸調節</h3>
+            <p class="text-sub-text text-sm mb-6">3 個循環：4秒吸氣 → 4秒停留 → 6秒吐氣</p>
+            <div class="flex items-center justify-center mb-8 h-36">${circle}</div>
+            <div class="flex gap-3">
+              ${btn}
+              <button id="bClose" class="flex-1 py-2.5 px-6 rounded-full border border-gray-200 text-sub-text hover:bg-gray-50 text-sm font-medium">關閉</button>
+            </div>
+          </div>
+        `, 'max-w-sm');
+        document.getElementById('bClose').onclick = closeModal;
+        if (state === 'idle')        document.getElementById('bStart').onclick   = start;
+        if (state === 'done')        document.getElementById('bRestart').onclick = () => { state = 'idle'; render(); };
+        if (typeof state === 'object') document.getElementById('bStop').onclick  = stop;
+      }
+      function start() {
+        let phaseIdx = 0, cycles = 0, cnt = 0;
+        state = { ...phases[0], count: phases[0].duration };
+        render();
+        activeTimer = setInterval(() => {
+          cnt++;
+          const cur = phases[phaseIdx];
+          if (cnt >= cur.duration) {
+            cnt = 0;
+            phaseIdx = (phaseIdx + 1) % phases.length;
+            if (phaseIdx === 0) cycles++;
+            if (cycles >= 3) { clearInterval(activeTimer); state = 'done'; render(); return; }
+            state = { ...phases[phaseIdx], count: phases[phaseIdx].duration };
+          } else {
+            state = { ...phases[phaseIdx], count: cur.duration - cnt };
+          }
+          render();
+        }, 1000);
+      }
+      function stop() {
+        if (activeTimer) clearInterval(activeTimer);
+        state = 'idle'; render();
+      }
+      render();
+    }
+
+    // ========== 工具 2：情緒戳戳樂 ==========
+    function openEmotion() {
+      let selected = null;
+      function render() {
+        let body;
+        if (selected) {
+          body = `
+            <div class="text-center py-4">
+              <div class="text-6xl mb-3">${selected.emoji}</div>
+              <div class="font-bold text-warm-text text-lg mb-3">${esc(selected.name)}</div>
+              <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-4">
+                <p class="text-warm-text text-sm leading-relaxed">${esc(selected.message)}</p>
+              </div>
+              <div class="flex gap-2">
+                <button id="eReset" class="btn-outline flex-1 text-sm">換一個</button>
+                <button id="eClose" class="btn-primary flex-1 text-sm">好的，謝謝</button>
+              </div>
+            </div>
+          `;
+        } else {
+          const grid = emotionPunch.map(e => `
+            <button data-eid="${e.id}" class="emo-pick flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-amber-50 transition-colors">
+              <span class="text-2xl">${e.emoji}</span>
+              <span class="text-xs text-sub-text">${esc(e.name)}</span>
+            </button>
+          `).join('');
+          body = `
+            <div class="grid grid-cols-4 gap-2 mb-4">${grid}</div>
+            <button id="eClose" class="w-full py-2 rounded-full border border-gray-200 text-sub-text text-sm hover:bg-gray-50">關閉</button>
+          `;
+        }
+        openModal(`
+          <div class="p-6">
+            <h3 class="font-bold text-warm-text text-xl mb-1 text-center">今天的情緒戳戳樂</h3>
+            <p class="text-sub-text text-sm mb-4 text-center">點選現在最接近你的心情</p>
+            ${body}
+          </div>
+        `, 'max-w-sm');
+        document.getElementById('eClose').onclick = closeModal;
+        if (selected) document.getElementById('eReset').onclick = () => { selected = null; render(); };
+        document.querySelectorAll('.emo-pick').forEach(b => {
+          b.onclick = () => {
+            const id = parseInt(b.getAttribute('data-eid'), 10);
+            selected = emotionPunch.find(e => e.id === id);
+            render();
+          };
+        });
+      }
+      render();
+    }
+
+    // ========== 工具 3：包子翻翻卡 ==========
+    function openBunCard() {
+      let flipped = null;
+      function render() {
+        const center = flipped
+          ? `<div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 w-full">
+               <div class="text-5xl mb-3">${flipped.emoji}</div>
+               <p class="text-warm-text text-sm leading-relaxed font-medium">${esc(flipped.message)}</p>
+             </div>`
+          : `<div class="w-28 h-28 bg-gradient-to-br from-amber-200 to-orange-300 rounded-2xl flex items-center justify-center shadow-md"><span class="text-5xl">?</span></div>`;
+        openModal(`
+          <div class="p-8 text-center">
+            <h3 class="font-bold text-warm-text text-xl mb-2">包子舒壓翻翻卡</h3>
+            <p class="text-sub-text text-sm mb-6">點「翻開」取得今天屬於你的療癒卡片</p>
+            <div class="h-36 flex items-center justify-center mb-6">${center}</div>
+            <div class="flex gap-3">
+              <button id="bcPick" class="btn-primary flex-1">${flipped ? '再翻一張' : '翻開'}</button>
+              <button id="bcClose" class="flex-1 py-2.5 px-4 rounded-full border border-gray-200 text-sub-text hover:bg-gray-50 text-sm font-medium">關閉</button>
+            </div>
+          </div>
+        `, 'max-w-sm');
+        document.getElementById('bcClose').onclick = closeModal;
+        document.getElementById('bcPick').onclick = () => {
+          flipped = bunCards[Math.floor(Math.random() * bunCards.length)];
+          render();
+        };
+      }
+      render();
+    }
+
+    // ========== 工具 4：把壓力丟出去（精簡 3 階段：寫 → 揉 → 安慰） ==========
+    function openThrowStress() {
+      let phase = 'input', text = '', response = null, count = 0;
+      function render() {
+        let body;
+        if (phase === 'input') {
+          body = `
+            <div class="px-6 py-6">
+              <p class="text-gray-500 text-sm leading-relaxed mb-4">把那個<span class="text-orange-500 font-semibold">讓你悶著的事</span>寫下來，等等揉成紙團丟進垃圾桶。</p>
+              <div class="rounded-xl overflow-hidden border border-amber-100 mb-5" style="background:#fffbeb; background-image: repeating-linear-gradient(transparent, transparent 27px, rgba(251,191,36,0.25) 27px, rgba(251,191,36,0.25) 28px);">
+                <textarea id="tsText" rows="5" maxlength="120" placeholder="今天讓我最累的是……" class="w-full bg-transparent border-none p-4 text-sm text-gray-700 resize-none outline-none" style="line-height:28px; font-family:inherit;">${esc(text)}</textarea>
+              </div>
+              <button id="tsStart" class="w-full py-3.5 rounded-2xl text-sm font-bold transition-all duration-200 bg-gradient-to-r from-orange-400 to-rose-500 text-white shadow-lg shadow-orange-200 hover:-translate-y-0.5">✊ 揉成紙團 → 丟掉</button>
+              <button id="tsClose" class="w-full mt-3 py-2.5 text-sm text-gray-400 hover:text-gray-600 transition-colors font-medium">先不用，關閉</button>
+            </div>
+          `;
+        } else if (phase === 'crumple') {
+          body = `
+            <div class="px-6 py-6 relative h-56 flex items-center justify-center">
+              <div style="width:200px; height:110px; padding: 0.75rem 1rem; background:#fffbeb; background-image: repeating-linear-gradient(transparent, transparent 13px, rgba(251,191,36,0.3) 13px, rgba(251,191,36,0.3) 14px); animation: paperCrumple 1.1s cubic-bezier(0.5,0,0.7,1) forwards; transform-origin:center; border-radius:12px; box-shadow: 0 10px 24px rgba(180,80,30,0.18);">
+                <p class="text-xs text-gray-700 leading-tight" style="max-height:84px; overflow:hidden;">${esc(text)}</p>
+              </div>
+              <p class="absolute bottom-2 left-0 right-0 text-center text-orange-500/80 text-xs font-semibold">✦ 揉它揉它揉它 ✦</p>
+            </div>
+          `;
+        } else if (phase === 'throw') {
+          body = `
+            <div class="px-6 py-6 relative h-56">
+              <div class="absolute right-6 bottom-6 text-5xl">🗑️</div>
+              <div class="absolute" style="width:46px; height:46px; top:38%; left:50%; animation: paperToss 1.1s cubic-bezier(0.4,0,0.2,1) forwards;">
+                <div style="width:100%; height:100%; background: radial-gradient(circle at 30% 30%, #fffbeb 0%, #fde68a 55%, #c08a3e 100%); border-radius: 52% 48% 55% 45% / 50% 55% 45% 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></div>
+              </div>
+              <p class="absolute top-1 left-0 right-0 text-center text-orange-500 text-xs font-semibold tracking-wide">✦ 咻── 飛進去！ ✦</p>
+            </div>
+          `;
+        } else if (phase === 'hug' && response) {
+          const lines = response.message.split('\n').map((l, i) => `<p class="text-sm leading-relaxed font-medium text-warm-text ${i > 0 ? 'mt-1.5' : ''}">${esc(l)}</p>`).join('');
+
+          // 5 顆漂浮愛心 / 星星
+          const hearts = [
+            { x: '18%', b: '20%', d: '0.3s', e: '💗' },
+            { x: '78%', b: '15%', d: '0.6s', e: '✨' },
+            { x: '50%', b: '8%',  d: '0.9s', e: '💕' },
+            { x: '28%', b: '60%', d: '1.2s', e: '🌸' },
+            { x: '72%', b: '55%', d: '1.5s', e: '✨' },
+          ].map(h => `<div class="absolute text-xl pointer-events-none" style="left:${h.x}; bottom:${h.b}; animation: tsHeart 2.5s ease-out ${h.d} infinite;">${h.e}</div>`).join('');
+
+          body = `
+            <div class="px-6 py-6" style="animation: tsPop 0.55s cubic-bezier(0.34,1.56,0.64,1) both;">
+
+              <!-- 3D 擁抱舞台 -->
+              <div class="relative h-48 mb-4 rounded-2xl overflow-hidden"
+                   style="background: radial-gradient(ellipse at center, #fff7ed 0%, #fed7aa 55%, #fbcfe8 100%); perspective: 700px; transform-style: preserve-3d; box-shadow: inset 0 2px 12px rgba(251,146,60,0.18);">
+
+                <!-- 暖光呼吸圓 -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full"
+                     style="background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, transparent 70%); animation: tsGlow 2.5s ease-in-out infinite;"></div>
+
+                <!-- 漂浮愛心 / 星星 -->
+                ${hearts}
+
+                <!-- 中央被抱的人 -->
+                <div class="absolute top-1/2 left-1/2 z-10"
+                     style="animation: tsHuggedIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.7s both; transform: translate(-50%, -50%);">
+                  <div class="text-5xl">😌</div>
+                </div>
+
+                <!-- 左手 -->
+                <div class="absolute top-1/2 left-1/2"
+                     style="font-size: 60px; margin-top: -30px; margin-left: -30px; animation: tsLeftHand 1.3s cubic-bezier(0.34,1.56,0.64,1) 0.1s both; filter: drop-shadow(3px 5px 8px rgba(190,90,40,0.35)); transform-origin: center;">
+                  🫱
+                </div>
+
+                <!-- 右手 -->
+                <div class="absolute top-1/2 left-1/2"
+                     style="font-size: 60px; margin-top: -30px; margin-left: -30px; animation: tsRightHand 1.3s cubic-bezier(0.34,1.56,0.64,1) 0.1s both; filter: drop-shadow(-3px 5px 8px rgba(190,90,40,0.35)); transform-origin: center;">
+                  🫲
+                </div>
+              </div>
+
+              <!-- 安慰訊息卡 -->
+              <div class="bg-amber-50 border border-amber-100 rounded-2xl p-5 mb-4">
+                ${lines}
+              </div>
+
+              <!-- 計數列 -->
+              <div class="flex items-center justify-center gap-1.5 mb-4">
+                <div class="h-px flex-1 bg-gray-100"></div>
+                <span class="text-gray-400 text-xs font-medium px-1">已丟出 ${count} 個重量</span>
+                <div class="h-px flex-1 bg-gray-100"></div>
+              </div>
+
+              <!-- 按鈕組 -->
+              <div class="flex gap-2.5">
+                <button id="tsAgain" class="flex-1 py-3 rounded-xl border-2 border-gray-100 text-gray-500 hover:bg-gray-50 text-sm font-semibold">再丟一個 💨</button>
+                <button id="tsDone"  class="flex-1 py-3 rounded-xl text-white text-sm font-bold shadow-lg bg-gradient-to-r ${response.accent}">好多了 🌿</button>
+              </div>
+            </div>
+          `;
+        }
+
+        const banner = `
+          <div class="px-7 pt-7 pb-5 text-white text-center bg-gradient-to-br ${phase === 'hug' && response ? response.accent : 'from-amber-400 via-orange-400 to-rose-400'}" style="transition: background 0.8s ease;">
+            <div class="inline-flex w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm items-center justify-center text-3xl mb-2">
+              ${phase === 'input' ? '✍️' : phase === 'crumple' ? '🤏' : phase === 'throw' ? '🗑️' : (response?.emoji ?? '🫂')}
+            </div>
+            <h3 class="font-black text-xl tracking-tight">${phase === 'input' ? '把壓力寫下來' : phase === 'crumple' ? '揉成紙團…' : phase === 'throw' ? '丟掉它！' : (response?.title ?? '有人抱住你了')}</h3>
+            <p class="text-white/80 text-xs mt-1.5 font-medium">${phase === 'input' ? '寫在紙上 → 揉成團 → 丟進垃圾桶' : phase === 'crumple' ? '把那份重量揉爛、揉碎' : phase === 'throw' ? '咻──進垃圾桶吧！' : (response?.note ?? '你不是一個人扛著它')}</p>
+          </div>
+        `;
+        openModal(banner + body, 'max-w-sm');
+
+        if (phase === 'input') {
+          document.getElementById('tsClose').onclick = closeModal;
+          document.getElementById('tsStart').onclick = () => {
+            const v = document.getElementById('tsText').value.trim();
+            if (!v) return;
+            text = v;
+            response = catchResponses[Math.floor(Math.random() * catchResponses.length)];
+            count++;
+            phase = 'crumple'; render();
+            setTimeout(() => { phase = 'throw'; render(); }, 1100);
+            setTimeout(() => { phase = 'hug'; render(); }, 2400);
+          };
+          document.getElementById('tsText').addEventListener('input', e => { text = e.target.value; });
+        }
+        if (phase === 'hug') {
+          document.getElementById('tsAgain').onclick = () => { text = ''; phase = 'input'; render(); };
+          document.getElementById('tsDone').onclick = closeModal;
+        }
+      }
+      render();
+    }
+
+    // ========== 工具 5：戳氣泡 ==========
+    function openBubblePop() {
+      const DEFAULTS = ['焦慮', '煩躁', '疲憊', '壓力', '緊張', '委屈', '不安', '煩悶', '擔心'];
+      const COLORS = ['bg-sky-200','bg-pink-200','bg-violet-200','bg-amber-200','bg-teal-200','bg-rose-200','bg-purple-200','bg-green-200','bg-orange-200','bg-blue-200'];
+      const SIZES  = ['w-16 h-16','w-20 h-20','w-24 h-24'];
+      const MAX = 15;
+      let phase = 'input', inputText = DEFAULTS.join('\n'), bubbles = [];
+
+      function parsed() { return inputText.split('\n').map(s => s.trim()).filter(Boolean); }
+
+      function render() {
+        let body;
+        if (phase === 'input') {
+          const words = parsed();
+          body = `
+            <p class="text-sub-text text-sm mb-4 text-center">寫下想戳破的壓力詞或事情，<span class="text-blue-500 font-medium">一行一個</span></p>
+            <div class="relative mb-3">
+              <textarea id="bpText" rows="7" class="w-full bg-blue-50/40 border-2 border-blue-100 focus:border-blue-300 rounded-2xl p-4 text-sm text-gray-700 resize-none outline-none transition-colors leading-relaxed placeholder:text-gray-300" placeholder="例如：&#10;報告寫不完&#10;客訴電話&#10;睡眠不足">${esc(inputText)}</textarea>
+              <span class="absolute bottom-3 right-4 text-xs text-gray-400 bg-white/70 px-2 py-0.5 rounded-full">${words.length} / ${MAX} 顆</span>
+            </div>
+            <div class="flex items-center justify-between mb-4 text-xs">
+              <button id="bpDef" class="text-blue-500 hover:text-blue-600 font-medium">✨ 填入預設詞彙</button>
+              <button id="bpClr" class="text-gray-400 hover:text-gray-600 font-medium">清空</button>
+            </div>
+            ${words.length > MAX ? `<p class="text-xs text-amber-600 mb-3 text-center">超過 ${MAX} 個，只會取前 ${MAX} 個變成氣泡</p>` : ''}
+            <div class="flex gap-3">
+              <button id="bpClose" class="flex-1 py-2.5 px-4 rounded-full border border-gray-200 text-sub-text hover:bg-gray-50 text-sm font-medium">關閉</button>
+              <button id="bpStart" class="flex-1 py-2.5 px-4 rounded-full text-white text-sm font-semibold transition-all ${words.length === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-blue-400 to-sky-500 shadow-md hover:-translate-y-0.5'}" ${words.length === 0 ? 'disabled' : ''}>${words.length === 0 ? '先寫點什麼' : '開始戳氣泡 →'}</button>
+            </div>
+          `;
+        } else if (phase === 'play') {
+          const remaining = bubbles.filter(b => !b.popped).length;
+          const balls = bubbles.filter(b => !b.popped).map(b => `
+            <button data-bid="${b.id}" class="bubble ${b.size} ${b.color} rounded-full flex items-center justify-center font-bold text-gray-700 shadow-md cursor-pointer transition-all duration-300 px-2" style="animation: bubbleFloat 1.8s ease-in-out infinite; animation-delay: ${b.delay};">
+              <span class="text-center leading-tight break-all" style="font-size: ${b.word.length > 5 ? '11px' : b.word.length > 3 ? '13px' : '15px'};">${esc(b.word)}</span>
+            </button>
+          `).join('');
+          body = `
+            <p class="text-sub-text text-sm mb-2 text-center">點擊氣泡，把壓力一顆一顆戳破！</p>
+            <div class="flex justify-center mb-4 text-xs text-gray-400">剩 ${remaining} / ${bubbles.length}</div>
+            <div class="flex flex-wrap gap-3 justify-center items-center min-h-48">${balls}</div>
+            <button id="bpBack" class="w-full mt-4 py-2 text-xs text-gray-400 hover:text-gray-600 font-medium">← 重新編輯氣泡內容</button>
+          `;
+        } else if (phase === 'done') {
+          body = `
+            <div class="text-center py-4">
+              <div class="text-6xl mb-4">🎉</div>
+              <p class="text-warm-text font-bold text-lg mb-1">你把所有壓力都戳破了！</p>
+              <p class="text-sub-text text-sm mb-6">輕多了吧？</p>
+              <div class="flex gap-3">
+                <button id="bpBack" class="btn-outline flex-1">再來一輪</button>
+                <button id="bpClose" class="btn-primary flex-1">關閉</button>
+              </div>
+            </div>
+          `;
+        }
+
+        openModal(`<div class="p-7"><h3 class="font-bold text-warm-text text-xl mb-2 text-center">戳氣泡紓壓</h3>${body}</div>`, 'max-w-md');
+
+        if (phase === 'input') {
+          document.getElementById('bpText').addEventListener('input', e => { inputText = e.target.value; render(); });
+          document.getElementById('bpDef').onclick = () => { inputText = DEFAULTS.join('\n'); render(); };
+          document.getElementById('bpClr').onclick = () => { inputText = ''; render(); };
+          document.getElementById('bpClose').onclick = closeModal;
+          const startBtn = document.getElementById('bpStart');
+          startBtn.onclick = () => {
+            const words = parsed().slice(0, MAX);
+            if (words.length === 0) return;
+            bubbles = words.map((word, i) => ({
+              id: i + 1,
+              word,
+              color: COLORS[Math.floor(Math.random() * COLORS.length)],
+              size:  SIZES[Math.floor(Math.random() * SIZES.length)],
+              delay: (Math.random() * 1.2).toFixed(2) + 's',
+              popped: false,
+            }));
+            phase = 'play'; render();
+          };
+        }
+        if (phase === 'play') {
+          document.querySelectorAll('.bubble').forEach(b => {
+            b.onclick = () => {
+              const id = parseInt(b.getAttribute('data-bid'), 10);
+              b.style.transition = 'transform 0.25s, opacity 0.25s';
+              b.style.transform = 'scale(0)';
+              b.style.opacity = '0';
+              setTimeout(() => {
+                const t = bubbles.find(x => x.id === id);
+                if (t) t.popped = true;
+                if (bubbles.every(x => x.popped)) { phase = 'done'; render(); }
+                else render();
+              }, 280);
+            };
+          });
+          document.getElementById('bpBack').onclick = () => { bubbles = []; phase = 'input'; render(); };
+        }
+        if (phase === 'done') {
+          document.getElementById('bpBack').onclick = () => { bubbles = []; phase = 'input'; render(); };
+          document.getElementById('bpClose').onclick = closeModal;
+        }
+      }
+      render();
+    }
+
+    // ========== 工具 6：種花朵遊戲 ==========
+    function openGrowFlower() {
+      const FLOWER_TYPES = ['🌷','🌸','🌻','🌺','🌼'];
+      const NEAR_RADIUS = 28;
+      const MAX_STAGE = 2;
+      const MAX_PLANTS = 40;
+      let plants = [], idCounter = 0;
+      let justChangedId = null; // 剛被點到（種下或灌溉）的那一棵，只有它跑動畫
+
+      function emojiFor(p) {
+        if (p.stage === 0) return '🌱';
+        if (p.stage === 1) return '🌿';
+        return p.flower;
+      }
+
+      function render() {
+        const bloomed = plants.filter(p => p.stage === MAX_STAGE).length;
+        const growing = plants.length - bloomed;
+
+        const plantsHTML = plants.map(p => {
+          // 只有「剛被點到的那一棵」會跑動畫；盛開用 bloom，其他用 pop
+          const anim = (p.id === justChangedId)
+            ? (p.stage === MAX_STAGE
+                ? 'animation: flowerBloom 0.5s cubic-bezier(0.34,1.56,0.64,1);'
+                : 'animation: flowerPop 0.35s ease-out;')
+            : '';
+          const fontSize = p.stage === 2 ? '32px' : p.stage === 1 ? '26px' : '20px';
+          return `<div class="absolute pointer-events-none" style="left:${p.x}px; top:${p.y}px; transform: translate(-50%, -50%); font-size: ${fontSize}; ${anim} filter: drop-shadow(0 2px 3px rgba(0,0,0,0.18)); line-height:1;">${emojiFor(p)}</div>`;
+        }).join('');
+
+        const startHint = plants.length === 0
+          ? `<div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div class="text-center"><div class="text-3xl mb-1">👆</div><p class="text-green-800/70 font-semibold text-sm">點草皮任意位置開始種花</p></div></div>`
+          : '';
+
+        openModal(`
+          <div class="p-6">
+            <h3 class="font-bold text-warm-text text-xl mb-1 text-center">種花朵遊戲</h3>
+            <p class="text-sub-text text-xs sm:text-sm mb-4 text-center">點草皮種花 → 點同一處灌溉 → <span class="text-rose-500 font-semibold">三下</span>就會盛開</p>
+            <div id="gfGarden" class="relative h-72 rounded-2xl overflow-hidden cursor-pointer mb-4 select-none" style="background: linear-gradient(180deg, #d6f5dd 0%, #a8e6b8 60%, #7dd396 100%); box-shadow: inset 0 2px 12px rgba(0,80,30,0.12);">
+              ${plantsHTML}
+              ${startHint}
+            </div>
+            <div class="flex items-center justify-between bg-green-50 border border-green-100 rounded-2xl px-4 py-2.5 mb-4 text-xs sm:text-sm">
+              <div class="flex items-center gap-3 text-green-700">
+                <span>🌱 <strong>${growing}</strong> 棵成長中</span>
+                <span class="text-green-300">|</span>
+                <span>🌸 <strong>${bloomed}</strong> 朵盛開</span>
+              </div>
+              ${plants.length > 0 ? `<button id="gfReset" class="text-rose-500 hover:text-rose-600 font-medium">重置</button>` : ''}
+            </div>
+            <div class="flex items-center justify-center gap-2 mb-4 text-xs text-gray-500">
+              <span>會盛開的花朵：</span>
+              ${FLOWER_TYPES.map(f => `<span class="text-lg">${f}</span>`).join('')}
+            </div>
+            <button id="gfClose" class="w-full py-2.5 px-6 rounded-full border border-gray-200 text-sub-text hover:bg-gray-50 text-sm font-medium">關閉</button>
+          </div>
+        `, 'max-w-md');
+
+        document.getElementById('gfClose').onclick = closeModal;
+        if (plants.length > 0) document.getElementById('gfReset').onclick = () => { plants = []; justChangedId = null; render(); };
+        document.getElementById('gfGarden').onclick = (e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          // 找最近且尚未盛開的
+          let nearestIdx = -1, minDist = Infinity;
+          plants.forEach((p, i) => {
+            if (p.stage >= MAX_STAGE) return;
+            const d = Math.hypot(p.x - x, p.y - y);
+            if (d < NEAR_RADIUS && d < minDist) { minDist = d; nearestIdx = i; }
+          });
+
+          if (nearestIdx >= 0) {
+            plants[nearestIdx].stage = Math.min(plants[nearestIdx].stage + 1, MAX_STAGE);
+            justChangedId = plants[nearestIdx].id;
+          } else if (plants.length < MAX_PLANTS) {
+            idCounter++;
+            plants.push({ id: idCounter, x, y, stage: 0, flower: FLOWER_TYPES[Math.floor(Math.random() * FLOWER_TYPES.length)] });
+            justChangedId = idCounter;
+          }
+          render();
+        };
+      }
+      render();
+    }
+  </script>
+</body>
+</html>

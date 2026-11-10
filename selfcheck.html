@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>今日自我檢測｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0;
+      color: #3D3D3D;
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-primary:hover { background-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .section-title { font-size: 1.5rem; font-weight: 700; color: #3D3D3D; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ───── 翻牌效果（對應原 index.css 的 .flip-card） ───── */
+    .flip-card { perspective: 1000px; }
+    .flip-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+      will-change: transform;
+    }
+    .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-card-back { transform: rotateY(180deg); }
+
+    /* 已選取狀態 */
+    .bun-card-selected {
+      box-shadow: 0 0 0 3px #F4A261, 0 8px 32px rgba(244,162,97,0.25);
+    }
+
+    /* ───── 吸睛 CTA 按鈕 ───── */
+    .cta-glow-btn {
+      position: relative; overflow: hidden;
+      width: 100%;
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 22px;
+      border-radius: 18px;
+      background: var(--cta-grad);
+      color: #ffffff; border: none; cursor: pointer;
+      box-shadow: 0 10px 24px -8px var(--cta-ring), 0 4px 10px -4px var(--cta-ring);
+      transform: translateY(0);
+      transition: transform 0.2s ease, box-shadow 0.25s ease;
+      animation: ctaPulse 2.6s ease-in-out infinite;
+      text-align: left;
+      font-family: inherit;
+    }
+    .cta-glow-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px -8px var(--cta-ring), 0 6px 14px -4px var(--cta-ring);
+      animation-play-state: paused;
+    }
+    .cta-glow-btn:active { transform: translateY(0) scale(0.985); }
+
+    .cta-emoji {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      font-size: 22px;
+    }
+    .cta-text {
+      display: flex; flex-direction: column; align-items: flex-start;
+      flex: 1; min-width: 0;
+    }
+    .cta-label { font-size: 17px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.3; }
+    .cta-sub { font-size: 12.5px; opacity: 0.92; margin-top: 2px; line-height: 1.4; text-align: left; }
+    .cta-arrow {
+      flex-shrink: 0; width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .cta-glow-btn:hover .cta-arrow {
+      transform: translateX(4px);
+      background: rgba(255,255,255,0.32);
+    }
+    .cta-shine {
+      position: absolute; top: 0; left: -60%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+      transform: skewX(-20deg);
+      animation: ctaShine 3.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 10px 24px -8px var(--cta-ring), 0 4px 10px -4px var(--cta-ring); }
+      50%      { box-shadow: 0 14px 32px -8px var(--cta-ring), 0 6px 14px -4px var(--cta-ring); }
+    }
+    @keyframes ctaShine {
+      0%   { left: -60%; }
+      60%  { left: 120%; }
+      100% { left: 120%; }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen">
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">
+            SEL<span class="text-muted-orange">學習小棧</span>
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+
+      <!-- 頁面標題 -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-600 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          🌡️ 今日自我檢測
+        </div>
+        <h1 class="section-title">今天的你，還好嗎？</h1>
+        <p class="text-sub-text max-w-xl mx-auto leading-relaxed">
+          在照顧病人、協助家屬、面對工作節奏與責任的同時，
+          也給自己一點時間，停下來看看現在的狀態。
+          請從下方的「今日壓力指數」中，選出最符合你此刻心情的一顆包子。
+        </p>
+      </div>
+
+      <!-- 壓力包子卡片網格 -->
+      <div class="mb-8">
+        <h2 class="text-lg font-bold text-warm-text text-center mb-6 flex items-center justify-center gap-2">
+          <span>🥟</span>
+          <span>今日壓力指數</span>
+        </h2>
+        <div id="bunGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4"></div>
+      </div>
+
+      <!-- 結果區（一開始隱藏） -->
+      <div id="result-section" class="mt-6 hidden"></div>
+
+      <!-- 免責聲明 -->
+      <div class="mt-10 text-center">
+        <p class="text-sub-text text-xs">
+          此檢測僅供自我參考，無法取代專業心理評估。若長期感到壓力，建議尋求專業協助。
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p class="text-sub-text text-sm">© 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台</p>
+      <p class="text-sub-text text-xs mt-1">照顧別人的同時，也別忘了照顧自己 🌸</p>
+    </div>
+  </footer>
+
+  <!-- ==================== 互動邏輯 ==================== -->
+  <script>
+    // ========== 漢堡選單 ==========
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1');
+    const mb2 = document.getElementById('mb2');
+    const mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen);
+      mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen);
+      mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // ========== 壓力包子資料（對應 src/data.js 的 stressLevelData） ==========
+    const stressLevelData = [
+      {
+        id: 5, score: 5, name: '今天很輕鬆', englishName: '1分', emoji: '😄', image: './public/bun-5.png',
+        bgColor: 'bg-green-50', borderColor: 'border-green-200', selectedBg: 'bg-green-100', tagColor: 'text-green-600', accentRgb: '22,163,74',
+        description: '我今天的狀態不錯，心情相對輕鬆，也比較有餘裕。',
+        result: {
+          title: '你今天有不錯的能量與穩定感，這很珍貴。',
+          content: '建議把這份好的狀態記錄下來，想想今天有哪些事幫助你維持平衡。\n\n未來在壓力來時，這些都會成為你照顧自己的方法。',
+          tip: '記錄今天的平衡方式',
+        },
+      },
+      {
+        id: 4, score: 4, name: '還可以應付', englishName: '2分', emoji: '😊', image: './public/bun-4.png',
+        bgColor: 'bg-teal-50', borderColor: 'border-teal-200', selectedBg: 'bg-teal-100', tagColor: 'text-teal-600', accentRgb: '13,148,136',
+        description: '我目前情緒還算穩定，雖然有壓力，但還可以調整與面對。',
+        result: {
+          title: '你目前有一定的調節能力，狀態也相對平衡。',
+          content: '建議持續維持生活節奏，例如固定休息、簡短運動、設定工作界線，這些都能幫助你保持穩定。\n\n照顧自己，不一定要等到很累才開始。',
+          tip: '持續維持好狀態',
+        },
+      },
+      {
+        id: 3, score: 3, name: '事情卡太多', englishName: '3分', emoji: '😐', image: './public/bun-3.png',
+        bgColor: 'bg-yellow-50', borderColor: 'border-yellow-200', selectedBg: 'bg-yellow-100', tagColor: 'text-yellow-600', accentRgb: '202,138,4',
+        description: '我沒有特別強烈的情緒，但有一種說不上來的卡住感。',
+        result: {
+          title: '你現在可能不是情緒爆發，而是有些麻、悶、卡住。',
+          content: '建議試著問問自己：「我現在最需要的是什麼？」\n\n可能是喘口氣、可能是有人理解、也可能只是暫停一下。\n\n先理解自己，才能慢慢找回流動感。',
+          tip: '先問問自己需要什麼',
+        },
+      },
+      {
+        id: 2, score: 2, name: '忙到想逃避', englishName: '4分', emoji: '😔', image: './public/bun-2.png',
+        bgColor: 'bg-orange-50', borderColor: 'border-orange-200', selectedBg: 'bg-orange-100', tagColor: 'text-orange-600', accentRgb: '249,115,22',
+        description: '我有點累，也可能有點失落、悶悶的，提不起勁。',
+        result: {
+          title: '你可能累了很久，只是還沒真正停下來。',
+          content: '建議今天幫自己安排一個短暫的恢復時段，哪怕只是安靜坐一下、伸展一下、慢慢喝一杯飲品，都會有幫助。\n\n疲憊不是脆弱，而是身體在提醒你該補充能量了。',
+          tip: '給自己補充能量',
+        },
+      },
+      {
+        id: 1, score: 1, name: '壓力大爆炸', englishName: '5分', emoji: '😤', image: './public/bun-1.png',
+        bgColor: 'bg-red-50', borderColor: 'border-red-200', selectedBg: 'bg-red-100', tagColor: 'text-red-600', accentRgb: '239,68,68',
+        description: '我現在的情緒比較滿，可能有煩躁、急迫、委屈或快要爆炸的感覺。',
+        result: {
+          title: '你現在可能正處於高壓或情緒過載的狀態。',
+          content: '建議先不要急著逼自己整理好所有事情，先做一件最小的照顧行動，例如：喝水、深呼吸、離開座位一分鐘、閉眼休息 30 秒。\n\n你需要的不是更努力，而是先讓自己穩下來。',
+          tip: '先穩住自己',
+        },
+      },
+    ];
+
+    // ========== CTA 設定（對應原 ctaConfig） ==========
+    const ctaConfig = {
+      1: { type: 'stress-relief', label: '前往紓壓', sub: '為自己安排一個喘息的小段落', emoji: '🌿', grad: 'linear-gradient(135deg, #FF8A6F 0%, #F25C54 100%)', ring: 'rgba(242, 92, 84, 0.4)' },
+      2: { type: 'stress-relief', label: '前往紓壓', sub: '給自己一個短短的恢復時段',     emoji: '🍵', grad: 'linear-gradient(135deg, #FFB36A 0%, #F4A261 100%)', ring: 'rgba(244, 162, 97, 0.4)' },
+      3: { type: 'stress-relief', label: '前往紓壓', sub: '先讓自己喘口氣、找回流動感',   emoji: '💛', grad: 'linear-gradient(135deg, #FFD66E 0%, #F2B544 100%)', ring: 'rgba(242, 181, 68, 0.4)' },
+      4: { type: 'self-support',  label: '持續自我支持', sub: '把好狀態變成日常的習慣',   emoji: '💚', grad: 'linear-gradient(135deg, #5BC9B0 0%, #2DA890 100%)', ring: 'rgba(45, 168, 144, 0.4)' },
+      5: { type: 'self-support',  label: '持續自我支持', sub: '記下今天的方法，未來用得到', emoji: '🌟', grad: 'linear-gradient(135deg, #7BD389 0%, #4FAE5E 100%)', ring: 'rgba(79, 174, 94, 0.4)' },
+    };
+
+    // ========== 工具 ==========
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    let selected = null;
+
+    // ========== 渲染包子卡片 ==========
+    function renderBuns() {
+      document.getElementById('bunGrid').innerHTML = stressLevelData.map(bun => {
+        const isSelected = selected?.id === bun.id;
+        const checkmark = isSelected
+          ? `<div class="absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center shadow-sm" style="background: rgb(${bun.accentRgb});">
+               <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+               </svg>
+             </div>`
+          : '';
+
+        const frontBg = isSelected
+          ? `${bun.selectedBg} ${bun.borderColor} bun-card-selected`
+          : 'bg-white border-gray-100 shadow-sm';
+
+        return `
+          <div class="flip-card w-full cursor-pointer" style="height: 210px;" data-bid="${bun.id}">
+            <div class="flip-card-inner">
+              <div class="flip-card-front rounded-2xl border-2 flex flex-col items-center justify-center gap-3 p-4 ${frontBg}">
+                ${checkmark}
+                <div class="w-20 h-20 bg-white rounded-xl flex items-center justify-center">
+                  <img src="${bun.image}" alt="${esc(bun.name)}" class="h-20 w-20 object-contain" style="mix-blend-mode: multiply;" onerror="this.outerHTML='<span class=\\'text-5xl\\'>${bun.emoji}</span>'" />
+                </div>
+                <div class="text-center">
+                  <div class="text-xs font-semibold ${bun.tagColor} mb-0.5">${esc(bun.englishName)}</div>
+                  <div class="font-bold text-warm-text" style="font-size: 16px;">${esc(bun.name)}</div>
+                </div>
+                <div class="absolute bottom-2.5 text-[10px] text-gray-300 select-none">滑入查看說明</div>
+              </div>
+              <div class="flip-card-back rounded-2xl border-2 flex flex-col items-center justify-center p-5 text-center ${bun.bgColor} ${bun.borderColor}">
+                <div class="text-2xl mb-2">${bun.emoji}</div>
+                <div class="font-bold mb-2 ${bun.tagColor}" style="font-size: 16px;">${esc(bun.name)}</div>
+                <p class="text-sub-text leading-relaxed" style="font-size: 12px;">${esc(bun.description)}</p>
+                <div class="mt-3 text-[10px] text-gray-400">點擊選取</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // 綁定點擊
+      document.querySelectorAll('[data-bid]').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = parseInt(card.getAttribute('data-bid'), 10);
+          selected = stressLevelData.find(b => b.id === id);
+          renderBuns();
+          renderResult();
+          queueMoodReport();
+          setTimeout(() => {
+            document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        });
+      });
+    }
+
+    // ========== 渲染結果 ==========
+    function renderResult() {
+      const resultEl = document.getElementById('result-section');
+      if (!selected) { resultEl.classList.add('hidden'); resultEl.innerHTML = ''; return; }
+      const cta = ctaConfig[selected.id];
+      const anchor = cta.type === 'self-support' ? 'section-self-support' : 'section-stress-relief';
+
+      const contentLines = selected.result.content.split('\n').map(line =>
+        line === '' ? '<br>' : `<span>${esc(line)}</span>`
+      ).join('<br>');
+
+      const ctaButton = cta ? `
+        <div class="mt-2">
+          <a href="learning-support.html#${anchor}" class="cta-glow-btn" style="--cta-grad: ${cta.grad}; --cta-ring: ${cta.ring};">
+            <span class="cta-emoji">${cta.emoji}</span>
+            <span class="cta-text">
+              <span class="cta-label">${esc(cta.label)}</span>
+              <span class="cta-sub">${esc(cta.sub)}</span>
+            </span>
+            <span class="cta-arrow">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="cta-shine" aria-hidden="true"></span>
+          </a>
+        </div>
+      ` : '';
+
+      resultEl.innerHTML = `
+        <div class="rounded-3xl border-2 ${selected.borderColor} ${selected.bgColor} p-6 sm:p-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">${selected.emoji}</span>
+            <div>
+              <h2 class="font-bold text-warm-text text-xl">您的今日壓力狀態</h2>
+              <span class="text-sm font-semibold ${selected.tagColor}">${esc(selected.name)}</span>
+            </div>
+          </div>
+
+          <div class="bg-white/70 rounded-2xl p-5 mb-4">
+            <p class="font-semibold text-warm-text text-base mb-3">${esc(selected.result.title)}</p>
+            <p class="text-sub-text text-sm leading-relaxed">${contentLines}</p>
+          </div>
+
+          <div class="inline-flex items-center gap-2 bg-white/80 border ${selected.borderColor} rounded-full px-4 py-2 text-sm font-medium ${selected.tagColor} mb-5">
+            <span>💡</span>
+            <span>${esc(selected.result.tip)}</span>
+          </div>
+
+          ${ctaButton}
+        </div>
+
+        <div class="flex justify-center mt-6">
+          <a href="abilities.html" class="btn-outline">查看更多 SEL 自我檢測</a>
+        </div>
+      `;
+      resultEl.classList.remove('hidden');
+    }
+
+    // ========== 匿名情緒溫度回傳（靜默送出，不影響畫面） ==========
+    // 只送「壓力分數」一個數字：1=今天很輕鬆 … 5=壓力大爆炸（與卡片「n分」標示一致）。
+    // 每次選定就送一筆；1.5 秒內改選以最後的選擇為準，不限制送出次數。
+    const MOOD_API_URL = 'https://script.google.com/macros/s/AKfycbxdpG3vcRXpROSQ7sZo_y81QaSdpuCiyqvw6JRYtQoLSEx7dktDpoWmy8pKbyavGoY/exec';
+    let moodTimer = null;
+
+    function queueMoodReport() {
+      if (!selected) return;
+      clearTimeout(moodTimer);
+      moodTimer = setTimeout(sendMoodReport, 1500);
+    }
+
+    function sendMoodReport() {
+      moodTimer = null;
+      if (!selected) return;
+      const stress = 6 - selected.score; // 壓力分數：1=輕鬆、5=大爆炸
+      try {
+        fetch(MOOD_API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ type: 'mood', score: stress })
+        });
+      } catch (_) {}
+    }
+
+    // 使用者選完就關頁面時，把還在等待的分數立即送出
+    window.addEventListener('pagehide', () => {
+      if (moodTimer) { clearTimeout(moodTimer); sendMoodReport(); }
+    });
+
+    // 初始渲染
+    renderBuns();
+  </script>
+</body>
+</html>

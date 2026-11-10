@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEL 五大能力｜奇美醫院 SEL 學習小棧</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 --> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script> 
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script> 
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+          },
+          fontFamily: { sans: ['"Noto Sans TC"', 'sans-serif'] },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0;
+      color: #3D3D3D;
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    .btn-primary {
+      background-color: #F4A261; color: #fff; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-primary:hover { background-color: #f97316; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .btn-outline {
+      background-color: transparent; color: #F4A261; font-weight: 500;
+      padding: 0.625rem 1.5rem; border-radius: 9999px;
+      border: 2px solid #F4A261; transition: all 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    .section-title { font-size: 1.5rem; font-weight: 700; color: #3D3D3D; margin-bottom: 0.5rem; }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+    .section-subtitle { color: #6B7280; font-size: 1rem; line-height: 1.625; margin-bottom: 2rem; }
+
+    .card-base {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+    }
+
+    .ability-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+    }
+
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">
+            SEL<span class="text-muted-orange">學習小棧</span>
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 bg-soft-orange text-muted-orange font-semibold">SEL五大能力</a>
+          <a href="selfcheck.html"        class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        </div>
+
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 bg-soft-orange text-muted-orange font-semibold">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+      </div>
+    </div>
+  </nav>>
+  </nav>
+
+  <main class="page-enter">
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+      <!-- 頂部標題 -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 bg-pink-50 border border-pink-200 text-pink-600 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          ✨ SEL 五大能力
+        </div>
+        <h1 class="section-title">認識自己，理解他人</h1>
+        <p class="section-subtitle max-w-2xl mx-auto">
+          SEL 五大能力是情緒與社交發展的核心。
+          點開每張卡片，了解定義、學習技巧，以及可以帶入日常的反思問題。
+        </p>
+      </div>
+
+      <!-- 五大能力卡片區（JS 注入） -->
+      <div id="abilityGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-12 items-start"></div>
+
+      <!-- 底部 banner：五大能力相互支撐 -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-[#f0faf8] to-amber-50 border border-sky-100 mb-10">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-amber-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-sky-100/60 rounded-full blur-2xl translate-y-1/3 -translate-x-1/4 pointer-events-none"></div>
+
+        <div class="relative flex flex-col md:flex-row items-center gap-10 p-10 sm:p-14">
+          <div class="flex-shrink-0 relative">
+            <div class="absolute inset-0 bg-white/60 rounded-full blur-xl scale-110"></div>
+            <img src="./public/sel-wheel.png" alt="SEL 五大能力" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full object-cover shadow-lg border-4 border-white" />
+          </div>
+          <div class="flex-1 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 bg-white/80 border border-teal-200 text-teal-600 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+              🌀 五大能力，相互支撐
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-bold text-warm-text mb-4 leading-snug">
+              SEL 不是一次學完，<br class="hidden sm:block" />而是在每個當下練習。
+            </h3>
+            <p class="text-sub-text text-base leading-relaxed mb-6 max-w-lg">
+              自我覺察幫你看見自己，自我管理幫你穩住自己，社會覺察幫你理解他人，
+              人際技巧幫你連結他人，負責任的決策幫你選擇更好的行動。
+              <br /><span class="text-warm-text font-medium">五種能力，在每一次的醫療互動中都可以練習。</span>
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+              <a href="selfcheck.html" class="btn-outline">🌡️ 先做今日自我檢測</a>
+              <a href="scenario.html" class="btn-primary">🎭 前往情境練習 →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== 互動邏輯 ==================== -->
+  <script>
+    // ---- 漢堡選單 ----
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1');
+    const mb2 = document.getElementById('mb2');
+    const mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen);
+      mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen);
+      mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+    // ---- 五大能力資料（對應 src/data.js 的 abilitiesData） ----
+    const abilitiesData = [
+      {
+        id: 'self-awareness',
+        name: '自我覺察',
+        englishName: 'Self-Awareness',
+        emoji: '🌸',
+        bgColor: 'bg-pink-50', borderColor: 'border-pink-200',
+        tagBg: 'bg-pink-100', tagText: 'text-pink-700', iconBg: 'bg-pink-100',
+        definition: '認識自己，包括覺察自己的情緒、目標和價值觀，正確評估自身優缺點，和肯定自己的價值。',
+        skills: ['辨識身體警訊與認識情緒', '瞭解自我需求、價值觀', '認識自己優缺點', '確認自己價值'],
+        reflections: ['我是不是已經快撐不住了？', '當緊張升起時，我通常會怎麼反應？', '我可以做些什麼讓自己好一些？'],
+      },
+      {
+        id: 'self-management',
+        name: '自我管理',
+        englishName: 'Self-Management',
+        emoji: '🌿',
+        bgColor: 'bg-green-50', borderColor: 'border-green-200',
+        tagBg: 'bg-green-100', tagText: 'text-green-700', iconBg: 'bg-green-100',
+        definition: '有能力控制情緒，調節壓力和衝動，並能設定目標，擁有堅持不懈的毅力去實現個人目標。',
+        skills: ['控制衝動', '管理壓力', '調節情緒並維持活力', '設定目標並朝目標努力'],
+        reflections: ['我真的很想回嘴時，通常會怎麼做？', '有沒有一種方法，可以讓我先穩住自己？', '我想用什麼樣的態度，去回應對方？'],
+      },
+      {
+        id: 'social-awareness',
+        name: '社會覺察',
+        englishName: 'Social Awareness',
+        emoji: '💙',
+        bgColor: 'bg-sky-50', borderColor: 'border-sky-200',
+        tagBg: 'bg-sky-100', tagText: 'text-sky-700', iconBg: 'bg-sky-100',
+        definition: '指有能力理解、同理別人，能夠尊重不同的背景和文化，並知道一般社會規範，認識家庭、學校和社區能提供的資源和支持。',
+        skills: ['尊重他人', '培養同理心', '欣賞多樣性', '了解他人觀點、看法'],
+        reflections: ['他為什麼那麼不舒服？', '如果我站在他的立場會怎麼想？', '有沒有不同方式可以理解他？'],
+      },
+      {
+        id: 'relationship-skills',
+        name: '人際技巧',
+        englishName: 'Relationship Skills',
+        emoji: '🤝',
+        bgColor: 'bg-amber-50', borderColor: 'border-amber-200',
+        tagBg: 'bg-amber-100', tagText: 'text-amber-700', iconBg: 'bg-amber-100',
+        definition: '有能力和不同人建立和維持良好關係，包括有效溝通、積極傾聽、合作、解決衝突等，在有需要的時候尋求協助。',
+        skills: ['培養溝通能力與他人建立關係', '協調與合作能力', '管理衝突與面對拒絕', '尋求協助'],
+        reflections: ['我要不要再嘗試溝通一次？', '什麼樣的說法，比較容易被接受？', '在衝突中，該怎麼說話才可以顧及尊重與專業？'],
+      },
+      {
+        id: 'responsible-decision',
+        name: '負責任的決策',
+        englishName: 'Responsible Decision Making',
+        emoji: '⚖️',
+        bgColor: 'bg-purple-50', borderColor: 'border-purple-200',
+        tagBg: 'bg-purple-100', tagText: 'text-purple-700', iconBg: 'bg-purple-100',
+        definition: '有能力做出負責任的決定，做決定前優先考慮道德標準、社會規範、一般常規等，並能對各種行為的後果進行評估。',
+        skills: ['分析情勢', '解決問題', '反省自我並正確評估', '做決定時能妥善考慮倫理道德'],
+        reflections: ['做決定前，我有先重新確認嗎？', '我會優先考量什麼？', '如果出現問題，可能的影響是什麼？'],
+      },
+    ];
+
+    // ---- 建立每張能力卡片 ----
+    function escapeHTML(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+      }[c]));
+    }
+
+    function buildSection(abilityId, label, icon, items, isSkills, tagBg, tagText) {
+      const sectionKey = `${abilityId}-${label}`;
+      const itemsHTML = items.map((item, i) => {
+        const bullet = isSkills
+          ? `<span class="w-5 h-5 rounded-full ${tagBg} ${tagText} text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-semibold">${i + 1}</span>`
+          : `<span class="text-muted-orange mt-0.5">›</span>`;
+        const text = isSkills
+          ? `<span>${escapeHTML(item)}</span>`
+          : `<span class="italic">${escapeHTML(item)}</span>`;
+        return `<li class="flex items-start gap-2 text-sm text-sub-text">${bullet}${text}</li>`;
+      }).join('');
+
+      return `
+        <div class="border border-gray-100 rounded-xl overflow-hidden flex flex-col">
+          <button data-toggle="${sectionKey}" class="toggle-btn w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-sm font-medium text-warm-text">
+            <span class="flex items-center gap-2"><span>${icon}</span><span>${label}</span></span>
+            <span class="arrow text-sub-text transition-transform duration-200">▼</span>
+          </button>
+          <div data-panel="${sectionKey}" class="px-4 py-3 bg-white hidden">
+            <ul class="space-y-2">${itemsHTML}</ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildCard(a) {
+      const skillSec = buildSection(a.id, '學習技巧', '📌', a.skills, true, a.tagBg, a.tagText);
+      const reflSec  = buildSection(a.id, '反思練習', '💭', a.reflections, false, a.tagBg, a.tagText);
+      return `
+        <div class="card-base border ${a.borderColor} flex flex-col h-full overflow-hidden">
+          <div class="${a.bgColor} px-6 py-5">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 ${a.iconBg} rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">${a.emoji}</div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <h3 class="font-bold text-warm-text text-lg">${escapeHTML(a.name)}</h3>
+                  <span class="ability-tag ${a.tagBg} ${a.tagText} text-xs">${escapeHTML(a.englishName)}</span>
+                </div>
+                <p class="text-sub-text text-sm leading-relaxed">${escapeHTML(a.definition)}</p>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 pb-5 pt-4 space-y-3 flex-1 flex flex-col">
+            ${skillSec}
+            ${reflSec}
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById('abilityGrid').innerHTML = abilitiesData.map(buildCard).join('');
+
+    // ---- 展開/收合互動 ----
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-toggle');
+        const panel = document.querySelector(`[data-panel="${key}"]`);
+        const arrow = btn.querySelector('.arrow');
+        const willOpen = panel.classList.contains('hidden');
+        panel.classList.toggle('hidden', !willOpen);
+        arrow.classList.toggle('rotate-180', willOpen);
+      });
+    });
+  </script>
+</body>
+</html>
