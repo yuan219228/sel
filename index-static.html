@@ -1434,8 +1434,10 @@
         }).then(function (r) { return r.json(); });
       }
       var lastSig = '';
-      function fetchShared() {
+      function fetchShared(attempt) {
         if (!API_URL) { setSync(); return; }
+        attempt = attempt || 0;
+        if (!online && !lastSig && attempt === 0) syncEl.textContent = '🎄 正在載入大家的感謝…';
         fetch(API_URL + '?action=list&_=' + Date.now())
           .then(function (r) { return r.json(); })
           .then(function (d) {
@@ -1452,7 +1454,11 @@
             if (sig !== lastSig) { lastSig = sig; renderAll(false); } else { renderAll(true); }
             setSync();
           })
-          .catch(function () { online = false; setSync(); if (!lastSig) renderAll(false); });
+          .catch(function () {
+            // 偶爾連線失敗：先在幾秒內自動重試兩次，都失敗才顯示提示
+            if (attempt < 2) { setTimeout(function () { fetchShared(attempt + 1); }, attempt ? 5000 : 2000); return; }
+            online = false; setSync(); if (!lastSig) renderAll(false);
+          });
       }
       function setSync() {
         if (!API_URL) { syncEl.textContent = '（目前為預覽模式：分享功能尚未開通，留言只會存在你的瀏覽器）'; return; }
