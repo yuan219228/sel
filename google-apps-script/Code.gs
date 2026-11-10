@@ -8,10 +8,12 @@
  *  - 試算表「感恩留言」分頁中，取消勾選「顯示」欄 → 該留言立刻從大家的聖誕樹上隱藏
  *  - 想要「先審核、再公開」：把下方 NEED_APPROVAL 改成 true，並重新部署（新版本）
  *  - 「溫暖數」欄（H 欄）是大家按「溫暖 +1」的累計，可直接查看
+ *  - 同仁不能刪除留言（ALLOW_USER_DELETE = false）；要刪除請直接刪掉該列，或取消勾選「顯示」
  */
 
 const SHEET_NAME = '感恩留言';
 const NEED_APPROVAL = false;   // true = 新留言預設不顯示，需管理者勾選「顯示」後才公開
+const ALLOW_USER_DELETE = false; // false = 同仁不能刪除留言，只有管理者能在試算表刪除或隱藏
 const MAX_TEXT = 200;
 const MAX_NAME = 20;
 const KINDS = ['person', 'event', 'thing'];
@@ -125,6 +127,7 @@ function doPost(e) {
     }
 
     if (d.action === 'delete') {
+      if (!ALLOW_USER_DELETE) return json_({ ok: false, error: 'delete_disabled' });
       const values = sh.getDataRange().getValues();
       for (let i = 1; i < values.length; i++) {
         if (String(values[i][COL.ID]) === String(d.id)) {

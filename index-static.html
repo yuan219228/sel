@@ -1353,6 +1353,7 @@
          ========================================================= */
       var API_URL = 'https://script.google.com/macros/s/AKfycbzepnPypiyPFafEPY65bxo_NENUwkpmKe_EhIvVBVcXc2ZsYz_lqKZ-m-ZyBZjtKoCn/exec';
       var REFRESH_MS = 60000; // 每 60 秒自動更新大家的感謝
+      var ALLOW_USER_DELETE = false; // 同仁不能刪除留言；只有管理者能在 Google 試算表刪除或隱藏
 
       var STORE_KEY = 'selXmasThanks2026v2';
       var LIKE_KEY = 'selXmasLiked2026'; // 這台裝置送過溫暖的留言 id
@@ -1545,7 +1546,7 @@
       }
       function cardHTML(it) {
         var k = KIND[it.k] || KIND.person, rank = ranked.indexOf(it);
-        var canDel = it.status === 'mine' || it.status === 'private' || it.status === 'pending';
+        var canDel = ALLOW_USER_DELETE && (it.status === 'mine' || it.status === 'private' || it.status === 'pending');
         var r = ((it.id.charCodeAt(it.id.length - 1) || 0) % 5 - 2) * .5;
         return '<article class="xt-card-note ' + it.k + '" data-card="' + esc(it.id) + '" style="--r:' + r + 'deg;--tr:' + (-r * 2) + 'deg">' +
           (rank > -1 && rank < 3 && it.l > 0 ? '<span class="xt-ribbon">🏆 溫暖第 ' + (rank + 1) + ' 名</span>' : '') +
