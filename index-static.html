@@ -791,7 +791,7 @@
           <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
           <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
           <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-          <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🤝</p>
+          <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
         </div>
 
         <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
@@ -802,7 +802,7 @@
             <span class="xt-nh-tag">人際技巧・奶皇包</span>
             <!-- 認識奶皇包 -->
             <div class="xt-nh-intro">
-              <p class="xt-serif font-bold text-warm-text text-base mb-2">認識奶皇包 🤝</p>
+              <p class="xt-serif font-bold text-warm-text text-base mb-2">認識奶皇包 🧩</p>
               <dl>
                 <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
                 <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
@@ -1196,7 +1196,7 @@
   <div id="xt-nh-dlg" role="dialog" aria-modal="true" aria-labelledby="xt-nh-dlg-title">
     <div class="card xt-paper">
       <img src="./public/naihuang-xmas.png" alt="" class="xt-nh-dlg-bun" />
-      <h4 id="xt-nh-dlg-title" class="xt-serif text-xl font-bold text-warm-text">奶皇包的感謝信 🤝</h4>
+      <h4 id="xt-nh-dlg-title" class="xt-serif text-xl font-bold text-warm-text">奶皇包的感謝信 🧩</h4>
       <div id="xt-nh-dlg-text" class="xt-hand xt-nh-text mt-3"></div>
       <button type="button" id="xt-nh-dlg-close" class="xt-btn mt-5">收好這封信 ✦</button>
     </div>
@@ -1341,9 +1341,9 @@
       var snowman = document.getElementById('xt-snowman'), smSay = document.getElementById('xt-snowman-say'), smTxt = smSay.querySelector('.txt');
       var target = document.getElementById('xmas-thanks');
       var LINES = [
-        '嗨！我是人際技巧的奶皇包 🤝<br>這個月由我陪大家寫「感謝」！',
+        '嗨！我是人際技巧的奶皇包 🧩<br>這個月由我陪大家寫「感謝」！',
         '今天也辛苦了，記得喝口熱水、伸個懶腰 ☕',
-        '要不要，再嘗試溝通一次？🤝',
+        '要不要，再嘗試溝通一次？🧩',
         '在衝突中，試著用顧及尊重與專業的方式說話',
         '需要的時候，尋求協助也是一種能力 ✦',
         '看見你手上的魔法棒了嗎？✦ 在畫面上點一點，會灑出星光喔',
@@ -1910,8 +1910,7 @@
       var LETTER = [
         '親愛的夥伴們：',
         '',
-        '這一年，謝謝你們在交班時把話說清楚，也願意多聽對方一句。',
-        '謝謝你們在意見不同的時候，仍然選擇用尊重的方式溝通；',
+        '這一年，謝謝你們',
         '謝謝你們在忙不過來時，願意開口說：「可以幫我一下嗎？」',
         '也謝謝在別人需要時，總是伸出手的你。',
         '',
@@ -1920,7 +1919,7 @@
         '',
         '這個 12 月，換你把謝謝說出口吧！'
       ].join('\n');
-      var SIGN = '—— 人際技巧・奶皇包 🤝';
+      var SIGN = '—— 人際技巧・奶皇包';
       var KEY = 'selXmasNaihuangHung';
       var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
       var $ = function (id) { return document.getElementById(id); };
@@ -1947,7 +1946,7 @@
         if (started) return; started = true;
         scene.classList.add('is-in');
         if (hung || reduce) { finish(); return; }
-        speak('嗨！我是人際技巧的奶皇包 🤝 先寫一封感謝信給大家～');
+        speak('嗨！我是人際技巧的奶皇包 🧩 先寫一封感謝信給大家～');
         setTimeout(function () {
           typing = setInterval(function () {
             i++;
@@ -1994,7 +1993,7 @@
       });
       bun.addEventListener('click', function () {
         hop();
-        var lines = ['要不要，再嘗試溝通一次？🤝', '什麼樣的說法，比較容易被接受？說話前，先想想對方的感受', '忙不過來時，記得開口：「可以幫我一下嗎？」', '人際技巧，幫你連結他人 ✦'];
+        var lines = ['要不要，再嘗試溝通一次？🧩', '什麼樣的說法，比較容易被接受？說話前，先想想對方的感受', '忙不過來時，記得開口：「可以幫我一下嗎？」', '人際技巧，幫你連結他人 ✦'];
         speak(lines[(bun._n = ((bun._n || 0) + 1)) % lines.length], 5000);
       });
 
