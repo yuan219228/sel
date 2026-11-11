@@ -1947,6 +1947,7 @@
         if (hung || reduce) { finish(); return; }
         speak('嗨！我是人際技巧的奶皇包 🧩 先寫一封感謝信給大家～');
         setTimeout(function () {
+          if (done) return; // 已按「直接看完」就不再開始打字
           typing = setInterval(function () {
             i++;
             textEl.innerHTML = esc(LETTER.slice(0, i)) + '<span class="caret"></span>';
