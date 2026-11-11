@@ -542,7 +542,7 @@
     .xt-op-skip:hover { background: #fff; color: #3b2f25; }
     .xt-op-stage { position: relative; width: min(1100px, 94vw); height: min(720px, 90vh); }
     .xt-op-bunwrap { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; transition: left 1s cubic-bezier(.5, 0, .2, 1), bottom 1s cubic-bezier(.5, 0, .2, 1); }
-    .xt-op-bun { height: min(56vh, 500px); width: auto; transform-origin: 50% 100%; filter: drop-shadow(0 22px 30px rgba(120, 70, 10, .3));
+    .xt-op-bun { height: min(70vh, 640px); width: auto; transform-origin: 50% 100%; filter: drop-shadow(0 22px 30px rgba(120, 70, 10, .3));
       transition: height 1s cubic-bezier(.5, 0, .2, 1); animation: xtOpIn 1.1s cubic-bezier(.3, 1.45, .5, 1) both, xtNhIdle 3s ease-in-out 1.1s infinite; }
     @keyframes xtOpIn { from { opacity: 0; transform: translateY(70%) scale(.5); } }
     .xt-op-name { margin-top: 8px; font-size: 15px; letter-spacing: .2em; color: #8a5f14; background: #fff3d1; border: 1px solid #f0d58e; padding: 3px 16px; border-radius: 9999px; }
@@ -555,18 +555,21 @@
       opacity: 0; transform: translateY(24px) scale(.96); transition: opacity .6s, transform .6s; }
     .xt-op-paper .xt-nh-text { font-size: clamp(1.05rem, 1.6vw, 1.3rem); min-height: 0; }
     .xt-op.p2 .xt-op-bunwrap, .xt-op.p3 .xt-op-bunwrap { left: 20%; bottom: 8%; }
-    .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: min(40vh, 340px); }
+    .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: min(50vh, 420px); }
     .xt-op.p2 .xt-op-say, .xt-op.p3 .xt-op-say { font-size: clamp(15px, 1.6vw, 19px); max-width: 300px; }
     .xt-op.p2 .xt-op-paper { opacity: 1; transform: none; }
     .xt-op.p3 .xt-op-paper { opacity: 0; transform: scale(.12) rotate(-12deg); transition: transform .8s cubic-bezier(.5, 0, .3, 1), opacity .7s .1s; }
-    .xt-op-pen { position: fixed; left: 0; top: 0; width: 64px; height: 64px; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .3s;
-      filter: drop-shadow(2px 4px 4px rgba(0,0,0,.25)); }
+    .xt-op-pen { position: fixed; left: 0; top: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .3s; font-size: 22px; line-height: 1; color: #e3b23c;
+      text-shadow: 0 0 10px rgba(255, 205, 100, .95), 0 0 2px #fff; }
     .xt-op-pen.is-on { opacity: 1; }
-    .xt-op-pen.is-writing { animation: xtPen .28s ease-in-out infinite alternate; }
-    @keyframes xtPen { from { margin-top: 0; } to { margin-top: -3px; } }
+    .xt-op-pen.is-writing { animation: xtInk .5s ease-in-out infinite alternate; }
+    @keyframes xtInk { from { transform: var(--pos) scale(.8) rotate(0deg); } to { transform: var(--pos) scale(1.2) rotate(30deg); } }
+    /* 寫信時奶皇包跟著動筆 */
+    .xt-op.p2 .xt-op-bun { animation: xtOpWrite .45s ease-in-out infinite alternate; }
+    @keyframes xtOpWrite { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(-6px); } }
     @media (max-width: 767px) {
       .xt-op.p2 .xt-op-bunwrap, .xt-op.p3 .xt-op-bunwrap { left: 50%; bottom: auto; top: 0; }
-      .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: 20vh; }
+      .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: 22vh; }
       .xt-op.p2 .xt-op-say, .xt-op.p3 .xt-op-say { display: none; }
       .xt-op.p2 .xt-op-name, .xt-op.p3 .xt-op-name { display: none; }
       .xt-op-paper { left: 0; right: 0; width: auto; top: 25vh; min-height: 0; padding: 40px 20px 22px; }
@@ -843,7 +846,7 @@
           <!-- 奶皇包 -->
           <div class="relative flex flex-col items-center">
             <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
-            <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+            <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-pen-body.png" alt="戴聖誕帽、手拿原子筆的奶皇包（人際技巧）" width="319" height="380" />
             <span class="xt-nh-tag">人際技巧・奶皇包</span>
             <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
             <!-- 認識奶皇包 -->
@@ -852,7 +855,7 @@
               <dl>
                 <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
                 <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
-                <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
+                <dt>隨身寶物</dt><dd>一支 SEL 原子筆，隨時把感謝寫下來；還有一組拼圖，提醒自己協調與合作</dd>
                 <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
                 <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
               </dl>
@@ -1245,28 +1248,19 @@
     <div class="xt-op-stage">
       <div class="xt-op-bunwrap">
         <div id="xt-op-say" class="xt-op-say" aria-live="polite"></div>
-        <img id="xt-op-bun" class="xt-op-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽的奶皇包（人際技巧）" />
-        <span class="xt-op-name">人際技巧・奶皇包</span>
+        <img id="xt-op-bun" class="xt-op-bun" src="./public/naihuang-pen.png" alt="戴聖誕帽、手拿 SEL 原子筆的奶皇包（人際技巧）" />
       </div>
       <div id="xt-op-paper" class="xt-op-paper xt-paper">
         <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
         <div id="xt-op-text" class="xt-hand xt-nh-text"></div>
       </div>
     </div>
-    <svg id="xt-op-pen" class="xt-op-pen" viewBox="0 0 64 64" aria-hidden="true">
-      <defs><linearGradient id="xtPenBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8322a"/><stop offset="1" stop-color="#6e1b1b"/></linearGradient></defs>
-      <path d="M58 6 L20 44 L14 50 L18 46 Z" fill="none"/>
-      <path d="M60 4 C62 6 62 8 60 10 L26 44 L20 38 L54 4 C56 2 58 2 60 4 Z" fill="url(#xtPenBody)"/>
-      <path d="M54 4 L60 10 L56 14 L50 8 Z" fill="#e8bf62"/>
-      <path d="M26 44 L20 38 L14 44 L20 50 Z" fill="#e8bf62"/>
-      <path d="M14 44 L20 50 L6 58 Z" fill="#3b2f25"/>
-      <path d="M17 47 L8 56" stroke="#e8bf62" stroke-width="1"/>
-    </svg>
+    <span id="xt-op-pen" class="xt-op-pen" aria-hidden="true">✦</span>
   </div>
 
   <div id="xt-nh-dlg" role="dialog" aria-modal="true" aria-labelledby="xt-nh-dlg-title">
     <div class="card xt-paper">
-      <img src="./public/naihuang-xmas.png" alt="" class="xt-nh-dlg-bun" />
+      <img src="./public/naihuang-pen-body.png" alt="" class="xt-nh-dlg-bun" />
       <h4 id="xt-nh-dlg-title" class="xt-serif text-xl font-bold text-warm-text">奶皇包的感謝信 🧩</h4>
       <div id="xt-nh-dlg-text" class="xt-hand xt-nh-text mt-3"></div>
       <button type="button" id="xt-nh-dlg-close" class="xt-btn mt-5">收好這封信 ✦</button>
@@ -2091,7 +2085,7 @@
       function opPenTo() {
         var c = opText.querySelector('.caret'); if (!c) return;
         var r = c.getBoundingClientRect();
-        opPen.style.transform = 'translate(' + (r.left - 4) + 'px,' + (r.bottom - 58) + 'px)';
+        var pos = 'translate(' + (r.left + 2) + 'px,' + (r.top - 6) + 'px)'; opPen.style.setProperty('--pos', pos); opPen.style.transform = pos;
       }
       function opClose(fromRect) {
         opRunning = false;
@@ -2127,7 +2121,6 @@
               clearInterval(opTyping);
               opText.innerHTML = fullHTML() ;
               opPen.classList.remove('is-writing');
-              var sg = opText.querySelector('.sign'); if (sg) { var rr = sg.getBoundingClientRect(); opPen.style.transform = 'translate(' + (rr.right + 2) + 'px,' + (rr.bottom - 58) + 'px)'; }
               opLater(function () { opPen.classList.remove('is-on'); opSpeak('寫好了！現在把信掛上聖誕樹 🎄'); }, 900);
               opLater(function () { op.className = 'xt-op p3'; }, 2600);
               opLater(function () { var r = opPaper.getBoundingClientRect(); opClose(r); }, 3300);
