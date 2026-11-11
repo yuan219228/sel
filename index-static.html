@@ -479,7 +479,58 @@
     .xt-arrive { animation: xtArrive 1.4s ease-out; }
     @keyframes xtArrive { 0%, 40% { filter: drop-shadow(0 0 18px rgba(255, 220, 140, .95)); transform: scale(1.04); } 100% { transform: none; } }
 
+    /* ==================== 🧩 奶皇包的感謝信 ==================== */
+    .xt-nh [hidden], #xt-nh-env[hidden] { display: none !important; }
+    #xt-nh-full { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .xt-nh-bun { width: 190px; height: auto; filter: drop-shadow(0 14px 18px rgba(120, 70, 10, .28)); transform-origin: 50% 100%; }
+    .xt-nh.is-in .xt-nh-bun { animation: xtNhIn .9s cubic-bezier(.3, 1.5, .5, 1) both, xtNhIdle 3s ease-in-out .9s infinite; }
+    .xt-nh:not(.is-in) .xt-nh-bun { opacity: 0; }
+    @keyframes xtNhIn { from { opacity: 0; transform: translateY(60px) scale(.6); } }
+    @keyframes xtNhIdle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-4px); } }
+    .xt-nh-bun.is-hop { animation: xtHop .55s cubic-bezier(.3, 1.6, .5, 1) !important; }
+    .xt-nh-tag { margin-top: 6px; font-size: 12px; letter-spacing: .15em; color: #8a5f14; background: #fff3d1; border: 1px solid #f0d58e; padding: 2px 12px; border-radius: 9999px; }
+    .xt-nh-say { position: relative; margin-bottom: 10px; max-width: 220px; min-height: 0; background: #fffdf8; border: 1px solid #f0d58e; border-radius: 14px; padding: 8px 12px;
+      font-size: 14px; line-height: 1.6; color: #3b2f25; box-shadow: 0 10px 22px -12px rgba(120, 70, 10, .45); opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s; }
+    .xt-nh-say.is-show { opacity: 1; transform: none; }
+    .xt-nh-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -7px; border: 7px solid transparent; border-top-color: #fffdf8; }
+    .xt-nh-letter { position: relative; min-height: 320px; transition: transform .7s cubic-bezier(.5, 0, .3, 1), opacity .5s; }
+    .xt-nh-letter.is-fold { transform: scale(.15) rotate(-8deg); opacity: 0; }
+    .xt-nh-text { font-size: 1.15rem; line-height: 2; color: #3b2f25; white-space: pre-wrap; min-height: 12em; }
+    .xt-nh-text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -2px; background: #c9a052; animation: xtCaret .8s steps(1) infinite; }
+    @keyframes xtCaret { 50% { opacity: 0; } }
+    .xt-nh-text .sign { display: block; text-align: right; color: #8a5f14; }
+    .xt-nh-intro { margin-top: 14px; width: 100%; max-width: 280px; background: #fffaf0; border: 1px dashed #e3c47a; border-radius: 16px; padding: 14px 16px; text-align: left; }
+    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; font-size: 13px; line-height: 1.6; margin: 0; }
+    .xt-nh-intro dt { color: #8a5f14; font-weight: 700; white-space: nowrap; }
+    .xt-nh-intro dd { margin: 0; color: #3b2f25; }
+    /* 飛行中的信封 */
+    .xt-nh-fly { position: fixed; z-index: 65; width: 46px; height: 32px; pointer-events: none; transition: transform 1.1s cubic-bezier(.45, -.2, .3, 1.2), opacity .3s; }
+    /* 信封（吊飾與飛行共用） */
+    .xt-nh-env .env, .xt-nh-fly { border-radius: 4px; background: linear-gradient(180deg, #fffaf0, #f6e7c8); border: 1px solid #d9b46a; box-shadow: 0 4px 8px rgba(120, 70, 10, .3); }
+    .xt-nh-env .env::before, .xt-nh-fly::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 60%; background: linear-gradient(160deg, transparent 49%, #e8cf98 50%, transparent 52%), linear-gradient(200deg, transparent 49%, #e8cf98 50%, transparent 52%); }
+    .xt-nh-env { position: absolute; left: 50%; top: 13.4%; width: 11.5%; aspect-ratio: 46 / 32; transform: translate(-50%, 0); padding: 0; border: 0; background: none; cursor: pointer; z-index: 7; }
+    .xt-nh-env .swing { position: absolute; inset: 0; transform-origin: 50% -40%; animation: xtSwing 3s ease-in-out infinite; }
+    .xt-nh-env .swing::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 40%; background: #c9a052; }
+    .xt-nh-env .env { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .xt-nh-env .env i, .xt-nh-fly i { position: relative; z-index: 1; width: 34%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 9px; color: #fde3dc;
+      background: radial-gradient(circle at 35% 30%, #d0564a, #9c2a24); margin-top: 18%; }
+    .xt-nh-env.is-new { animation: xtNhLand .7s ease-out; }
+    @keyframes xtNhLand { 0% { filter: drop-shadow(0 0 0 rgba(255, 210, 100, 0)); } 40% { filter: drop-shadow(0 0 16px rgba(255, 210, 100, 1)); } 100% { filter: none; } }
+    .xt-nh-env:hover .env, .xt-nh-env:focus-visible .env { box-shadow: 0 0 0 2px #fffaf0, 0 0 0 3.5px #c9a052, 0 0 18px 4px rgba(255, 205, 100, .7); }
+    /* 讀信視窗 */
+    #xt-nh-dlg { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 35, 28, .45); }
+    #xt-nh-dlg.is-show { display: flex; }
+    #xt-nh-dlg .card { position: relative; width: min(520px, 100%); max-height: 90vh; overflow: auto; border-radius: 22px; padding: 104px 26px 24px; text-align: center; animation: xtPopIn .45s cubic-bezier(.3, 1.5, .5, 1); }
+    #xt-nh-dlg .xt-nh-text { text-align: left; min-height: 0; }
+    .xt-nh-dlg-bun { position: absolute; left: 50%; top: 14px; width: 70px; transform: translateX(-50%); }
+    @media (prefers-reduced-motion: reduce) {
+      .xt-nh.is-in .xt-nh-bun, .xt-nh-env .swing, .xt-nh-env.is-new, .xt-nh-text .caret, #xt-nh-dlg .card { animation: none; }
+      .xt-nh:not(.is-in) .xt-nh-bun { opacity: 1; }
+      .xt-nh-letter, .xt-nh-fly { transition: none; }
+    }
+
   </style>
+
 </head>
 
 <body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
@@ -734,6 +785,48 @@
         </form>
       </div>
 
+      <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
+      <div id="xt-nh" class="xt-nh mt-16 scroll-mt-24" aria-labelledby="xt-nh-title">
+        <div class="text-center mb-8">
+          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
+          <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
+          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+          <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
+        </div>
+
+        <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
+          <!-- 奶皇包 -->
+          <div class="relative flex flex-col items-center">
+            <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
+            <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+            <span class="xt-nh-tag">人際技巧・奶皇包</span>
+            <!-- 認識奶皇包 -->
+            <div class="xt-nh-intro">
+              <p class="xt-serif font-bold text-warm-text text-base mb-2">認識奶皇包 🧩</p>
+              <dl>
+                <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
+                <dt>擅長</dt><dd>有效溝通、積極傾聽、協調合作，需要時主動給予或尋求協助</dd>
+                <dt>隨身寶物</dt><dd>兩塊拼圖：一塊是你、一塊是我，拼在一起就是好夥伴</dd>
+                <dt>口頭禪</dt><dd>「一句謝謝，就是一塊溫暖的拼圖！」</dd>
+                <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
+              </dl>
+            </div>
+          </div>
+
+          <!-- 信紙 -->
+          <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
+            <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
+            <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
+            <div id="xt-nh-full" class="sr-only"></div>
+            <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
+              <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
+              <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
+              <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 感恩聖誕樹 -->
       <div id="xt-tree-area" class="text-center mt-16 mb-8 scroll-mt-24">
         <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
@@ -823,6 +916,10 @@
             <path class="xt-rays" d="M226.0 38.0 L248.0 38.0 M224.0 47.9 L235.1 52.5 M218.4 56.4 L233.9 71.9 M209.9 62.0 L214.5 73.1 M200.0 64.0 L200.0 86.0 M190.1 62.0 L185.5 73.1 M181.6 56.4 L166.1 71.9 M176.0 47.9 L164.9 52.5 M174.0 38.0 L152.0 38.0 M176.0 28.1 L164.9 23.5 M181.6 19.6 L166.1 4.1 M190.1 14.0 L185.5 2.9 M200.0 12.0 L200.0 -10.0 M209.9 14.0 L214.5 2.9 M218.4 19.6 L233.9 4.1 M224.0 28.1 L235.1 23.5" stroke="#f3cf6e" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
             <path class="xt-star" d="M200.0 16.0 L205.6 30.3 L220.9 31.2 L209.0 40.9 L212.9 55.8 L200.0 47.5 L187.1 55.8 L191.0 40.9 L179.1 31.2 L194.4 30.3 Z" fill="url(#xtStarG)" stroke="#b9822a" stroke-width="1.6" stroke-linejoin="round"/>
           </svg>
+          <!-- 奶皇包的感謝信（信封吊飾，掛在星星下方） -->
+          <button type="button" id="xt-nh-env" class="xt-nh-env" hidden aria-label="奶皇包的感謝信，點我閱讀">
+            <span class="swing"><span class="env"><i aria-hidden="true">♥</i></span></span>
+          </button>
           <div id="xt-ornaments"></div>
         </div>
 
@@ -1109,6 +1206,15 @@
     </div>
   </div>
 
+  <div id="xt-nh-dlg" role="dialog" aria-modal="true" aria-labelledby="xt-nh-dlg-title">
+    <div class="card xt-paper">
+      <img src="./public/naihuang-xmas.png" alt="" class="xt-nh-dlg-bun" />
+      <h4 id="xt-nh-dlg-title" class="xt-serif text-xl font-bold text-warm-text">奶皇包的感謝信 🧩</h4>
+      <div id="xt-nh-dlg-text" class="xt-hand xt-nh-text mt-3"></div>
+      <button type="button" id="xt-nh-dlg-close" class="xt-btn mt-5">收好這封信 ✦</button>
+    </div>
+  </div>
+
   <button type="button" id="xt-fx-toggle" aria-pressed="true" aria-label="魔法特效開關">✦<span class="tip">魔法特效：開</span></button>
 
   <script>
@@ -1305,6 +1411,8 @@
       } else choir.classList.add('is-in');
 
 
+      window.xtSparkle = function (x, y) { if (on) iceBurst(x, y); };
+
       /* ---------- 送出後的慶祝卡 ---------- */
       var cel = document.getElementById('xt-celebrate'), celMsg = document.getElementById('xt-cel-msg'), celClose = document.getElementById('xt-cel-close'), celBack = null;
       function closeCel() { cel.classList.remove('is-show'); if (celBack) celBack.focus(); }
@@ -1483,7 +1591,7 @@
         while (true) {
           slots = [];
           var row = 0;
-          for (var y = 80; y <= 425; y += sp * .8, row++) {
+          for (var y = 134; y <= 425; y += sp * .8, row++) {
             var hw = halfWidth(y, 14); if (hw < 0) continue;
             var cnt = Math.max(1, Math.floor(hw * 2 / sp) + 1);
             var span = (cnt - 1) * sp, off = (row % 2 && cnt > 1 && span + sp / 2 <= hw * 2) ? sp / 4 : 0;
@@ -1805,6 +1913,105 @@
 
       syncPills(); renderAll(false);
       fetchShared();
+    })();
+  </script>
+  <!-- ==================== 🧩 奶皇包的感謝信 互動邏輯 ==================== -->
+  <script>
+    (function () {
+      var LETTER = [
+        '親愛的每一位夥伴：',
+        '',
+        '謝謝你們這一年，在忙碌的值班裡，還記得對彼此說一聲「辛苦了」。',
+        '謝謝每一次交班時多叮嚀的那一句，謝謝每一杯悄悄放在桌上的熱茶。',
+        '是你們讓我知道，溫暖就像拼圖，一塊接著一塊，就能把大家拼在一起。',
+        '',
+        '這個 12 月，換你寫下最想感謝的人、事、物，一起把這棵樹掛滿吧！'
+      ].join('\n');
+      var SIGN = '—— 你的奶皇包 🧩';
+      var KEY = 'selXmasNaihuangHung';
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var $ = function (id) { return document.getElementById(id); };
+      var scene = $('xt-nh'), textEl = $('xt-nh-text'), say = $('xt-nh-say'), bun = $('xt-nh-bun');
+      var skipBtn = $('xt-nh-skip'), hangBtn = $('xt-nh-hang'), goBtn = $('xt-nh-go'), letter = $('xt-nh-letter'), env = $('xt-nh-env');
+      var dlg = $('xt-nh-dlg'), dlgText = $('xt-nh-dlg-text'), dlgClose = $('xt-nh-dlg-close');
+      if (!scene || !env) return;
+      $('xt-nh-full').textContent = LETTER + '\n' + SIGN; // 給螢幕報讀器的完整內容
+      function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+      function fullHTML() { return esc(LETTER) + '<span class="sign">' + esc(SIGN) + '</span>'; }
+      dlgText.innerHTML = fullHTML();
+
+      var hung = false; try { hung = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      var typing = null, i = 0, done = false, started = false;
+
+      function speak(t, ms) { say.textContent = t; say.classList.add('is-show'); clearTimeout(speak.t); if (ms) speak.t = setTimeout(function () { say.classList.remove('is-show'); }, ms); }
+      function hop() { bun.classList.remove('is-hop'); void bun.offsetWidth; bun.classList.add('is-hop'); }
+      function finish() {
+        clearInterval(typing); done = true; textEl.innerHTML = fullHTML(); skipBtn.hidden = true;
+        if (hung) { goBtn.hidden = false; speak('信已經掛在樹頂囉！換你寫感謝吧 ✦'); }
+        else { hangBtn.hidden = false; speak('寫好了！可以幫我把信掛上聖誕樹嗎？🎄'); }
+      }
+      function start() {
+        if (started) return; started = true;
+        scene.classList.add('is-in');
+        if (hung || reduce) { finish(); return; }
+        speak('嗨！我是人際技巧的奶皇包 🧩 先寫一封感謝信給大家～');
+        setTimeout(function () {
+          typing = setInterval(function () {
+            i++;
+            textEl.innerHTML = esc(LETTER.slice(0, i)) + '<span class="caret"></span>';
+            if (i >= LETTER.length) finish();
+          }, 55);
+        }, 900);
+      }
+      skipBtn.addEventListener('click', finish);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es, ob) { es.forEach(function (e) { if (e.isIntersecting) { start(); ob.disconnect(); } }); }, { threshold: .35 }).observe(scene);
+      } else start();
+
+      // 掛上聖誕樹：信折起來 → 捲到樹 → 信封飛到星星下方
+      function showEnv(isNew) { env.hidden = false; if (isNew) { env.classList.remove('is-new'); void env.offsetWidth; env.classList.add('is-new'); } }
+      if (hung) showEnv(false);
+      hangBtn.addEventListener('click', function () {
+        hangBtn.hidden = true; hop();
+        var from = letter.getBoundingClientRect();
+        letter.classList.add('is-fold');
+        var fly = document.createElement('div'); fly.className = 'xt-nh-fly'; fly.innerHTML = '<i>♥</i>';
+        fly.style.left = (from.left + from.width / 2 - 23) + 'px'; fly.style.top = (from.top + from.height / 2 - 16) + 'px';
+        document.body.appendChild(fly);
+        var tree = $('xt-tree');
+        setTimeout(function () {
+          tree.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+          setTimeout(function () {
+            env.hidden = false; env.style.visibility = 'hidden';
+            var to = env.getBoundingClientRect(), now = fly.getBoundingClientRect();
+            fly.style.transform = 'translate(' + (to.left + to.width / 2 - (now.left + 23)) + 'px,' + (to.top + to.height / 2 - (now.top + 16)) + 'px) rotate(360deg) scale(' + (to.width / 46) + ')';
+            setTimeout(function () {
+              fly.remove(); env.style.visibility = ''; showEnv(true);
+              hung = true; try { localStorage.setItem(KEY, '1'); } catch (e) {}
+              if (window.xtSparkle) { var r = env.getBoundingClientRect(); window.xtSparkle(r.left + r.width / 2, r.top + r.height / 2); }
+              letter.classList.remove('is-fold'); goBtn.hidden = false;
+              speak('掛好了！謝謝你 ✦ 換你寫下想感謝的人吧！');
+            }, reduce ? 50 : 1150);
+          }, reduce ? 50 : 750);
+        }, reduce ? 0 : 600);
+      });
+      goBtn.addEventListener('click', function () {
+        var f = $('xt-form'); f.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        setTimeout(function () { $('xt-text').focus({ preventScroll: true }); }, 700);
+      });
+      bun.addEventListener('click', function () {
+        hop();
+        var lines = ['說謝謝的祕訣：說出「誰」、「做了什麼」、「帶給你什麼感受」🧩', '今天試著跟一位同事說聲謝謝吧！', '一句謝謝，就是一塊溫暖的拼圖 ✦'];
+        speak(lines[(bun._n = ((bun._n || 0) + 1)) % lines.length], 5000);
+      });
+
+      // 樹上的信封：點了讀信
+      var back = null;
+      env.addEventListener('click', function () { back = document.activeElement; dlg.classList.add('is-show'); dlgClose.focus(); });
+      function closeDlg() { dlg.classList.remove('is-show'); if (back) back.focus(); }
+      dlgClose.addEventListener('click', closeDlg);
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDlg(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dlg.classList.contains('is-show')) closeDlg(); });
     })();
   </script>
 </body>
