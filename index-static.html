@@ -348,15 +348,15 @@
     .xt-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -7px; border: 7px solid transparent; border-top-color: #fffdf8; }
     .xt-say.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* 雪人寶寶 */
-    #xt-snowman { position: fixed; left: 10px; bottom: -6px; width: 92px; z-index: 46; background: none; border: 0; padding: 0; cursor: pointer;
+    /* 左下角嚮導：奶皇包 */
+    #xt-snowman { position: fixed; left: 10px; bottom: -4px; width: 84px; z-index: 46; background: none; border: 0; padding: 0; cursor: pointer;
       transform: translateY(110%); transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); }
     #xt-snowman.is-up { transform: translateY(0); }
     #xt-snowman:hover { transform: translateY(-4px); }
     #xt-snowman:focus-visible { outline: 2px solid #c9a052; outline-offset: 2px; border-radius: 12px; }
-    #xt-snowman .arm-wave { transform-origin: 70px 66px; animation: xtWave 1.6s ease-in-out infinite; }
-    @keyframes xtWave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-22deg); } }
-    #xt-snowman-say { left: 100px; bottom: 70px; transform: translateY(6px); max-width: 230px; position: fixed; z-index: 47; }
+    #xt-snowman .xt-guide { display: block; width: 84px; height: auto; transform-origin: 50% 100%; filter: drop-shadow(0 6px 8px rgba(120, 70, 10, .3)); animation: xtGuide 2.8s ease-in-out infinite; }
+    @keyframes xtGuide { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg) translateY(-3px); } }
+    #xt-snowman-say { left: 100px; bottom: 74px; transform: translateY(6px); max-width: 230px; position: fixed; z-index: 47; }
     #xt-snowman-say::after { left: -7px; top: auto; bottom: 14px; margin: 0; border: 7px solid transparent; border-right-color: #fffdf8; border-left: 0; }
     #xt-snowman-say.is-show { transform: translateY(0); pointer-events: auto; }
     #xt-snowman-say button { color: #a8322b; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
@@ -389,7 +389,7 @@
       #xt-celebrate.is-show, #xt-celebrate .card { animation: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .xt-choir.is-in .xt-choir-item, #xt-snowman .arm-wave { animation: none; }
+      .xt-choir.is-in .xt-choir-item, #xt-snowman .xt-guide { animation: none; }
       .xt-choir:not(.is-in) .xt-choir-item { opacity: 1; }
     }
     /* ==================== ❄ 冰雪魔法 ==================== */
@@ -1157,7 +1157,7 @@
     document.getElementById('featureCards').innerHTML = featureHTML;
   </script>
 
-  <!-- ==================== 🎄 聖誕互動特效（雪花、雪人、牽手包子） ==================== -->
+  <!-- ==================== 🎄 聖誕互動特效（雪花、奶皇包嚮導、魔法棒） ==================== -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="xtHatRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2463b"/><stop offset="1" stop-color="#9c2a24"/></linearGradient>
@@ -1173,22 +1173,9 @@
   <canvas id="xt-snowfx" aria-hidden="true"></canvas>
   <div id="xt-frost" aria-hidden="true"></div>
 
-  <button type="button" id="xt-snowman" aria-label="雪人寶寶，點我說話">
-    <svg viewBox="0 0 100 130" width="92" aria-hidden="true">
-      <ellipse cx="50" cy="126" rx="40" ry="6" fill="#000" opacity=".08"/>
-      <circle cx="50" cy="96" r="30" fill="#fff" stroke="#dfe7ec" stroke-width="2"/>
-      <circle cx="50" cy="52" r="22" fill="#fff" stroke="#dfe7ec" stroke-width="2"/>
-      <path d="M22 80 L6 68" stroke="#6b4224" stroke-width="3" stroke-linecap="round"/>
-      <g class="arm-wave"><path d="M74 72 L94 56 M88 61 L93 66" stroke="#6b4224" stroke-width="3" stroke-linecap="round"/></g>
-      <path d="M30 68 Q50 78 70 68 L70 74 Q50 84 30 74 Z" fill="#a8322b"/>
-      <path d="M60 72 L66 92 L58 92 L55 76 Z" fill="#c0443a"/>
-      <circle cx="42" cy="48" r="2.6" fill="#2b2b2b"/><circle cx="58" cy="48" r="2.6" fill="#2b2b2b"/>
-      <path d="M50 54 L66 57 L50 59 Z" fill="#f08a3a"/>
-      <path d="M42 62 Q50 67 58 62" stroke="#2b2b2b" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <circle cx="37" cy="57" r="3.5" fill="#f6b6b0" opacity=".7"/><circle cx="63" cy="57" r="3.5" fill="#f6b6b0" opacity=".7"/>
-      <circle cx="50" cy="90" r="2.6" fill="#2b2b2b"/><circle cx="50" cy="102" r="2.6" fill="#2b2b2b"/>
-      <use href="#xtHatSym" x="26" y="16" width="50" height="40"/>
-    </svg>
+  <!-- 左下角嚮導：奶皇包（人際技巧）。沿用原本雪人的位置與互動 -->
+  <button type="button" id="xt-snowman" aria-label="奶皇包，點我說話">
+    <img class="xt-guide" src="./public/naihuang-xmas.png" alt="" width="84" height="109" />
   </button>
   <div id="xt-snowman-say" class="xt-say" role="status"><span class="txt"></span></div>
 
@@ -1350,13 +1337,14 @@
         iceBurst(e.clientX, e.clientY);
       }, { passive: true });
 
-      /* ---------- 2. 雪人寶寶 ---------- */
+      /* ---------- 2. 左下角嚮導：奶皇包 ---------- */
       var snowman = document.getElementById('xt-snowman'), smSay = document.getElementById('xt-snowman-say'), smTxt = smSay.querySelector('.txt');
       var target = document.getElementById('xmas-thanks');
       var LINES = [
-        '嗨！我是雪人寶寶 ⛄<br>這個月一起來寫「感謝」吧！',
+        '嗨！我是奶皇包 🧩<br>這個月由我陪大家寫「感謝」！',
         '今天也辛苦了，記得喝口熱水、伸個懶腰 ☕',
-        '說一聲謝謝，心也會跟著變暖喔 ✦',
+        '說謝謝的祕訣：說出「誰」、「做了什麼」、「帶給你什麼感受」🧩',
+        '一句謝謝，就是一塊溫暖的拼圖 ✦',
         '看見你手上的魔法棒了嗎？✦ 在畫面上點一點，會灑出星光喔',
         '覺得特效太熱鬧？右下角的 ✦ 可以關掉～'
       ];
