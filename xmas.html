@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>聖誕感恩活動｜奇美醫院 SEL 學習小棧</title>
+
+  <!-- Noto Sans TC 中文字型 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Noto+Serif+TC:wght@500;600;700;900&family=Great+Vibes&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- 瀏覽人次 -->
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/ajax.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/fileinfodoc/js/getfileInfo.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/ajax.js" charset="big5"></script>
+  <script type="text/javascript" src="https://www.chimei.org.tw/countdoc/js/count.js" charset="big5"></script>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind 客製設定（對應原 tailwind.config.js） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'soft-blue': '#EBF5FB',
+            'soft-green': '#EAF6EC',
+            beige: '#F5E6D3',
+            'soft-orange': '#FEE8D5',
+            'muted-orange': '#F4A261',
+            'warm-teal': '#52B5A0',
+            'warm-text': '#3D3D3D',
+            'sub-text': '#6B7280',
+            /* 🎄 聖誕感恩活動用色 */
+            'xmas-red': '#C8463D',
+            'xmas-green': '#2F6B4F',
+            'xmas-gold': '#E3B04B',
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 4px 20px rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px rgba(0,0,0,0.13)',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- 客製 CSS（對應原 index.css 的 @layer components 與動畫） -->
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #FFF8F0;
+      color: #3D3D3D;
+      line-height: 1.8;
+      font-size: 18px;
+      overflow-wrap: break-word;
+    }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    /* 按鈕 */
+    .btn-primary {
+      background-color: #F4A261;
+      color: #fff;
+      font-weight: 500;
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-primary:hover {
+      background-color: #f97316;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .btn-outline {
+      background-color: transparent;
+      color: #F4A261;
+      font-weight: 500;
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      border: 2px solid #F4A261;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-outline:hover { background-color: #FEE8D5; }
+
+    /* 區塊標題 */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #3D3D3D;
+      margin-bottom: 0.5rem;
+    }
+    @media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+    .section-subtitle {
+      color: #6B7280;
+      font-size: 1rem;
+      line-height: 1.625;
+      margin-bottom: 2rem;
+    }
+
+    /* 卡片 hover */
+    .card-hover { transition: all 0.3s; }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+
+    /* 頁面進入動畫 */
+    .page-enter { animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 聚光燈呼吸 */
+    @keyframes spotlightBreathe {
+      0%, 100% { opacity: 0.85; }
+      50%      { opacity: 1; }
+    }
+    .animate-spotlight {
+      animation: spotlightBreathe 6s ease-in-out infinite;
+    }
+
+    /* bounce 動畫 (Tailwind 內建但客製速度) */
+    @keyframes softBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .animate-soft-bounce {
+      animation: softBounce 2.5s ease-in-out infinite;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFF8F0; }
+    ::-webkit-scrollbar-thumb { background: #e5c9af; border-radius: 3px; }
+
+    /* ==================== 🎄 12月 聖誕感恩活動 ==================== */
+    #xmas-thanks, .xt-marquee {
+      --xt-forest: #1f4a36; --xt-forest-d: #143326; --xt-gold: #c9a052; --xt-gold-l: #f1dca2;
+      --xt-red: #a8322b; --xt-paper: #fffaf1; --xt-ink: #3b2f25;
+    }
+    .xt-serif  { font-family: 'Noto Serif TC', serif; }
+    .xt-script { font-family: 'Great Vibes', cursive; font-weight: 400; letter-spacing: .02em; }
+    .xt-hand   { font-family: 'LXGW WenKai TC', 'Noto Serif TC', serif; }
+
+    /* 橫幅 */
+    .xt-banner {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 214, 140, .30) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 0% 100%, rgba(255, 255, 255, .06) 0%, transparent 70%),
+        linear-gradient(165deg, #2c6249 0%, #1f4a36 50%, #143326 100%);
+    }
+    .xt-frame { position: absolute; inset: 12px; border: 1px solid rgba(241, 220, 162, .35); border-radius: 18px; pointer-events: none; }
+    .xt-frame::before { content: ""; position: absolute; inset: 4px; border: 1px solid rgba(241, 220, 162, .15); border-radius: 15px; }
+    .xt-gold-text {
+      background: linear-gradient(180deg, #fff6d8 0%, #f1dca2 40%, #d8b064 75%, #f3e2b3 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .25));
+    }
+    .xt-divider { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--xt-gold); }
+    .xt-divider::before, .xt-divider::after { content: ""; height: 1px; width: 64px; background: linear-gradient(90deg, transparent, currentColor); }
+    .xt-divider::after { transform: scaleX(-1); }
+    /* 飄雪 */
+    .xt-snow { position: absolute; inset: 0; pointer-events: none; }
+    .xt-snow i { position: absolute; top: -12px; border-radius: 50%; background: #fff; opacity: .7; animation: xtFall linear infinite; }
+    @keyframes xtFall { to { transform: translate(30px, 1100px); } }
+    /* 燈串 */
+    .xt-lights { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-around; pointer-events: none; }
+    .xt-lights::before { content: ""; position: absolute; top: 4px; left: -2%; right: -2%; height: 18px; border-bottom: 1.5px solid rgba(241, 220, 162, .35); border-radius: 0 0 50% 50%; }
+    .xt-lights span { width: 9px; height: 13px; margin-top: 13px; border-radius: 50% 50% 45% 45%; animation: xtTwinkle 2.4s ease-in-out infinite; }
+    .xt-lights span:nth-child(3n+1) { background: #ffd36b; color: #ffd36b; }
+    .xt-lights span:nth-child(3n+2) { background: #ff9f86; color: #ff9f86; animation-delay: .8s; }
+    .xt-lights span:nth-child(3n)   { background: #fff1c4; color: #fff1c4; animation-delay: 1.6s; }
+    @keyframes xtTwinkle { 0%, 100% { opacity: .5; box-shadow: 0 0 4px currentColor; } 50% { opacity: 1; box-shadow: 0 0 14px 3px currentColor; } }
+
+    /* 信紙質感（表單、感謝小卡） */
+    .xt-paper {
+      background: linear-gradient(180deg, #fffdf8 0%, #fdf5e6 100%);
+      border: 1px solid #ecdcbc;
+      box-shadow: 0 1px 0 #fff inset, 0 18px 40px -18px rgba(60, 40, 10, .35), 0 4px 12px rgba(60, 40, 10, .06);
+      position: relative;
+    }
+    .xt-paper::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(201, 160, 82, .28); border-radius: inherit; pointer-events: none; }
+    .xt-step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--xt-forest); color: #f1dca2; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .xt-field { width: 100%; border: 1px solid #e3d2b0; background: #fffdf9; border-radius: 12px; color: var(--xt-ink); transition: border-color .2s, box-shadow .2s; }
+    .xt-field:focus { outline: none; border-color: var(--xt-gold); box-shadow: 0 0 0 4px rgba(201, 160, 82, .18); }
+    .xt-field::placeholder { color: #b5a58c; }
+    /* 類別選擇卡 */
+    .xt-kind span.xt-kind-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; border: 1px solid #e3d2b0; background: #fffdf9; transition: all .2s; height: 100%; }
+    .xt-kind:hover span.xt-kind-card { border-color: var(--xt-gold); }
+    .xt-kind input:checked + span.xt-kind-card { border-color: var(--xt-gold); background: linear-gradient(180deg, #fffaf0, #fbefd6); box-shadow: 0 0 0 3px rgba(201, 160, 82, .2); }
+    .xt-kind input:focus-visible + span.xt-kind-card { outline: 2px solid var(--xt-forest); outline-offset: 2px; }
+    .xt-mini-ball { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.9); font-size: 11px;
+      background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.9) 0 8%, transparent 24%), radial-gradient(circle, var(--c1) 0%, var(--c2) 75%, var(--c3) 100%);
+      box-shadow: inset -2px -3px 4px rgba(0,0,0,.2); }
+    .xt-chip { font-size: 13px; padding: 3px 12px; border-radius: 9999px; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; transition: all .2s; }
+    .xt-chip:hover { border-color: var(--xt-gold); color: var(--xt-ink); background: #fff7e6; }
+    .xt-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; border-radius: 9999px;
+      background: linear-gradient(180deg, #c0443a 0%, #9c2a24 100%); color: #fff; font-weight: 600; letter-spacing: .06em;
+      box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 8px 18px -6px rgba(156, 42, 36, .6); transition: transform .2s, box-shadow .2s, filter .2s;
+    }
+    .xt-btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 1px 0 rgba(255,255,255,.25) inset, 0 12px 24px -8px rgba(156, 42, 36, .7); }
+    .xt-btn:disabled { opacity: .6; cursor: wait; transform: none; }
+    .xt-share { border: 1px dashed #dcc69a; background: rgba(255, 250, 238, .7); border-radius: 14px; transition: background .2s; }
+    .xt-share:hover { background: #fff6e2; }
+    .xt-share input { accent-color: #1f4a36; }
+
+    /* 跑馬燈 */
+    .xt-marquee {
+      background: linear-gradient(90deg, #6e1b1b 0%, #a3302a 50%, #6e1b1b 100%);
+      padding: 8px 0; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: 16px; letter-spacing: .08em;
+      border-top: 1px solid rgba(241, 220, 162, .7); border-bottom: 1px solid rgba(241, 220, 162, .7);
+      box-shadow: inset 0 3px 0 #6e1b1b, inset 0 4px 0 rgba(241, 220, 162, .45), inset 0 -3px 0 #6e1b1b, inset 0 -4px 0 rgba(241, 220, 162, .45), 0 10px 24px -10px rgba(110, 27, 27, .6);
+    }
+    .xt-mq-track { display: flex; width: max-content; animation: xtMarquee 50s linear infinite; }
+    .xt-marquee:hover .xt-mq-track, .xt-marquee:focus-visible .xt-mq-track { animation-play-state: paused; }
+    .xt-marquee:focus-visible { outline: 2px solid #f1dca2; outline-offset: -4px; }
+    .xt-mq-group { display: flex; align-items: center; flex-shrink: 0; }
+    .xt-mq-item { white-space: nowrap; padding: 0 18px; color: #fff4dc; }
+    .xt-mq-item b { color: #f1dca2; font-weight: 700; }
+    .xt-mq-cta { margin: 0 18px; padding: 3px 16px; border-radius: 9999px; color: #4a2c0c; background: linear-gradient(180deg, #f7e3a6, #d8ad55); box-shadow: 0 1px 0 rgba(255,255,255,.5) inset; }
+    /* 跑馬燈上的五顆 SEL 包子：public/xmas-bun-1.png ～ xmas-bun-5.png（已去背、去光暈） */
+    .xt-bun {
+      flex-shrink: 0; height: 80px; aspect-ratio: 262 / 420; margin: 0 6px;
+      background: var(--img) center / contain no-repeat;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,.3));
+      animation: softBounce 2.5s ease-in-out infinite; animation-delay: var(--d, 0s);
+    }
+    @keyframes xtMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (max-width: 640px) { .xt-marquee { font-size: 14px; } .xt-bun { height: 66px; } .xt-mq-track { animation-duration: 30s; } }
+
+    /* 聖誕樹舞台 */
+    .xt-tree-stage {
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255, 214, 140, .35) 0 3%, transparent 9%),
+        radial-gradient(circle at 82% 16%, rgba(255, 180, 150, .28) 0 2.5%, transparent 8%),
+        radial-gradient(circle at 88% 78%, rgba(255, 214, 140, .3) 0 3%, transparent 10%),
+        radial-gradient(circle at 10% 82%, rgba(160, 210, 190, .25) 0 2.5%, transparent 8%),
+        radial-gradient(ellipse 55% 50% at 32% 50%, rgba(255, 216, 150, .5) 0%, transparent 75%),
+        linear-gradient(180deg, #fffaf1 0%, #fbeedb 100%);
+      border: 1px solid #f0e2c8;
+    }
+    .xt-tree { position: relative; width: 100%; max-width: 520px; margin: 0 auto; aspect-ratio: 4 / 5; }
+    .xt-tree > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .xt-bulb { animation: xtBulb 2.4s ease-in-out infinite; }
+    .xt-bulb:nth-child(3n+1) { animation-delay: .8s; }
+    .xt-bulb:nth-child(3n+2) { animation-delay: 1.6s; }
+    @keyframes xtBulb { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+    .xt-rays { transform-origin: 200px 38px; animation: xtRays 24s linear infinite; }
+    @keyframes xtRays { to { transform: rotate(360deg); } }
+    .xt-star { transform-origin: 200px 38px; animation: xtStar 3s ease-in-out infinite; }
+    @keyframes xtStar { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+
+    /* 吊飾 */
+    .xt-orn { position: absolute; width: 8%; aspect-ratio: 1; padding: 0; border: 0; background: none; transform: translate(-50%, -50%); cursor: pointer; z-index: 2; transition: transform .25s, opacity .3s; }
+    .xt-orn .swing { position: absolute; inset: 0; transform-origin: 50% -55%; animation: xtSwing 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+    .xt-orn .swing::before { /* 吊線 */
+      content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 55%; margin-left: -.5px;
+      background: linear-gradient(rgba(201,160,82,0), #c9a052);
+    }
+    .xt-orn .cap { position: absolute; left: 50%; top: -9%; width: 32%; height: 17%; margin-left: -16%; border-radius: 3px 3px 2px 2px;
+      background: linear-gradient(90deg, #a77b2c, #f6e2a4 45%, #b68937); box-shadow: 0 1px 1px rgba(0,0,0,.25); z-index: 1; }
+    .xt-orn .ball { position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255,255,255,.95) 0 5%, rgba(255,255,255,0) 20%),
+        radial-gradient(ellipse 60% 30% at 55% 88%, rgba(255,255,255,.35) 0%, transparent 70%),
+        radial-gradient(circle at 45% 40%, var(--c1) 0%, var(--c2) 62%, var(--c3) 100%);
+      box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 6px 10px -4px rgba(40, 20, 0, .45); }
+    .xt-orn .ball i { font-style: normal; color: rgba(255,255,255,.88); font-size: clamp(8px, 1.9vw, 13px); line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+    .xt-orn.person, .xt-mini-ball.person { --c1: #ef6b5d; --c2: #b02a22; --c3: #6d1611; }
+    .xt-orn.event,  .xt-mini-ball.event  { --c1: #f8d77f; --c2: #c99331; --c3: #7c5414; }
+    .xt-orn.thing,  .xt-mini-ball.thing  { --c1: #6fcfb6; --c2: #23826d; --c3: #0f4538; }
+    .xt-orn:hover, .xt-orn:focus-visible { transform: translate(-50%, -50%) scale(1.22); z-index: 5; outline: none; }
+    .xt-orn.is-active { transform: translate(-50%, -50%) scale(1.32); z-index: 6; }
+    .xt-orn.is-active .ball, .xt-orn:focus-visible .ball { box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 0 0 2px #fffaf0, 0 0 0 3.5px #c9a052, 0 0 22px 6px rgba(255, 205, 100, .75); }
+    .xt-orn.is-dim { opacity: .15; pointer-events: none; }
+    .xt-orn.is-new { animation: xtDrop 1s cubic-bezier(.3, 1.45, .5, 1); }
+    @keyframes xtDrop { from { transform: translate(-50%, -420%) scale(.4); opacity: 0; } }
+    @keyframes xtSwing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+
+    /* 感謝小卡 */
+    .xt-letter { border-radius: 22px; padding: 40px 30px 20px; }
+    .xt-letter-label { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+      background: linear-gradient(180deg, #2a5d45, #1f4a36); color: #f1dca2; font-size: 12px; letter-spacing: .2em; padding: 4px 16px; border-radius: 9999px; box-shadow: 0 4px 10px -4px rgba(20, 51, 38, .6); }
+    .xt-quote { position: absolute; top: 22px; right: 26px; font-family: 'Noto Serif TC', serif; font-size: 72px; line-height: 1; color: rgba(201, 160, 82, .28); pointer-events: none; }
+    .xt-note { font-size: 1.3rem; line-height: 1.9; color: var(--xt-ink); }
+    .xt-sign { color: #8a7458; }
+    .xt-seal { position: absolute; right: 26px; top: -18px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #f6d9cf; font-size: 15px;
+      background: radial-gradient(circle at 35% 30%, #d0564a, #9c2a24 60%, #741a15); box-shadow: 0 4px 8px -2px rgba(116, 26, 21, .5), inset 0 0 0 3px rgba(255,255,255,.08); }
+    .xt-nav { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; font-size: 18px; line-height: 1; transition: all .2s; }
+    .xt-nav:hover { border-color: var(--xt-gold); color: var(--xt-ink); background: #fff6e2; }
+    .xt-reader-body.is-swap { animation: xtFadeUp .4s ease-out; }
+    @keyframes xtFadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .xt-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 5px 14px; border-radius: 9999px; border: 1px solid #e3d2b0; background: #fffdf9; color: #7a6a55; transition: all .2s; }
+    .xt-pill:hover { border-color: var(--xt-gold); }
+    .xt-pill[aria-pressed="true"] { background: var(--xt-forest); border-color: var(--xt-forest); color: #f8eccb; }
+    .xt-dot { width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--c1), var(--c2)); }
+    .xt-dot.person { --c1: #ef6b5d; --c2: #b02a22; } .xt-dot.event { --c1: #f8d77f; --c2: #c99331; } .xt-dot.thing { --c1: #6fcfb6; --c2: #23826d; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .xt-snow { display: none; }
+      .xt-lights span, .xt-orn .swing, .xt-orn.is-new, .xt-bulb, .xt-star, .xt-rays, .xt-reader-body.is-swap, .xt-bun { animation: none; }
+      .xt-mq-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+      .xt-mq-group[aria-hidden="true"] { display: none; }
+    }
+    /* ==================== 🎄 聖誕互動特效 ==================== */
+    .xt-hat { position: absolute; pointer-events: none; overflow: visible; filter: drop-shadow(0 2px 2px rgba(0,0,0,.18)); }
+    /* 包子（只裁身體，不含標籤）*/
+    .xt-bun2 {
+      display: block; aspect-ratio: 262 / 420;
+      background: var(--img) center / contain no-repeat;
+      filter: drop-shadow(0 4px 5px rgba(80, 50, 10, .25));
+    }
+    /* 全頁雪花 */
+    #xt-snowfx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 45; }
+    /* 包子報佳音 */
+    .xt-choir-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 18px 4px 0; cursor: pointer; }
+    .xt-choir-item .xt-bun2 { width: clamp(54px, 15vw, 84px); transition: transform .25s; }
+    .xt-choir-item .xt-hat { width: calc(clamp(48px, 13vw, 78px) * .62); top: 4px; left: 50%; transform: translateX(-38%) rotate(-10deg); }
+    .xt-choir-item:hover .xt-bun2, .xt-choir-item:focus-visible .xt-bun2 { transform: translateY(-4px) rotate(-3deg); }
+    .xt-choir-item:focus-visible { outline: 2px solid #c9a052; outline-offset: 4px; border-radius: 16px; }
+    .xt-choir-item.is-hop .xt-bun2, .xt-choir-item.is-hop .xt-hat { animation: xtHop .55s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes xtHop { 0% { translate: 0 0; } 40% { translate: 0 -18px; } 100% { translate: 0 0; } }
+    .xt-choir-name { font-size: 12px; color: #7a6a55; letter-spacing: .08em; white-space: nowrap; }
+    .xt-choir.is-in .xt-choir-item { animation: xtPopIn .7s cubic-bezier(.3, 1.5, .5, 1) backwards; animation-delay: calc(var(--i) * .12s); }
+    .xt-choir:not(.is-in) .xt-choir-item { opacity: 0; }
+    @keyframes xtPopIn { from { opacity: 0; transform: translateY(30px) scale(.7); } }
+    .xt-say {
+      position: absolute; left: 50%; bottom: calc(100% - 6px); transform: translateX(-50%) translateY(6px); width: max-content; max-width: 210px;
+      background: #fffdf8; color: #3b2f25; border: 1px solid #e3d2b0; border-radius: 14px; padding: 8px 12px; font-size: 13px; line-height: 1.6;
+      box-shadow: 0 10px 24px -10px rgba(60, 40, 10, .45); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 10; text-align: left;
+    }
+    .xt-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -7px; border: 7px solid transparent; border-top-color: #fffdf8; }
+    .xt-say.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* 左下角嚮導：奶皇包 */
+    #xt-snowman { position: fixed; left: 10px; bottom: -4px; width: 84px; z-index: 46; background: none; border: 0; padding: 0; cursor: pointer;
+      transform: translateY(110%); transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); }
+    #xt-snowman.is-up { transform: translateY(0); }
+    #xt-snowman:hover { transform: translateY(-4px); }
+    #xt-snowman:focus-visible { outline: 2px solid #c9a052; outline-offset: 2px; border-radius: 12px; }
+    #xt-snowman .xt-guide { display: block; width: 84px; height: auto; transform-origin: 50% 100%; filter: drop-shadow(0 6px 8px rgba(120, 70, 10, .3)); animation: xtGuide 2.8s ease-in-out infinite; }
+    @keyframes xtGuide { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg) translateY(-3px); } }
+    #xt-snowman-say { left: 100px; bottom: 74px; transform: translateY(6px); max-width: 230px; position: fixed; z-index: 47; }
+    #xt-snowman-say::after { left: -7px; top: auto; bottom: 14px; margin: 0; border: 7px solid transparent; border-right-color: #fffdf8; border-left: 0; }
+    #xt-snowman-say.is-show { transform: translateY(0); pointer-events: auto; }
+    #xt-snowman-say button { color: #a8322b; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; margin-top: 2px; }
+
+    /* 特效開關 */
+    #xt-fx-toggle { position: fixed; right: 14px; bottom: 14px; z-index: 47; width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(180deg, #2a5d45, #1f4a36); color: #f1dca2; font-size: 20px; line-height: 1; border: 1px solid rgba(241,220,162,.5);
+      box-shadow: 0 8px 18px -8px rgba(20, 51, 38, .7); transition: transform .2s, opacity .2s; }
+    #xt-fx-toggle:hover { transform: scale(1.08); }
+    #xt-fx-toggle[aria-pressed="false"] { background: #fffdf8; color: #b5a58c; border-color: #e3d2b0; }
+    #xt-fx-toggle .tip { position: absolute; right: 52px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 12px; background: #1f4a36; color: #f8eccb; padding: 3px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    #xt-fx-toggle:hover .tip, #xt-fx-toggle:focus-visible .tip { opacity: 1; }
+
+    /* 牽手的聖誕包子（電腦版）*/
+    @keyframes xtIdle { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+    .xt-spark { position: fixed; z-index: 49; pointer-events: none; color: #e8bf62; font-size: 14px; animation: xtSpark .8s ease-out forwards; }
+    @keyframes xtSpark { from { opacity: 1; transform: translate(-50%, -50%) scale(.6); } to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); } }
+
+    /* 你提供的聖誕包子插圖 */
+    .xt-illus { position: relative; max-width: 48rem; margin: 0 auto 2.25rem; border-radius: 20px; overflow: hidden; border: 1px solid rgba(241, 220, 162, .55);
+      box-shadow: 0 0 0 6px rgba(241, 220, 162, .08), 0 24px 40px -20px rgba(0, 0, 0, .55); }
+    .xt-illus img { display: block; width: 100%; height: auto; }
+    /* 送出後的慶祝卡 */
+    #xt-celebrate { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 35, 28, .45); backdrop-filter: blur(2px); }
+    #xt-celebrate.is-show { display: flex; animation: xtFadeIn .25s ease-out; }
+    @keyframes xtFadeIn { from { opacity: 0; } }
+    #xt-celebrate .card { width: min(440px, 100%); border-radius: 22px; overflow: hidden; text-align: center; animation: xtPopIn .5s cubic-bezier(.3, 1.5, .5, 1); }
+    #xt-celebrate .card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    @media (prefers-reduced-motion: reduce) {
+      #xt-celebrate.is-show, #xt-celebrate .card { animation: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .xt-choir.is-in .xt-choir-item, #xt-snowman .xt-guide { animation: none; }
+      .xt-choir:not(.is-in) .xt-choir-item { opacity: 1; }
+    }
+    /* ==================== ❄ 冰雪魔法 ==================== */
+    #xt-frost { position: fixed; inset: 0; z-index: 44; pointer-events: none; opacity: 0; transition: opacity .15s linear;
+      background:
+        radial-gradient(ellipse 75% 70% at 50% 50%, transparent 58%, rgba(150, 205, 245, .5) 86%, rgba(200, 232, 255, .9) 100%),
+        repeating-conic-gradient(from 0deg at 0% 0%, rgba(255,255,255,0) 0deg 4deg, rgba(120,185,235,.3) 4deg 5deg),
+        repeating-conic-gradient(from 0deg at 100% 100%, rgba(255,255,255,0) 0deg 4deg, rgba(120,185,235,.3) 4deg 5deg);
+      -webkit-mask: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, #000 95%); mask: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, #000 95%); }
+    .xt-aurora { position: absolute; inset: -30% -10% 40% -10%; pointer-events: none; opacity: .55; filter: blur(30px); mix-blend-mode: screen;
+      background:
+        radial-gradient(ellipse 35% 45% at 25% 55%, rgba(120, 230, 210, .55), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 55% 45%, rgba(140, 180, 255, .45), transparent 70%),
+        radial-gradient(ellipse 30% 45% at 80% 60%, rgba(200, 150, 255, .4), transparent 70%);
+      animation: xtAurora 14s ease-in-out infinite alternate; }
+    @keyframes xtAurora { 0% { transform: translateX(-6%) skewX(-6deg); } 50% { transform: translateX(4%) skewX(4deg) scaleY(1.1); } 100% { transform: translateX(8%) skewX(-3deg); } }
+    .xt-glint { position: relative; }
+    .xt-glint { background-image: linear-gradient(110deg, transparent 40%, rgba(235, 248, 255, .95) 50%, transparent 60%), linear-gradient(180deg, #fff6d8 0%, #f1dca2 40%, #d8b064 75%, #f3e2b3 100%);
+      background-size: 250% 100%, 100% 100%; background-repeat: no-repeat; animation: xtGlint 5s ease-in-out infinite; }
+    @keyframes xtGlint { 0%, 55% { background-position: 150% 0, 0 0; } 100% { background-position: -100% 0, 0 0; } }
+    @media (prefers-reduced-motion: reduce) { .xt-aurora, .xt-glint { animation: none; } }
+
+    /* 魔法棒游標（電腦版；開關關閉時恢復一般游標）*/
+    html.xt-wand, html.xt-wand body, html.xt-wand * { cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cline x1='9' y1='9' x2='29' y2='29' stroke='%232d2147' stroke-width='3.4' stroke-linecap='round'/%3E%3Cline x1='9.5' y1='9' x2='28' y2='27.5' stroke='%238a72bd' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='24.5' y1='24.5' x2='29' y2='29' stroke='%23e6c06a' stroke-width='3.6' stroke-linecap='round'/%3E%3Cpolygon points='6.0,0.6 7.3,4.2 11.1,4.3 8.2,6.7 9.2,10.4 6.0,8.3 2.8,10.4 3.8,6.7 0.9,4.3 4.7,4.2' fill='%23ffd75e' stroke='%23b8822a' stroke-width='.9' stroke-linejoin='round'/%3E%3Ccircle cx='4.6' cy='4.4' r='1' fill='white'/%3E%3C/svg%3E") 6 6, auto; }
+    html.xt-wand #xt-snowman, html.xt-wand a, html.xt-wand button, html.xt-wand label, html.xt-wand summary, html.xt-wand [role="button"], html.xt-wand a *, html.xt-wand button *, html.xt-wand label * { cursor: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cline x1='9' y1='9' x2='29' y2='29' stroke='%232d2147' stroke-width='3.4' stroke-linecap='round'/%3E%3Cline x1='9.5' y1='9' x2='28' y2='27.5' stroke='%238a72bd' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='24.5' y1='24.5' x2='29' y2='29' stroke='%23e6c06a' stroke-width='3.6' stroke-linecap='round'/%3E%3Ccircle cx='6' cy='6' r='6' fill='%23ffe9a0' opacity='.55'/%3E%3Cpolygon points='6.0,-0.2 7.5,3.9 11.9,4.1 8.5,6.8 9.6,11.0 6.0,8.6 2.4,11.0 3.5,6.8 0.1,4.1 4.5,3.9' fill='%23ffd75e' stroke='%23b8822a' stroke-width='.9' stroke-linejoin='round'/%3E%3Ccircle cx='4.6' cy='4.4' r='1' fill='white'/%3E%3C/svg%3E") 6 6, pointer; }
+    html.xt-wand textarea, html.xt-wand input[type="text"] { cursor: text; }
+
+    /* 溫暖 +1 */
+    .xt-like { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px 5px 10px; border-radius: 9999px; border: 1px solid #ecc9c2; background: #fff7f4; color: #a8322b; font-size: 13px; font-weight: 600; transition: all .2s; user-select: none; }
+    .xt-like:hover { background: #ffece6; border-color: #e0564b; transform: translateY(-1px); }
+    .xt-like .h { display: inline-block; font-size: 15px; line-height: 1; color: #e0564b; transition: transform .2s; }
+    .xt-like .n { min-width: 1.2em; text-align: center; font-family: 'Noto Serif TC', serif; font-weight: 700; color: #7a2a24; }
+    .xt-like.is-big { padding: 7px 18px 7px 14px; font-size: 14px; }
+    .xt-like.is-big .h { font-size: 18px; }
+    .xt-like.is-on { background: linear-gradient(180deg, #e3584c, #b02a22); border-color: #b02a22; color: #fff; box-shadow: 0 6px 14px -6px rgba(176, 42, 34, .6); }
+    .xt-like.is-on .h, .xt-like.is-on .n { color: #fff; }
+    .xt-like .h.is-pop { animation: xtHeartPop .5s cubic-bezier(.3, 1.8, .5, 1); }
+    @keyframes xtHeartPop { 0% { transform: scale(1); } 40% { transform: scale(1.7); } 100% { transform: scale(1); } }
+    .xt-fheart { position: fixed; z-index: 70; pointer-events: none; transform: translate(-50%, -50%); animation: xtFloatHeart 1.2s ease-out forwards; text-shadow: 0 2px 6px rgba(176, 42, 34, .25); }
+    @keyframes xtFloatHeart { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2) rotate(15deg); } }
+    .xt-bigheart { position: absolute; left: 50%; top: 45%; z-index: 5; font-size: 96px; line-height: 1; color: #e0564b; pointer-events: none; text-shadow: 0 8px 24px rgba(176, 42, 34, .35); animation: xtBigHeart .9s ease-out forwards; }
+    @keyframes xtBigHeart { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); } 25% { opacity: .95; transform: translate(-50%, -50%) scale(1.15); } 45% { transform: translate(-50%, -50%) scale(.95); } 100% { opacity: 0; transform: translate(-50%, -70%) scale(1); } }
+    [data-dbl] { cursor: pointer; }
+    .xt-orn.is-loved .ball { animation: xtLoved .8s ease-out; }
+    @keyframes xtLoved { 0% { box-shadow: 0 0 0 0 rgba(224, 86, 75, .7); } 100% { box-shadow: 0 0 0 18px rgba(224, 86, 75, 0); } }
+    @media (prefers-reduced-motion: reduce) { .xt-fheart, .xt-bigheart, .xt-like .h.is-pop, .xt-orn.is-loved .ball { animation-duration: .01ms; } }
+
+    /* ==================== 溫暖排行榜 + 感謝留言牆 ==================== */
+    .xt-rank-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 8px 10px; border-radius: 14px; border: 1px solid transparent; transition: all .2s; }
+    .xt-rank-item:hover { background: #fff6e6; border-color: #ecdcbc; }
+    .xt-medal { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 14px; color: #7a6a55; background: #f6ecd9; }
+    .xt-rank-item[data-r="1"] .xt-medal { background: radial-gradient(circle at 35% 30%, #fff1b8, #e3b23c 60%, #b8862a); color: #5b3d07; box-shadow: 0 2px 6px rgba(184, 134, 42, .45); }
+    .xt-rank-item[data-r="2"] .xt-medal { background: radial-gradient(circle at 35% 30%, #ffffff, #c9cfd6 60%, #8f98a3); color: #3f454c; }
+    .xt-rank-item[data-r="3"] .xt-medal { background: radial-gradient(circle at 35% 30%, #ffe0c2, #d08a4f 60%, #9a5b2a); color: #fff; }
+    .xt-rank-txt { flex: 1; min-width: 0; font-size: 15px; line-height: 1.5; color: #3b2f25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .xt-rank-cnt { flex-shrink: 0; font-size: 13px; font-weight: 700; color: #b02a22; font-family: 'Noto Serif TC', serif; }
+
+    .xt-wall { columns: 1; column-gap: 20px; }
+    @media (min-width: 640px)  { .xt-wall { columns: 2; } }
+    @media (min-width: 1024px) { .xt-wall { columns: 3; } }
+    .xt-card-note { position: relative; break-inside: avoid; margin: 0 0 22px; padding: 26px 20px 16px; border-radius: 6px 6px 18px 6px;
+      background: var(--bg); border: 1px solid var(--bd); box-shadow: 0 1px 0 #fff inset, 0 14px 26px -16px rgba(60, 40, 10, .4);
+      transform: rotate(var(--r, 0deg)); transition: transform .25s, box-shadow .25s; }
+    .xt-card-note:hover { box-shadow: 0 0 0 2px rgba(201, 160, 82, .35), 0 18px 30px -14px rgba(60, 40, 10, .45); z-index: 2; }
+    .xt-card-note::before { content: ""; position: absolute; top: -9px; left: 50%; width: 76px; height: 20px; margin-left: -38px; transform: rotate(var(--tr, -2deg));
+      background: var(--tape); opacity: .85; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+    .xt-card-note.person { --bg: linear-gradient(180deg, #fffaf8, #fff1ec); --bd: #f3d6cf; --tape: repeating-linear-gradient(45deg, #f5b7ac 0 6px, #f9cfc6 6px 12px); }
+    .xt-card-note.event  { --bg: linear-gradient(180deg, #fffdf6, #fff6e0); --bd: #f0e0b4; --tape: repeating-linear-gradient(45deg, #f2d58a 0 6px, #f7e4ae 6px 12px); }
+    .xt-card-note.thing  { --bg: linear-gradient(180deg, #f9fffc, #ecf8f2); --bd: #cfe7dc; --tape: repeating-linear-gradient(45deg, #a7dcc9 0 6px, #c4e9db 6px 12px); }
+    .xt-card-note .xt-txt { font-size: 1.15rem; line-height: 1.85; color: #3b2f25; margin: 12px 0 8px; cursor: pointer; }
+    .xt-ribbon { position: absolute; top: 12px; right: -6px; padding: 2px 10px 2px 12px; font-size: 12px; font-weight: 700; color: #5b3d07; letter-spacing: .05em;
+      background: linear-gradient(180deg, #ffe69a, #e3b23c); border-radius: 4px 0 0 4px; box-shadow: 0 3px 6px -2px rgba(184, 134, 42, .5); }
+    .xt-ribbon::after { content: ""; position: absolute; right: 0; bottom: -6px; border-left: 6px solid #a8791f; border-bottom: 6px solid transparent; }
+    .xt-card-note.is-flash { animation: xtFlash 1.6s ease-out; }
+    @keyframes xtFlash { 0%, 30% { box-shadow: 0 0 0 4px #f1dca2, 0 0 30px 8px rgba(255, 200, 90, .7); } 100% { box-shadow: 0 14px 26px -16px rgba(60, 40, 10, .4); } }
+    .xt-del { font-size: 12px; color: #b5a58c; }
+    .xt-del:hover, .xt-del.is-armed { color: #a8322b; font-weight: 600; }
+
+    /* 吊飾依排名移動 */
+    .xt-orn { transition: left .9s cubic-bezier(.3, 1.2, .4, 1), top .9s cubic-bezier(.3, 1.2, .4, 1), width .5s, transform .25s, opacity .3s; width: var(--w, 8%); }
+    .xt-orn.is-top .ball { box-shadow: inset -3px -5px 8px rgba(0,0,0,.22), 0 0 0 2px #fff6d6, 0 0 0 3.5px #e3b23c, 0 0 16px 4px rgba(255, 205, 100, .6); }
+    .xt-orn .rk { position: absolute; left: 50%; bottom: -34%; transform: translateX(-50%); font-size: 10px; font-weight: 700; line-height: 1; padding: 2px 5px; border-radius: 6px;
+      background: #fff8e6; color: #8a5f14; border: 1px solid #e3c47a; white-space: nowrap; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { .xt-orn { transition: opacity .3s; } .xt-card-note.is-flash { animation: none; outline: 3px solid #e3b23c; } }
+
+    /* 從入口跳過來時，標題閃一下 */
+    .xt-arrive { animation: xtArrive 1.4s ease-out; }
+    @keyframes xtArrive { 0%, 40% { filter: drop-shadow(0 0 18px rgba(255, 220, 140, .95)); transform: scale(1.04); } 100% { transform: none; } }
+
+    /* ==================== 🧩 奶皇包的感謝信 ==================== */
+    .xt-nh [hidden], #xt-nh-env[hidden] { display: none !important; }
+    #xt-nh-full { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .xt-nh-bun { width: 190px; height: auto; filter: drop-shadow(0 14px 18px rgba(120, 70, 10, .28)); transform-origin: 50% 100%; }
+    .xt-nh.is-in .xt-nh-bun { animation: xtNhIn .9s cubic-bezier(.3, 1.5, .5, 1) both, xtNhIdle 3s ease-in-out .9s infinite; }
+    .xt-nh:not(.is-in) .xt-nh-bun { opacity: 0; }
+    @keyframes xtNhIn { from { opacity: 0; transform: translateY(60px) scale(.6); } }
+    @keyframes xtNhIdle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-4px); } }
+    .xt-nh-bun.is-hop { animation: xtHop .55s cubic-bezier(.3, 1.6, .5, 1) !important; }
+    .xt-nh-tag { margin-top: 8px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(24px, 3vw, 34px); line-height: 1.25; letter-spacing: .1em; white-space: nowrap;
+      color: #fff; background: linear-gradient(180deg, #f7b23b, #e08a12); border: 3px solid #fff3d1; padding: .15em .75em; border-radius: 9999px;
+      text-shadow: 0 2px 0 rgba(140, 80, 0, .35); box-shadow: 0 12px 26px -12px rgba(180, 100, 10, .6); }
+    .xt-nh-lead { display: block; font-size: 13px; letter-spacing: .3em; color: #a8977d; margin-top: 10px; }
+    .xt-nh-say { position: relative; margin-bottom: 10px; max-width: 220px; min-height: 0; background: #fffdf8; border: 1px solid #f0d58e; border-radius: 14px; padding: 8px 12px;
+      font-size: 14px; line-height: 1.6; color: #3b2f25; box-shadow: 0 10px 22px -12px rgba(120, 70, 10, .45); opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s; }
+    .xt-nh-say.is-show { opacity: 1; transform: none; }
+    .xt-nh-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -7px; border: 7px solid transparent; border-top-color: #fffdf8; }
+    .xt-nh-letter { position: relative; min-height: 320px; transition: transform .7s cubic-bezier(.5, 0, .3, 1), opacity .5s; }
+    .xt-nh-letter.is-fold { transform: scale(.15) rotate(-8deg); opacity: 0; }
+    .xt-nh-text { font-size: 1.15rem; line-height: 2; color: #3b2f25; white-space: pre-wrap; min-height: 12em; }
+    .xt-nh-text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -2px; background: #c9a052; animation: xtCaret .8s steps(1) infinite; }
+    @keyframes xtCaret { 50% { opacity: 0; } }
+    .xt-nh-text .sign { display: block; text-align: right; color: #8a5f14; }
+    .xt-nh-intro { margin-top: 14px; width: 100%; max-width: 280px; background: #fffaf0; border: 1px dashed #e3c47a; border-radius: 16px; padding: 14px 16px; text-align: left; }
+    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; font-size: 13px; line-height: 1.6; margin: 0; }
+    .xt-nh-intro dt { color: #8a5f14; font-weight: 700; white-space: nowrap; }
+    .xt-nh-intro dd { margin: 0; color: #3b2f25; }
+    /* 飛行中的信封 */
+    .xt-nh-fly { position: fixed; z-index: 65; width: 46px; height: 32px; pointer-events: none; transition: transform 1.1s cubic-bezier(.45, -.2, .3, 1.2), opacity .3s; }
+    /* 信封（吊飾與飛行共用） */
+    .xt-nh-env .env, .xt-nh-fly { border-radius: 4px; background: linear-gradient(180deg, #fffaf0, #f6e7c8); border: 1px solid #d9b46a; box-shadow: 0 4px 8px rgba(120, 70, 10, .3); }
+    .xt-nh-env .env::before, .xt-nh-fly::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 60%; background: linear-gradient(160deg, transparent 49%, #e8cf98 50%, transparent 52%), linear-gradient(200deg, transparent 49%, #e8cf98 50%, transparent 52%); }
+    .xt-nh-env { position: absolute; left: 50%; top: 13.4%; width: 11.5%; aspect-ratio: 46 / 32; transform: translate(-50%, 0); padding: 0; border: 0; background: none; cursor: pointer; z-index: 7; }
+    .xt-nh-env .swing { position: absolute; inset: 0; transform-origin: 50% -40%; animation: xtSwing 3s ease-in-out infinite; }
+    .xt-nh-env .swing::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 1px; height: 40%; background: #c9a052; }
+    .xt-nh-env .env { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .xt-nh-env .env i, .xt-nh-fly i { position: relative; z-index: 1; width: 34%; aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 9px; color: #fde3dc;
+      background: radial-gradient(circle at 35% 30%, #d0564a, #9c2a24); margin-top: 18%; }
+    .xt-nh-env.is-new { animation: xtNhLand .7s ease-out; }
+    @keyframes xtNhLand { 0% { filter: drop-shadow(0 0 0 rgba(255, 210, 100, 0)); } 40% { filter: drop-shadow(0 0 16px rgba(255, 210, 100, 1)); } 100% { filter: none; } }
+    .xt-nh-env:hover .env, .xt-nh-env:focus-visible .env { box-shadow: 0 0 0 2px #fffaf0, 0 0 0 3.5px #c9a052, 0 0 18px 4px rgba(255, 205, 100, .7); }
+    /* 讀信視窗 */
+    #xt-nh-dlg { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 35, 28, .45); }
+    #xt-nh-dlg.is-show { display: flex; }
+    #xt-nh-dlg .card { position: relative; width: min(520px, 100%); max-height: 90vh; overflow: auto; border-radius: 22px; padding: 104px 26px 24px; text-align: center; animation: xtPopIn .45s cubic-bezier(.3, 1.5, .5, 1); }
+    #xt-nh-dlg .xt-nh-text { text-align: left; min-height: 0; }
+    .xt-nh-dlg-bun { position: absolute; left: 50%; top: 14px; width: 70px; transform: translateX(-50%); }
+    @media (prefers-reduced-motion: reduce) {
+      .xt-nh.is-in .xt-nh-bun, .xt-nh-env .swing, .xt-nh-env.is-new, .xt-nh-text .caret, #xt-nh-dlg .card { animation: none; }
+      .xt-nh:not(.is-in) .xt-nh-bun { opacity: 1; }
+      .xt-nh-letter, .xt-nh-fly { transition: none; }
+    }
+
+    /* ==================== 🧩 奶皇包開場 ==================== */
+    .xt-op { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; overflow: hidden;
+      background: radial-gradient(ellipse 70% 60% at 50% 45%, #fffaf0 0%, #fdebd2 55%, #f3d3ad 100%); transition: opacity .7s ease; }
+    .xt-op[hidden] { display: none; }
+    .xt-op.is-out { opacity: 0; pointer-events: none; }
+    .xt-op::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .7;
+      background-image: radial-gradient(circle, #fff 0 1.5px, transparent 2px), radial-gradient(circle, #ffe6a8 0 1.2px, transparent 1.8px);
+      background-size: 90px 90px, 140px 140px; background-position: 0 0, 40px 60px; animation: xtOpSnow 18s linear infinite; }
+    @keyframes xtOpSnow { to { background-position: 30px 900px, 80px 960px; } }
+    .xt-op-skip { position: absolute; top: 16px; right: 16px; z-index: 3; padding: 8px 16px; border-radius: 9999px; background: rgba(255,255,255,.85); border: 1px solid #e3d2b0; color: #7a6a55; font-size: 14px; }
+    .xt-op-skip:hover { background: #fff; color: #3b2f25; }
+    .xt-op-stage { position: relative; width: min(1200px, 96vw); height: 100vh; }
+    .xt-op-bunwrap { position: absolute; left: 50%; bottom: 1%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; transition: left 1s cubic-bezier(.5, 0, .2, 1), bottom 1s cubic-bezier(.5, 0, .2, 1); }
+    .xt-op-bun { height: min(48vh, 560px); max-width: 92vw; object-fit: contain; width: auto; transform-origin: 50% 100%; filter: drop-shadow(0 22px 30px rgba(120, 70, 10, .3));
+      transition: height 1s cubic-bezier(.5, 0, .2, 1); animation: xtOpIn 1.1s cubic-bezier(.3, 1.45, .5, 1) both, xtNhIdle 3s ease-in-out 1.1s infinite; }
+    @keyframes xtOpIn { from { opacity: 0; transform: translateY(70%) scale(.5); } }
+    .xt-op-name { margin-top: 4px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(26px, 8vw, 96px); max-width: 96vw; line-height: 1.2; margin-top: 10px; letter-spacing: .12em; white-space: nowrap;
+      color: #fff; background: linear-gradient(180deg, #f7b23b, #e08a12); border: 3px solid #fff3d1; padding: .12em .7em; border-radius: 9999px;
+      text-shadow: 0 2px 0 rgba(140, 80, 0, .35); box-shadow: 0 14px 30px -12px rgba(180, 100, 10, .6); animation: xtOpName .8s cubic-bezier(.3, 1.6, .5, 1) .6s both; }
+    @keyframes xtOpName { from { opacity: 0; transform: scale(.4); } }
+    .xt-op.p2 .xt-op-name, .xt-op.p3 .xt-op-name { font-size: clamp(16px, 1.8vw, 22px); border-width: 2px; }
+    .xt-op-say { order: -1; margin-bottom: 16px; max-width: min(620px, 88vw); background: #fffdf8; border: 2px solid #f0d58e; border-radius: 22px; padding: 14px 22px;
+      font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: clamp(18px, 2.3vw, 26px); line-height: 1.6; color: #3b2f25; text-align: center;
+      box-shadow: 0 16px 34px -16px rgba(120, 70, 10, .5); position: relative; opacity: 0; transform: translateY(10px) scale(.96); transition: opacity .35s, transform .35s; }
+    .xt-op-say.is-show { opacity: 1; transform: none; }
+    .xt-op-say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -10px; border: 10px solid transparent; border-top-color: #fffdf8; }
+    .xt-op-paper { position: absolute; right: 0; top: 12%; width: min(600px, 58%); min-height: 62%; border-radius: 22px; padding: 46px 34px 30px;
+      opacity: 0; transform: translateY(24px) scale(.96); transition: opacity .6s, transform .6s; }
+    .xt-op-paper .xt-nh-text { font-size: clamp(1.05rem, 1.6vw, 1.3rem); min-height: 0; }
+    .xt-op.p2 .xt-op-bunwrap, .xt-op.p3 .xt-op-bunwrap { left: 20%; bottom: 12%; }
+    .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: min(40vh, 340px); }
+    .xt-op.p2 .xt-op-say, .xt-op.p3 .xt-op-say { font-size: clamp(15px, 1.6vw, 19px); max-width: 300px; }
+    .xt-op.p2 .xt-op-paper { opacity: 1; transform: none; }
+    .xt-op.p3 .xt-op-paper { opacity: 0; transform: scale(.12) rotate(-12deg); transition: transform .8s cubic-bezier(.5, 0, .3, 1), opacity .7s .1s; }
+    .xt-op-pen { position: fixed; left: 0; top: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .3s; font-size: 22px; line-height: 1; color: #e3b23c;
+      text-shadow: 0 0 10px rgba(255, 205, 100, .95), 0 0 2px #fff; }
+    .xt-op-pen.is-on { opacity: 1; }
+    .xt-op-pen.is-writing { animation: xtInk .5s ease-in-out infinite alternate; }
+    @keyframes xtInk { from { transform: var(--pos) scale(.8) rotate(0deg); } to { transform: var(--pos) scale(1.2) rotate(30deg); } }
+    /* 寫信時奶皇包跟著動筆 */
+    .xt-op.p2 .xt-op-bun { animation: xtOpWrite .45s ease-in-out infinite alternate; }
+    @keyframes xtOpWrite { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(3deg) translateY(-6px); } }
+    @media (max-width: 767px) {
+      .xt-op.p2 .xt-op-bunwrap, .xt-op.p3 .xt-op-bunwrap { left: 50%; bottom: auto; top: 0; }
+      .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: 20vh; }
+      .xt-op.p2 .xt-op-say, .xt-op.p3 .xt-op-say { display: none; }
+      .xt-op.p2 .xt-op-name, .xt-op.p3 .xt-op-name { display: none; }
+      .xt-op.p1 .xt-op-bun { height: 40vh; }
+      .xt-op-paper { left: 0; right: 0; width: auto; top: 25vh; min-height: 0; padding: 40px 20px 22px; }
+    }
+    .xt-nh-replay { margin-top: 10px; font-size: 12px; color: #8a5f14; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ==================== 聖誕感恩活動頁：分頁 ==================== */
+    .xt-lead-chip { display: inline-block; margin-left: 6px; padding: 2px 14px; border-radius: 9999px; font-weight: 700; color: #fff; background: linear-gradient(180deg, #f7b23b, #e08a12); }
+    .xt-tabs { position: sticky; top: 80px; z-index: 40; display: flex; gap: 6px; justify-content: center; flex-wrap: nowrap; overflow-x: auto; padding: 10px 6px; margin: 0 -6px 28px;
+      background: rgba(255, 248, 240, .92); backdrop-filter: blur(6px); border-bottom: 1px solid #f0e2c8; scrollbar-width: none; }
+    .xt-tabs::-webkit-scrollbar { display: none; }
+    .xt-tabs button { flex-shrink: 0; padding: 8px 18px; border-radius: 9999px; font-size: 15px; font-weight: 600; color: #7a6a55; background: #fffdf9; border: 1px solid #e3d2b0; transition: all .2s; white-space: nowrap; }
+    .xt-tabs button:hover { border-color: #c9a052; color: #3b2f25; }
+    .xt-tabs button[aria-selected="true"] { background: #1f4a36; border-color: #1f4a36; color: #f8eccb; box-shadow: 0 6px 14px -8px rgba(20, 51, 38, .7); }
+    .xt-tab-n { display: inline-block; min-width: 1.6em; margin-left: 4px; padding: 0 6px; border-radius: 9999px; font-size: 12px; background: #c8463d; color: #fff; }
+    .xt-panel[hidden] { display: none !important; }
+    @media (max-width: 640px) { .xt-tabs { justify-content: flex-start; } .xt-tabs button { padding: 7px 14px; font-size: 14px; } }
+
+  </style>
+
+
+</head>
+
+<body class="antialiased bg-cream font-sans min-h-screen" onload="getFileInfo('59400A');getCounter('59400A');">
+  <div id="ie-blocked-notice" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 999999; text-align: center; padding-top: 10%;">
+    <div style="max-width: 600px; margin: 0 auto; font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif; color: #333; padding: 20px;">
+        <h2 style="color: #d9534f; margin-bottom: 20px; font-size: 28px; font-weight: bold;">⚠️ 瀏覽器版本過舊</h2>
+        <p style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 10px;">
+            您目前使用的是舊版 Internet Explorer 瀏覽器。為了保障您的資訊安全與最佳的網頁瀏覽體驗，本網站（SEL 學習小棧）已停止支援 IE。
+        </p>
+        <p style="font-size: 16px; font-weight: bold; margin-top: 20px; color: #333;">
+            請複製本頁網址，並改用 Google Chrome 或 Microsoft Edge 瀏覽器開啟：
+        </p>
+        <div style="background: #f5f5f5; padding: 12px; border: 1px solid #ddd; margin: 15px 0; word-break: break-all; border-radius: 4px; font-family: monospace; font-size: 14px; color: #0066cc;">
+            https://www.chimei.org.tw/main/cmh_department/59400/SEL/index-static.html
+        </div>
+        <p style="font-size: 14px; color: #999; margin-top: 40px;">
+            奇美醫院 視聽中心 敬啟
+        </p>
+    </div>
+  </div>
+  <script>
+    // 偵測是否為 IE (包含 IE 10 以前與 IE 11)
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE '); // IE 10 或更舊
+        var trident = ua.indexOf('Trident/'); // IE 11
+        return (msie > 0 || trident > 0);
+    }
+
+    // 如果是 IE，就顯示阻擋遮罩，並阻止後續網頁渲染
+    if (isIE()) {
+        document.getElementById('ie-blocked-notice').style.display = 'block';
+        // 優先使用 IE 專屬的強行停止指令，避免後續現代 JS (如 Tailwind) 導致 IE 狂噴錯誤視窗
+        try {
+            document.execCommand("Stop");
+        } catch (e) {
+            if (window.stop) window.stop();
+        }
+    }
+  </script>
+
+  <!-- ==================== Navbar ==================== -->
+  <nav class="bg-white/95 backdrop-blur-sm border-b border-amber-100 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo -->
+        <a href="index-static.html" class="flex items-center gap-4 group">
+          <img src="./public/chimei-logo.png" alt="奇美醫療財團法人奇美醫院" class="h-12 w-auto object-contain" />
+          <div class="hidden sm:block h-8 w-px bg-gray-200"></div>
+          <span class="hidden sm:block font-semibold text-warm-text text-lg leading-tight">
+            SEL<span class="text-muted-orange">學習小棧</span>
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-2">
+          <a href="index-static.html"     class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+          <a href="abilities.html"        class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+          <a href="selfcheck.html"        class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+          <a href="scenario.html"         class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+          <a href="learning-support.html" class="nav-link px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+          <a href="message-wall.html"     class="px-5 py-2.5 rounded-full text-base font-medium transition-all duration-200 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+          <!-- 🎄 聖誕感恩活動 -->
+          <a href="xmas.html" aria-current="page" class="hidden lg:inline-flex whitespace-nowrap px-5 py-2.5 rounded-full text-base font-semibold transition-all duration-200 bg-xmas-red text-white">🎄 聖誕感恩</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg text-sub-text hover:bg-amber-50 transition-colors" aria-label="選單">
+          <div class="w-5 flex flex-col gap-1.5">
+            <span id="mb1" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb2" class="block h-0.5 bg-current transition-all duration-300"></span>
+            <span id="mb3" class="block h-0.5 bg-current transition-all duration-300"></span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="md:hidden pb-4 pt-2 border-t border-amber-50 hidden">
+        <a href="index-static.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">首頁</a>
+        <a href="abilities.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">SEL五大能力</a>
+        <a href="selfcheck.html"        class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">自我檢測</a>
+        <a href="scenario.html"         class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">情境應用</a>
+        <a href="learning-support.html" class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">學習補給</a>
+        <a href="message-wall.html"     class="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium mb-1 text-sub-text hover:bg-amber-50 hover:text-warm-text">留言牆</a>
+        <a href="xmas.html" aria-current="page" class="xt-mobile-link block w-full text-left px-4 py-3 rounded-xl text-sm font-semibold mb-1 bg-xmas-red text-white">🎄 聖誕感恩活動</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-enter">
+
+    <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
+    <section id="xmas-thanks" class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-16" aria-labelledby="xt-page-title">
+
+      <!-- 頁首 -->
+      <header class="text-center mb-6">
+        <p class="xt-script text-[#c9a052] text-3xl sm:text-4xl" aria-hidden="true">Merry Christmas</p>
+        <h1 id="xt-page-title" class="xt-serif text-3xl md:text-5xl font-bold text-warm-text tracking-wider">12 月聖誕感恩活動</h1>
+        <p class="mt-3 text-sub-text text-sm sm:text-base">活動帶領人 <span class="xt-lead-chip">🧩 人際技巧・奶皇包</span></p>
+      </header>
+
+      <!-- 分頁 -->
+      <nav class="xt-tabs" role="tablist" aria-label="聖誕感恩活動">
+        <button type="button" role="tab" id="xt-tab-tree"   data-tab="tree"   aria-controls="xt-panel-tree"   aria-selected="true">🎄 感恩聖誕樹</button>
+        <button type="button" role="tab" id="xt-tab-wall"   data-tab="wall"   aria-controls="xt-panel-wall"   aria-selected="false">📝 留言牆 <span class="xt-tab-n" id="xt-tab-n">0</span></button>
+        <button type="button" role="tab" id="xt-tab-write"  data-tab="write"  aria-controls="xt-panel-write"  aria-selected="false">✍️ 寫感謝</button>
+        <button type="button" role="tab" id="xt-tab-letter" data-tab="letter" aria-controls="xt-panel-letter" aria-selected="false">🧩 奶皇包的信</button>
+      </nav>
+
+      <div id="xt-panel-tree" class="xt-panel" role="tabpanel" aria-labelledby="xt-tab-tree">
+      <!-- 感恩聖誕樹 -->
+      <div id="xt-tree-area" class="text-center mb-8 scroll-mt-24">
+        <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
+        <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感恩聖誕樹</h3>
+        <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+        <p class="text-sub-text text-sm">大家已經寫下 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝<span id="xt-ontree"></span>。點一顆吊飾，讀讀大家的心意</p>
+        <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
+        <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↓</a>
+      </div>
+
+      <div class="xt-tree-stage rounded-[28px] shadow-card p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
+        <!-- 左：樹 -->
+        <div class="xt-tree" id="xt-tree">
+          <svg viewBox="0 0 400 500" aria-hidden="true">
+            <defs>
+              <linearGradient id="xtLeaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a8a61"/><stop offset="1" stop-color="#1c5038"/></linearGradient>
+              <linearGradient id="xtTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a35"/><stop offset=".55" stop-color="#6b4224"/><stop offset="1" stop-color="#4c2d17"/></linearGradient>
+              <radialGradient id="xtStarG" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#fff8d6"/><stop offset=".45" stop-color="#f7d36a"/><stop offset="1" stop-color="#d49a2c"/></radialGradient>
+              <radialGradient id="xtGlow"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".9"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/></radialGradient>
+              <linearGradient id="xtSnowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e7eef2"/></linearGradient>
+              <pattern id="xtNeedle" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M2 3 Q9 10 16 3" fill="none" stroke="#0e3a26" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></pattern>
+              <filter id="xtShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#0b2a1c" flood-opacity=".35"/></filter>
+              <filter id="xtBlur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+              <clipPath id="xtTier0"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z"/></clipPath>
+              <clipPath id="xtTier1"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z"/></clipPath>
+              <clipPath id="xtTier2"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z"/></clipPath>
+              <clipPath id="xtTier3"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z"/></clipPath>
+            </defs>
+            <!-- 雪地 -->
+            <ellipse cx="200" cy="482" rx="196" ry="14" fill="#d9c8ae" opacity=".35" filter="url(#xtBlur)"/>
+            <path d="M8 482 Q60 452 140 458 Q200 446 262 458 Q342 450 392 482 Z" fill="url(#xtSnowG)"/>
+            <!-- 樹幹 -->
+            <rect x="182" y="430" width="36" height="42" rx="5" fill="url(#xtTrunk)"/>
+            <path d="M190 436 V468 M200 434 V470 M210 438 V466" stroke="#3e2412" stroke-opacity=".35" stroke-width="1.4"/>
+            <g filter="url(#xtShadow)"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier3)">
+              <rect x="0" y="248" width="400" height="212" fill="url(#xtNeedle)"/>
+              <path d="M200 243 L420 470 L200 470 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 243 L-20 470 L60 470 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="25.4" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="25.4" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="52.3" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="52.3" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="79.1" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="79.1" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="106.0" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="106.0" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.9" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.9" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.7" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.7" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.6" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.6" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.4" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.4" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.3" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.3" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.1" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.1" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.0" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.0" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="320.9" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="320.9" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="347.7" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="347.7" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="374.6" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="374.6" cy="427.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier2)">
+              <rect x="0" y="170" width="400" height="222" fill="url(#xtNeedle)"/>
+              <path d="M200 165 L420 402 L200 402 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 165 L-20 402 L60 402 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="48.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="48.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="76.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="76.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="103.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="103.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="131.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="131.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="158.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="158.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="241.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="241.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="268.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="268.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="296.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="296.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="323.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="323.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="351.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="351.2" cy="359.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier1)">
+              <rect x="0" y="100" width="400" height="200" fill="url(#xtNeedle)"/>
+              <path d="M200 95 L420 310 L200 310 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 95 L-20 310 L60 310 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="78.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="78.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="105.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="105.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.5" cy="271.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.5" cy="267.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="321.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="321.5" cy="267.0" r="2.6" fill="#fffbe9"/></g>
+            <g filter="url(#xtShadow)"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z" fill="url(#xtLeaf)"/></g>
+            <g clip-path="url(#xtTier0)">
+              <rect x="0" y="40" width="400" height="150" fill="url(#xtNeedle)"/>
+              <path d="M200 35 L420 200 L200 200 Z" fill="#0b2e1f" opacity=".22"/>
+              <path d="M200 35 L-20 200 L60 200 Z" fill="#ffffff" opacity=".05"/>
+              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+            </g>
+            <path d="M108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+            <g class="xt-bulb"><circle cx="119.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="119.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="142.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="142.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="165.5" cy="161.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="165.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="188.5" cy="157.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="188.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="211.5" cy="161.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="211.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="234.5" cy="157.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="234.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="257.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="257.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="280.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="280.5" cy="157.0" r="2.6" fill="#fffbe9"/></g>
+            <!-- 禮物 -->
+            <g>
+              <rect x="64" y="440" width="58" height="40" rx="3" fill="#a8322b"/><rect x="64" y="440" width="58" height="9" rx="2" fill="#c0443a"/>
+              <rect x="89" y="440" width="8" height="40" fill="#e7c06a"/>
+              <path d="M93 440 q-16 -16 -20 -4 q4 8 20 4 q16 -16 20 -4 q-4 8 -20 4" fill="#f0cf7e" stroke="#c9a04a" stroke-width="1"/>
+              <rect x="286" y="448" width="48" height="32" rx="3" fill="#2f7d68"/><rect x="286" y="448" width="48" height="8" rx="2" fill="#3c9580"/>
+              <rect x="306" y="448" width="7" height="32" fill="#fbf4e4"/>
+              <path d="M309.5 448 q-13 -13 -16 -3 q3 6 16 3 q13 -13 16 -3 q-3 6 -16 3" fill="#fffaf0" stroke="#e1d3b6" stroke-width="1"/>
+              <rect x="236" y="458" width="38" height="22" rx="3" fill="#e9b04f"/><rect x="236" y="458" width="38" height="6" rx="2" fill="#f2c56f"/>
+              <rect x="252" y="458" width="6" height="22" fill="#a8322b"/>
+            </g>
+            <!-- 星星 -->
+            <circle cx="200" cy="38" r="40" fill="url(#xtGlow)"/>
+            <path class="xt-rays" d="M226.0 38.0 L248.0 38.0 M224.0 47.9 L235.1 52.5 M218.4 56.4 L233.9 71.9 M209.9 62.0 L214.5 73.1 M200.0 64.0 L200.0 86.0 M190.1 62.0 L185.5 73.1 M181.6 56.4 L166.1 71.9 M176.0 47.9 L164.9 52.5 M174.0 38.0 L152.0 38.0 M176.0 28.1 L164.9 23.5 M181.6 19.6 L166.1 4.1 M190.1 14.0 L185.5 2.9 M200.0 12.0 L200.0 -10.0 M209.9 14.0 L214.5 2.9 M218.4 19.6 L233.9 4.1 M224.0 28.1 L235.1 23.5" stroke="#f3cf6e" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
+            <path class="xt-star" d="M200.0 16.0 L205.6 30.3 L220.9 31.2 L209.0 40.9 L212.9 55.8 L200.0 47.5 L187.1 55.8 L191.0 40.9 L179.1 31.2 L194.4 30.3 Z" fill="url(#xtStarG)" stroke="#b9822a" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <!-- 奶皇包的感謝信（信封吊飾，掛在星星下方） -->
+          <button type="button" id="xt-nh-env" class="xt-nh-env" hidden aria-label="奶皇包的感謝信，點我閱讀">
+            <span class="swing"><span class="env"><i aria-hidden="true">♥</i></span></span>
+          </button>
+          <div id="xt-ornaments"></div>
+        </div>
+
+        <!-- 右：溫暖排行榜 -->
+        <div>
+          <div class="xt-paper xt-letter">
+            <div class="xt-letter-label">WARMEST ・ 溫暖排行榜</div>
+            <p class="text-center text-xs text-[#a8977d] mb-4">收到最多溫暖的感謝，會掛在聖誕樹最頂端 ✦</p>
+            <ol id="xt-rank" class="space-y-2"></ol>
+            <div class="xt-seal" aria-hidden="true">♥</div>
+          </div>
+          <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在「留言牆」分頁找到那則感謝</p>
+        </div>
+        <!-- 包子報佳音 -->
+        <div class="lg:col-span-2 text-center">
+          <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
+          <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
+          <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
+            <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-1.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-2.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-3.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-4.png)"></span></button>
+            <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-5.png)"></span></button>
+          </div>
+        </div>
+      </div>
+
+
+      </div>
+
+      <div id="xt-panel-wall" class="xt-panel" role="tabpanel" aria-labelledby="xt-tab-wall" hidden>
+      <!-- 感謝留言牆 -->
+      <div id="xt-wall-area" class="scroll-mt-24">
+        <div class="text-center mb-7">
+          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
+          <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
+          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+          <p class="text-sub-text text-sm">一起讀讀大家的感謝，喜歡就送一份溫暖 ♥（在文字上點兩下也可以）</p>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+          <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
+            <button type="button" class="xt-pill" data-f="all" aria-pressed="true">全部</button>
+            <button type="button" class="xt-pill" data-f="person" aria-pressed="false"><span class="xt-dot person"></span>人</button>
+            <button type="button" class="xt-pill" data-f="event" aria-pressed="false"><span class="xt-dot event"></span>事</button>
+            <button type="button" class="xt-pill" data-f="thing" aria-pressed="false"><span class="xt-dot thing"></span>物</button>
+          </div>
+          <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
+          <input type="search" id="xt-search" class="xt-field px-4 py-1.5 text-sm w-full sm:w-56" placeholder="🔍 搜尋感謝或署名" aria-label="搜尋感謝或署名" />
+          <div class="flex gap-2" id="xt-sort" role="group" aria-label="排序方式">
+            <button type="button" class="xt-pill" data-s="hot" aria-pressed="true">♥ 最多溫暖</button>
+            <button type="button" class="xt-pill" data-s="new" aria-pressed="false">最新</button>
+          </div>
+        </div>
+        <div id="xt-wall" class="xt-wall"></div>
+        <div class="text-center mt-4"><button type="button" id="xt-more" class="xt-pill" hidden>看更多感謝 ↓</button></div>
+      </div>
+
+      </div>
+
+      <div id="xt-panel-write" class="xt-panel" role="tabpanel" aria-labelledby="xt-tab-write" hidden>
+      <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
+        <div class="xt-aurora" aria-hidden="true"></div>
+        <div class="xt-frame" aria-hidden="true"></div>
+        <div class="xt-lights" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="xt-snow" aria-hidden="true"></div>
+
+        <!-- 標題 -->
+        <div class="relative text-center mb-9">
+          <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
+          <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
+          <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
+          <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
+          <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
+            在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
+            寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
+          </p>
+        </div>
+
+        <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
+        <figure class="xt-illus" id="xt-illus">
+          <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
+               onerror="this.closest('figure').remove()" />
+        </figure>
+
+        <!-- 填寫表單 -->
+        <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
+          <fieldset>
+            <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
+                <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
+              </label>
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="event" class="absolute opacity-0" />
+                <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
+              </label>
+              <label class="xt-kind relative cursor-pointer">
+                <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
+                <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="mt-7">
+            <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
+            <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
+            <textarea id="xt-text" maxlength="200" rows="4"
+              class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
+              placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
+            <div class="flex justify-between text-xs mt-1.5">
+              <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
+              <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
+            </div>
+          </div>
+
+          <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
+            <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
+            <span class="text-sm leading-relaxed">
+              <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
+              <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
+            </span>
+          </label>
+
+          <div class="mt-4 flex flex-col sm:flex-row gap-3">
+            <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
+            <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
+          </div>
+          <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
+            感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
+            分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
+          </p>
+        </form>
+      </div>
+
+      </div>
+
+      <div id="xt-panel-letter" class="xt-panel" role="tabpanel" aria-labelledby="xt-tab-letter" hidden>
+      <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
+      <div id="xt-nh" class="xt-nh scroll-mt-24" aria-labelledby="xt-nh-title">
+        <div class="text-center mb-8">
+          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
+          <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
+          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+          <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
+        </div>
+
+        <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
+          <!-- 奶皇包 -->
+          <div class="relative flex flex-col items-center">
+            <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
+            <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+            <span class="xt-nh-lead">12 月活動帶領人</span>
+            <span class="xt-nh-tag">人際技巧・奶皇包</span>
+            <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
+            <!-- 認識奶皇包 -->
+            <div class="xt-nh-intro">
+              <p class="xt-serif font-bold text-warm-text text-base mb-2">認識奶皇包 🧩</p>
+              <dl>
+                <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
+                <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
+                <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
+                <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
+                <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
+              </dl>
+            </div>
+          </div>
+
+          <!-- 信紙 -->
+          <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
+            <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
+            <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
+            <div id="xt-nh-full" class="sr-only"></div>
+            <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
+              <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
+              <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
+              <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </section>
+
+    <script>
+      /* ---------- 分頁切換（其他程式用 window.xtTab('tree'|'wall'|'write'|'letter')） ---------- */
+      (function () {
+        var TABS = ['tree', 'wall', 'write', 'letter'];
+        var bar = document.querySelector('.xt-tabs');
+        window.xtTab = function (name, noScroll) {
+          if (TABS.indexOf(name) === -1) name = 'tree';
+          TABS.forEach(function (t) {
+            var on = t === name;
+            document.getElementById('xt-tab-' + t).setAttribute('aria-selected', on);
+            document.getElementById('xt-tab-' + t).tabIndex = on ? 0 : -1;
+            document.getElementById('xt-panel-' + t).hidden = !on;
+          });
+          try { history.replaceState(null, '', '#' + name); } catch (e) {}
+          if (!noScroll) {
+            var y = bar.getBoundingClientRect().top + window.pageYOffset - 84;
+            if (window.pageYOffset > y) window.scrollTo({ top: y });
+          }
+          window.dispatchEvent(new CustomEvent('xt-tab', { detail: name }));
+        };
+        bar.addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (b) window.xtTab(b.dataset.tab); });
+        bar.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          var cur = TABS.indexOf(document.querySelector('.xt-tabs [aria-selected="true"]').dataset.tab);
+          var nx = TABS[(cur + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length];
+          window.xtTab(nx); document.getElementById('xt-tab-' + nx).focus();
+        });
+        var h = location.hash.replace('#', '');
+        window.xtTab(TABS.indexOf(h) > -1 ? h : 'tree', true);
+      })();
+    </script>
+
+
+  </main>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+
+      <div class="text-center md:text-left">
+        <p class="text-sub-text text-sm">
+          © 2026 奇美醫院 SEL 學習小棧｜專為醫療專業人員設計的社會情緒學習平台
+        </p>
+        <p class="text-sub-text text-xs mt-1">
+          照顧別人的同時，也別忘了照顧自己 🌸
+        </p>
+      </div>
+      <!-- 新增：右下角瀏覽人次 -->
+      <div class="text-center md:text-right">
+        <div class="visitor-counter bg-amber-50/50 px-3 py-1.5 rounded-full border border-amber-100/60 inline-flex items-center gap-1.5 text-xs font-bold text-amber-600">
+          <span id="spanFileInfo"></span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== 互動邏輯 ==================== -->
+  <script>
+    // ---- 1. 漢堡選單 ----
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mb1 = document.getElementById('mb1');
+    const mb2 = document.getElementById('mb2');
+    const mb3 = document.getElementById('mb3');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden', !menuOpen);
+      mb1.classList.toggle('rotate-45', menuOpen);
+      mb1.classList.toggle('translate-y-2', menuOpen);
+      mb2.classList.toggle('opacity-0', menuOpen);
+      mb3.classList.toggle('-rotate-45', menuOpen);
+      mb3.classList.toggle('-translate-y-2', menuOpen);
+    });
+
+  </script>
+
+  <!-- ==================== 🎄 聖誕互動特效（雪花、奶皇包嚮導、魔法棒） ==================== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="xtHatRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2463b"/><stop offset="1" stop-color="#9c2a24"/></linearGradient>
+      <symbol id="xtHatSym" viewBox="0 0 64 52">
+        <path d="M8 40 C11 20 24 5 40 5 C53 5 60 15 59 28 C55 22 49 20 45 22 C46 30 50 36 55 40 Z" fill="url(#xtHatRed)"/>
+        <path d="M40 5 C53 5 60 15 59 28 C55 22 49 20 45 22 C42 16 40 10 40 5 Z" fill="#000" opacity=".12"/>
+        <rect x="3" y="36" width="58" height="12" rx="6" fill="#fffaf2" stroke="#e7ddcc"/>
+        <circle cx="59" cy="29" r="6.5" fill="#fffaf2" stroke="#e7ddcc"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <canvas id="xt-snowfx" aria-hidden="true"></canvas>
+  <div id="xt-frost" aria-hidden="true"></div>
+
+  <!-- 左下角嚮導：奶皇包（人際技巧）。沿用原本雪人的位置與互動 -->
+  <button type="button" id="xt-snowman" aria-label="奶皇包，點我說話">
+    <img class="xt-guide" src="./public/naihuang-xmas.png" alt="" width="84" height="109" />
+  </button>
+  <div id="xt-snowman-say" class="xt-say" role="status"><span class="txt"></span></div>
+
+
+  <div id="xt-celebrate" role="dialog" aria-modal="true" aria-labelledby="xt-cel-title">
+    <div class="card xt-paper">
+      <!-- 慶祝圖：把圖檔放到 public/xmas-buns-snow.jpg 即會顯示 -->
+      <img src="./public/xmas-buns-snow.jpg" alt="SEL 包子們開心地在雪地裡打雪仗" onerror="this.remove()" />
+      <div class="relative px-6 pt-5 pb-6">
+        <p class="xt-script text-[#c9a052] text-3xl leading-none" aria-hidden="true">Thank you</p>
+        <h4 id="xt-cel-title" class="xt-serif text-xl font-bold text-warm-text mt-2">你的感謝已經掛上聖誕樹了！</h4>
+        <p id="xt-cel-msg" class="text-sm text-[#8a7458] mt-2 leading-relaxed"></p>
+        <button type="button" id="xt-cel-close" class="xt-btn mt-5">去看看我的吊飾 <span aria-hidden="true">✦</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 🧩 奶皇包開場（第一次打開網頁時播放） ==================== -->
+  <div id="xt-op" class="xt-op" role="dialog" aria-modal="true" aria-label="奶皇包開場：自我介紹並寫一封感謝信" hidden>
+    <button type="button" id="xt-op-skip" class="xt-op-skip">略過開場 ✕</button>
+    <div class="xt-op-stage">
+      <div class="xt-op-bunwrap">
+        <div id="xt-op-say" class="xt-op-say" aria-live="polite"></div>
+        <img id="xt-op-bun" class="xt-op-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" />
+        <span class="xt-op-name">人際技巧・奶皇包</span>
+      </div>
+      <div id="xt-op-paper" class="xt-op-paper xt-paper">
+        <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
+        <div id="xt-op-text" class="xt-hand xt-nh-text"></div>
+      </div>
+    </div>
+    <span id="xt-op-pen" class="xt-op-pen" aria-hidden="true">✦</span>
+  </div>
+
+  <div id="xt-nh-dlg" role="dialog" aria-modal="true" aria-labelledby="xt-nh-dlg-title">
+    <div class="card xt-paper">
+      <img src="./public/naihuang-xmas.png" alt="" class="xt-nh-dlg-bun" />
+      <h4 id="xt-nh-dlg-title" class="xt-serif text-xl font-bold text-warm-text">奶皇包的感謝信 🧩</h4>
+      <div id="xt-nh-dlg-text" class="xt-hand xt-nh-text mt-3"></div>
+      <button type="button" id="xt-nh-dlg-close" class="xt-btn mt-5">收好這封信 ✦</button>
+    </div>
+  </div>
+
+  <button type="button" id="xt-fx-toggle" aria-pressed="true" aria-label="魔法特效開關">✦<span class="tip">魔法特效：開</span></button>
+
+  <script>
+    (function () {
+      var FX_KEY = 'selXmasFx';
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var on = !reduce;
+      try { var v = localStorage.getItem(FX_KEY); if (v === '0') on = false; if (v === '1') on = true; } catch (e) {}
+      var toggle = document.getElementById('xt-fx-toggle');
+
+      /* ---------- 1. 全頁雪花（隨捲動飄移）---------- */
+      var cv = document.getElementById('xt-snowfx'), ctx = cv.getContext('2d'), W = 0, H = 0, DPR = 1, flakes = [];
+      function resize() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        var n = Math.round(Math.min(110, Math.max(40, W / 12)));
+        flakes = []; for (var i = 0; i < n; i++) flakes.push(newFlake(true));
+      }
+      function newFlake(any) {
+        var r = Math.random() < .12 ? 3.2 + Math.random() * 2 : .8 + Math.random() * 2.2;
+        return { x: Math.random() * W, y: any ? Math.random() * H : -10, r: r, vy: .12 + r * .1, ph: Math.random() * 6.28, a: .45 + Math.random() * .45, rot: Math.random() * 6 };
+      }
+      var lastY = scrollY, scrollV = 0, raf = null;
+      addEventListener('scroll', function () { var y = scrollY; scrollV += (y - lastY); lastY = y; }, { passive: true });
+      function drawFlake(f) {
+        ctx.globalAlpha = f.a;
+        if (f.r > 3) { // 大雪花畫成六角
+          ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.2; ctx.beginPath();
+          for (var k = 0; k < 6; k++) { ctx.moveTo(0, 0); ctx.lineTo(0, -f.r * 1.6); ctx.rotate(Math.PI / 3); }
+          ctx.stroke(); ctx.restore();
+        } else { ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
+      }
+      /* ---- 冰雪魔法粒子 ---- */
+      var parts = [], MAXP = 420;
+      function crystal(x, y, r, rot, alpha, lw) { // 帶分枝的六角冰晶
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.globalAlpha = alpha; ctx.lineWidth = lw; ctx.beginPath();
+        for (var k = 0; k < 6; k++) {
+          ctx.moveTo(0, 0); ctx.lineTo(0, -r);
+          ctx.moveTo(0, -r * .45); ctx.lineTo(-r * .22, -r * .62); ctx.moveTo(0, -r * .45); ctx.lineTo(r * .22, -r * .62);
+          ctx.moveTo(0, -r * .72); ctx.lineTo(-r * .14, -r * .84); ctx.moveTo(0, -r * .72); ctx.lineTo(r * .14, -r * .84);
+          ctx.rotate(Math.PI / 3);
+        }
+        ctx.stroke(); ctx.restore();
+      }
+      function starPath(x, y, R, rot, n, inner) { // n 角星
+        ctx.beginPath();
+        for (var k = 0; k < n * 2; k++) { var rr = k % 2 ? R * inner : R, a = rot + k * Math.PI / n - Math.PI / 2; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
+        ctx.closePath();
+      }
+      var GOLD = ['#ffd75e', '#ffe9a0', '#fff6d6', '#ffffff', '#f7c548'];
+      function addP(p) { if (parts.length < MAXP) parts.push(p); }
+      function iceBurst(x, y) {
+        addP({ t: 'bloom', x: x, y: y, life: 0, max: 60, rot: Math.random() * 6 });
+        for (var k = 0; k < 26; k++) {
+          var a = Math.random() * 6.283, v = 1.5 + Math.random() * 4.5;
+          addP({ t: 'dust', c: GOLD[(Math.random() * GOLD.length) | 0], x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 0, max: 40 + Math.random() * 30, s: 1 + Math.random() * 2.2 });
+        }
+        for (var j = 0; j < 6; j++) {
+          var b = j / 6 * 6.283 + Math.random() * .4, w = 2.5 + Math.random() * 2;
+          addP({ t: 'shard', x: x, y: y, vx: Math.cos(b) * w, vy: Math.sin(b) * w, life: 0, max: 55, s: 5 + Math.random() * 5, rot: Math.random() * 6 });
+        }
+        if (!raf) raf = requestAnimationFrame(tick);
+      }
+      var TRAIL_C = ['#ffd75e', '#ffe9a0', '#fff6d6', '#ffffff', '#f7c548'];
+      function trail(x, y) {
+        for (var k = 0; k < 2; k++) addP({ t: 'dust', c: TRAIL_C[(Math.random() * TRAIL_C.length) | 0], x: x + (Math.random() - .5) * 6, y: y + (Math.random() - .5) * 6, vx: (Math.random() - .5) * .6, vy: .3 + Math.random() * .6, life: 0, max: 30 + Math.random() * 25, s: .8 + Math.random() * 1.8 });
+        if (Math.random() < .08) addP({ t: 'shard', x: x, y: y, vx: (Math.random() - .5) * .8, vy: .6, life: 0, max: 50, s: 2.5 + Math.random() * 2.5, rot: Math.random() * 6 });
+      }
+      function swirl(cx, cy) {
+        for (var k = 0; k < 70; k++) addP({ t: 'orbit', cx: cx, cy: cy, a: Math.random() * 6.283, r: 10 + Math.random() * 30, va: .08 + Math.random() * .06, vr: .9 + Math.random() * 1.6, life: 0, max: 80 + Math.random() * 40, s: 1 + Math.random() * 2.4 });
+        if (!raf) raf = requestAnimationFrame(tick);
+      }
+      function drawParts() {
+        ctx.shadowColor = 'rgba(230,160,40,.9)'; ctx.shadowBlur = 10;
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i]; p.life++;
+          var k = p.life / p.max; if (k >= 1) { parts.splice(i, 1); continue; }
+          if (p.t === 'bloom') {
+            var e = 1 - Math.pow(1 - k, 3);
+            // 星芒綻放：大四角星芒 + 金色光環
+            ctx.globalAlpha = (1 - k) * .28; ctx.fillStyle = '#ffe9a0'; ctx.beginPath(); ctx.arc(p.x, p.y, 10 + e * 34, 0, 6.283); ctx.fill();
+            ctx.globalAlpha = (1 - k) * .9; ctx.strokeStyle = '#f2c14e'; ctx.lineWidth = 2 - k * 1.5; ctx.beginPath(); ctx.arc(p.x, p.y, 8 + e * 44, 0, 6.283); ctx.stroke();
+            ctx.globalAlpha = 1 - k; ctx.fillStyle = '#ffd75e'; starPath(p.x, p.y, 8 + e * 30, p.rot * .2 + e * .6, 4, .22); ctx.fill();
+            ctx.fillStyle = '#fffbe8'; starPath(p.x, p.y, 4 + e * 15, p.rot * .2 + e * .6, 4, .25); ctx.fill();
+          } else if (p.t === 'shard') {
+            p.x += p.vx; p.y += p.vy; p.vx *= .96; p.vy = p.vy * .96 + .04; p.rot += .06;
+            ctx.globalAlpha = 1 - k; ctx.fillStyle = p.s > 6 ? '#ffd75e' : '#ffe9a0'; starPath(p.x, p.y, p.s, p.rot, 5, .45); ctx.fill();
+          } else {
+            if (p.t === 'orbit') { p.a += p.va; p.r += p.vr; p.x = p.cx + Math.cos(p.a) * p.r; p.y = p.cy + Math.sin(p.a) * p.r * .7 - p.life * .6; }
+            else { p.x += p.vx; p.y += p.vy; p.vx *= .97; p.vy = p.vy * .97 + .02; }
+            ctx.globalAlpha = (1 - k) * (.6 + Math.random() * .4); ctx.fillStyle = p.c || (Math.random() < .35 ? '#ffffff' : (Math.random() < .5 ? '#8fd0fa' : '#5fb4ea'));
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.s * (1 - k * .5), 0, 6.283); ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      }
+
+      /* ---- 冰霜邊框：快速捲動時結霜，再慢慢融化 ---- */
+      var frost = document.getElementById('xt-frost'), frostLv = 0;
+
+      function tick(t) {
+        raf = null;
+        if (!on || document.hidden) return;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(150,170,190,.6)'; ctx.shadowBlur = 2;
+        var sv = scrollV; scrollV *= .0; // 每幀吃掉捲動量
+        for (var i = 0; i < flakes.length; i++) {
+          var f = flakes[i];
+          f.y += f.vy - sv * (.25 + f.r * .12);       // 捲動時雪花反向位移，越大的越近、動越多
+          f.x += Math.sin(t / 2200 + f.ph) * .25 + (sv > 0 ? .15 : -.15) * Math.min(Math.abs(sv), 30) / 30;
+          f.rot += .004;
+          if (f.y > H + 12) { flakes[i] = newFlake(false); continue; }
+          if (f.y < -14) { f.y = H + 10; f.x = Math.random() * W; }
+          if (f.x > W + 10) f.x = -10; if (f.x < -10) f.x = W + 10;
+          drawFlake(f);
+        }
+        ctx.globalAlpha = 1;
+        drawParts();
+        frostLv = Math.min(1, frostLv + Math.min(Math.abs(sv), 120) / 900) * .985;
+        frost.style.opacity = frostLv > .02 ? frostLv.toFixed(3) : '0';
+        raf = requestAnimationFrame(tick);
+      }
+      function startSnow() { cv.style.display = on ? '' : 'none'; if (on && !raf) raf = requestAnimationFrame(tick); }
+      addEventListener('resize', resize); document.addEventListener('visibilitychange', startSnow);
+      var lastTrail = 0;
+      addEventListener('pointermove', function (e) {
+        if (!on || reduce) return; var n = performance.now(); if (n - lastTrail < 16) return; lastTrail = n;
+        trail(e.clientX, e.clientY); if (!raf) raf = requestAnimationFrame(tick);
+      }, { passive: true });
+      // 點擊（電腦與手機）都會綻放冰晶
+      addEventListener('pointerdown', function (e) {
+        if (!on || e.target.closest('#xt-fx-toggle, #xt-celebrate')) return;
+        iceBurst(e.clientX, e.clientY);
+      }, { passive: true });
+
+      /* ---------- 2. 左下角嚮導：奶皇包 ---------- */
+      var snowman = document.getElementById('xt-snowman'), smSay = document.getElementById('xt-snowman-say'), smTxt = smSay.querySelector('.txt');
+      var target = document.getElementById('xmas-thanks');
+      var LINES = [
+        '嗨！我是人際技巧的奶皇包 🧩<br>這個月由我陪大家寫「感謝」！',
+        '今天也辛苦了，記得喝口熱水、伸個懶腰 ☕',
+        '要不要，再嘗試溝通一次？🧩',
+        '在衝突中，試著用顧及尊重與專業的方式說話',
+        '需要的時候，尋求協助也是一種能力 ✦',
+        '看見你手上的魔法棒了嗎？✦ 在畫面上點一點，會灑出星光喔',
+        '覺得特效太熱鬧？右下角的 ✦ 可以關掉～'
+      ];
+      var li = 0, smTimer = null, arrived = false;
+      function smSpeak(html, withGo) {
+        smTxt.innerHTML = html + (withGo ? '<br><button type="button" class="xt-go">前往寫感謝 →</button>' : '');
+        smSay.classList.add('is-show'); clearTimeout(smTimer);
+        smTimer = setTimeout(function () { smSay.classList.remove('is-show'); }, 6000);
+      }
+      snowman.addEventListener('click', function () {
+        smSpeak(LINES[li % LINES.length], li % LINES.length === 0); li++;
+        if (on) { var r = snowman.getBoundingClientRect(); swirl(r.left + r.width / 2, r.top + r.height * .55); }
+      });
+      smSay.addEventListener('click', function (e) {
+        if (e.target.closest('.xt-go')) { if (window.xtTab) window.xtTab('write'); else location.href = 'xmas.html#write'; smSay.classList.remove('is-show'); }
+      });
+      function onScrollSnowman() {
+        if (!on) { snowman.classList.remove('is-up'); return; }
+        var th = target ? 0 : 380;
+        snowman.classList.toggle('is-up', scrollY >= th);
+        if (scrollY < th) smSay.classList.remove('is-show');
+      }
+      addEventListener('scroll', onScrollSnowman, { passive: true });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting && !arrived && on) { arrived = true; smSpeak('歡迎來到聖誕感恩活動 ✦<br>點上面的分頁，看看大家的感謝吧！'); } });
+        }, { threshold: .25 }).observe(target);
+      }
+
+      /* ---------- 3. 包子報佳音 ---------- */
+      var choir = document.getElementById('xt-choir');
+      var WHISPER = [
+        ['停一下，問問自己：今天的心情是什麼顏色？', '這一年，你最驕傲的一刻是什麼？'],
+        ['累了就深呼吸三次，給自己一杯熱可可 ☕', '休息不是偷懶，是為了走更長的路。'],
+        ['身邊的同事今天看起來好嗎？一句關心就很暖。', '每位病人背後，都有一個等他回家的家。'],
+        ['說聲「謝謝你」，是最好的聖誕禮物 🎁', '今天，試著稱讚一位夥伴吧！'],
+        ['好好休息，也是負責任的選擇。', '新的一年，為自己定一個溫柔的小目標。']
+      ];
+      var wIdx = [0, 0, 0, 0, 0];
+      choir.addEventListener('click', function (e) {
+        var b = e.target.closest('.xt-choir-item'); if (!b) return;
+        var i = +b.dataset.i, say = b.querySelector('.xt-say');
+        choir.querySelectorAll('.xt-say').forEach(function (s) { if (s !== say) s.classList.remove('is-show'); });
+        say.textContent = WHISPER[i][wIdx[i]++ % WHISPER[i].length];
+        say.classList.add('is-show');
+        b.classList.remove('is-hop'); void b.offsetWidth; b.classList.add('is-hop');
+        clearTimeout(b._t); b._t = setTimeout(function () { say.classList.remove('is-show'); }, 4500);
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es, ob) {
+          es.forEach(function (e) { if (e.isIntersecting) { choir.classList.add('is-in'); ob.disconnect(); } });
+        }, { threshold: .4 }).observe(choir);
+      } else choir.classList.add('is-in');
+
+
+      window.xtSparkle = function (x, y) { if (on) iceBurst(x, y); };
+
+      /* ---------- 送出後的慶祝卡 ---------- */
+      var cel = document.getElementById('xt-celebrate'), celMsg = document.getElementById('xt-cel-msg'), celClose = document.getElementById('xt-cel-close'), celBack = null;
+      function closeCel() { cel.classList.remove('is-show'); if (celBack) celBack.focus(); }
+      window.xtCelebrate = function (text) {
+        celBack = document.activeElement;
+        celMsg.textContent = text + ' 包子們開心得在雪地裡打滾～';
+        cel.classList.add('is-show'); celClose.focus();
+        if (on) { iceBurst(innerWidth / 2, innerHeight / 2 - 120); iceBurst(innerWidth / 2 - 150, innerHeight / 2 + 40); iceBurst(innerWidth / 2 + 150, innerHeight / 2 + 40); }
+        if (on) for (var k = 0; k < 18; k++) {
+          var s = document.createElement('span'); s.className = 'xt-spark'; s.textContent = k % 3 ? '✦' : '✧';
+          var a = Math.random() * 6.28, r = 80 + Math.random() * 140;
+          s.style.left = innerWidth / 2 + 'px'; s.style.top = innerHeight / 2 + 'px'; s.style.fontSize = (12 + Math.random() * 12) + 'px';
+          s.style.setProperty('--dx', Math.cos(a) * r + 'px'); s.style.setProperty('--dy', Math.sin(a) * r + 'px');
+          document.body.appendChild(s); setTimeout(function (n) { n.remove(); }.bind(null, s), 800);
+        }
+      };
+      celClose.addEventListener('click', function (e) { e.stopPropagation(); closeCel(); if (window.xtTab) window.xtTab('tree'); });
+      cel.addEventListener('click', function (e) { if (e.target === cel) closeCel(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && cel.classList.contains('is-show')) closeCel(); });
+
+      /* ---------- 魔法棒游標 ---------- */
+      var finePointer = window.matchMedia && matchMedia('(pointer: fine)').matches;
+      function setWand() { document.documentElement.classList.toggle('xt-wand', on && finePointer); }
+
+      /* ---------- 開關 ---------- */
+      function apply() {
+        toggle.setAttribute('aria-pressed', on);
+        toggle.querySelector('.tip').textContent = '魔法特效：' + (on ? '開' : '關');
+        if (!on) { ctx.clearRect(0, 0, W, H); smSay.classList.remove('is-show'); parts = []; frostLv = 0; frost.style.opacity = '0'; }
+        startSnow(); setWand(); onScrollSnowman();
+      }
+      toggle.addEventListener('click', function (e) {
+        e.stopPropagation(); on = !on; try { localStorage.setItem(FX_KEY, on ? '1' : '0'); } catch (err) {} apply();
+      });
+
+      resize(); apply();
+    })();
+  </script>
+
+  <!-- ==================== 🎄 聖誕感恩活動 互動邏輯 ==================== -->
+  <script>
+    (function () {
+      /* =========================================================
+         ⚙️ 設定：把 Google Apps Script 部署後的「網頁應用程式網址」貼在這裡
+         例：'https://script.google.com/macros/s/AKfycb..../exec'
+         留空 = 尚未開放分享（只會存在每個人自己的瀏覽器）
+         ========================================================= */
+      var API_URL = 'https://script.google.com/macros/s/AKfycbzepnPypiyPFafEPY65bxo_NENUwkpmKe_EhIvVBVcXc2ZsYz_lqKZ-m-ZyBZjtKoCn/exec';
+      var REFRESH_MS = 60000; // 每 60 秒自動更新大家的感謝
+      var ALLOW_USER_DELETE = false; // 同仁不能刪除留言；只有管理者能在 Google 試算表刪除或隱藏
+
+      var STORE_KEY = 'selXmasThanks2026v2';
+      var LIKE_KEY = 'selXmasLiked2026'; // 這台裝置送過溫暖的留言 id
+      var KIND = {
+        person: { label: '感謝的人', icon: '♥', tag: 'bg-[#fbe4e0] text-[#9c2a24]' },
+        event:  { label: '感謝的事', icon: '✦', tag: 'bg-[#fbf0d4] text-[#8a5f14]' },
+        thing:  { label: '感謝的物', icon: '★', tag: 'bg-[#dcf1ea] text-[#1c6b59]' }
+      };
+      var BADGE = {
+        mine:    '<span class="text-xs px-2 py-0.5 rounded-full border border-[#cfe3d9] text-[#1f6b52]">已分享給大家</span>',
+        private: '<span class="text-xs px-2 py-0.5 rounded-full border border-[#e3d2b0] text-[#8a7458]">僅自己可見</span>',
+        pending: '<span class="text-xs px-2 py-0.5 rounded-full border border-[#ecd49a] text-[#8a5f14]">審核中</span>',
+        sample:  '<span class="text-xs px-2 py-0.5 rounded-full border border-[#e3d2b0] text-[#a8977d]">範例</span>',
+        public:  ''
+      };
+      var STARTERS = [
+        { k: 'person', t: '謝謝同事', s: '謝謝同事＿＿＿，在我最忙的時候' },
+        { k: 'person', t: '謝謝病人與家屬', s: '謝謝那位病人／家屬，一句「辛苦了」讓我' },
+        { k: 'person', t: '謝謝家人', s: '謝謝家人，在我輪班回家時' },
+        { k: 'person', t: '謝謝自己', s: '謝謝自己，這一年即使很累，還是' },
+        { k: 'event',  t: '謝謝某個時刻', s: '謝謝今年＿＿＿的那一天，讓我覺得' },
+        { k: 'thing',  t: '謝謝陪伴我的小物', s: '謝謝陪我值班的＿＿＿，' }
+      ];
+      var SAMPLES = [
+        { id: 's1', k: 'person', t: '謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。', n: '護理師小安', ts: 1, l: 12 },
+        { id: 's2', k: 'event',  t: '謝謝出院那天阿嬤握著我的手說「謝謝你們」，提醒我為什麼選擇這份工作。', n: '', ts: 2, l: 27 },
+        { id: 's3', k: 'thing',  t: '謝謝護理站那台咖啡機，陪我度過每一個凌晨三點。☕', n: 'R2 醫師', ts: 3, l: 8 }
+      ];
+
+      var $ = function (id) { return document.getElementById(id); };
+      var form = $('xt-form'), textEl = $('xt-text'), nameEl = $('xt-name'), msgEl = $('xt-msg'), shareEl = $('xt-share');
+      var submitBtn = $('xt-submit'), syncEl = $('xt-sync');
+      var ornBox = $('xt-ornaments');
+      var filterBox = $('xt-filter');
+      var filter = 'all', newestId = null, busy = false;
+
+      /* ---------- 資料 ----------
+         mine   ：自己寫的（存在本機）{id,k,t,n,ts,shared,token,pending}
+         shared ：從試算表讀到、大家公開的 {id,k,t,n,ts}
+         items  ：畫面上要顯示的合併結果 */
+      function loadMine() {
+        try { var d = JSON.parse(localStorage.getItem(STORE_KEY)); if (Array.isArray(d)) return d; } catch (e) {}
+        return [];
+      }
+      function saveMine() { try { localStorage.setItem(STORE_KEY, JSON.stringify(mine)); } catch (e) {} }
+      function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+      function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+      var mine = loadMine(), shared = [], items = [], online = false;
+
+      var liked = (function () { try { return JSON.parse(localStorage.getItem(LIKE_KEY)) || {}; } catch (e) { return {}; } })();
+      function saveLiked() { try { localStorage.setItem(LIKE_KEY, JSON.stringify(liked)); } catch (e) {} }
+
+      function rebuild() {
+        var mineById = {}, sharedIds = {};
+        mine.forEach(function (m) { mineById[m.id] = m; });
+        shared.forEach(function (s) { sharedIds[s.id] = 1; });
+        var list = shared.map(function (s) {
+          return { id: s.id, k: s.k, t: s.t, n: s.n, ts: s.ts, l: s.l || 0, status: mineById[s.id] ? 'mine' : 'public' };
+        });
+        mine.forEach(function (m) {
+          if (sharedIds[m.id]) return;
+          if (!m.shared) list.push({ id: m.id, k: m.k, t: m.t, n: m.n, ts: m.ts, l: liked[m.id] ? 1 : 0, status: 'private' });
+          else if (m.pending) list.push({ id: m.id, k: m.k, t: m.t, n: m.n, ts: m.ts, l: 0, status: 'pending' });
+        });
+        if (!API_URL) SAMPLES.forEach(function (s) { list.push({ id: s.id, k: s.k, t: s.t, n: s.n, ts: s.ts, l: s.l + (liked[s.id] ? 1 : 0), status: 'sample' }); });
+        list.sort(function (a, b) { return a.ts - b.ts; });
+        items = list;
+      }
+      function indexOfId(id) { for (var i = 0; i < items.length; i++) if (items[i].id === id) return i; return -1; }
+
+      /* ---------- 與 Google 試算表連線 ---------- */
+      function api(body) {
+        return fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // 用 text/plain 避免 CORS 預檢
+          body: JSON.stringify(body)
+        }).then(function (r) { return r.json(); });
+      }
+      var lastSig = '';
+      function fetchShared(attempt) {
+        if (!API_URL) { setSync(); return; }
+        attempt = attempt || 0;
+        if (!online && !lastSig && attempt === 0) syncEl.textContent = '🎄 正在載入大家的感謝…';
+        fetch(API_URL + '?action=list&_=' + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (!d || !d.ok) throw new Error('bad');
+            online = true;
+            shared = (d.items || []).filter(function (x) { return x && x.id && x.t; }).map(function (x) {
+              return { id: String(x.id), k: KIND[x.k] ? x.k : 'person', t: String(x.t), n: x.n ? String(x.n) : '', ts: +x.ts || 0, l: Math.max(0, +x.l || 0) };
+            });
+            // 審核通過的，從「審核中」移除
+            var ids = {}; shared.forEach(function (s) { ids[s.id] = 1; });
+            mine.forEach(function (m) { if (m.pending && ids[m.id]) m.pending = false; });
+            saveMine();
+            var sig = shared.map(function (s) { return s.id; }).join(',');
+            if (sig !== lastSig) { lastSig = sig; renderAll(false); } else { renderAll(true); }
+            setSync();
+          })
+          .catch(function () {
+            // 偶爾連線失敗：先在幾秒內自動重試兩次，都失敗才顯示提示
+            if (attempt < 2) { setTimeout(function () { fetchShared(attempt + 1); }, attempt ? 5000 : 2000); return; }
+            online = false; setSync(); if (!lastSig) renderAll(false);
+          });
+      }
+      function setSync() {
+        if (!API_URL) { syncEl.textContent = '（目前為預覽模式：分享功能尚未開通，留言只會存在你的瀏覽器）'; return; }
+        syncEl.textContent = online ? '🌍 大家的感謝會自動更新' : '⚠️ 暫時連不上大家的聖誕樹，稍後會自動重試';
+      }
+
+      /* ---------- 吊飾位置：依「溫暖排名」由上往下掛 ---------- */
+      var TIERS = [[40, 170, 92], [100, 280, 135], [170, 372, 165], [248, 440, 188]]; // [頂點y, 底部y, 底部半寬]，中心 x=200
+      function halfWidth(y, m) {
+        var hw = -1;
+        for (var i = 0; i < TIERS.length; i++) {
+          var t = TIERS[i];
+          if (y < t[0] + 38 || y > t[1] - 8) continue;
+          hw = Math.max(hw, (y - t[0]) / (t[1] - t[0]) * t[2] - m);
+        }
+        return hw;
+      }
+      // 產生「由上而下」排好的掛點；數量不夠就把間距縮小
+      function buildSlots(n) {
+        var sp = 46, slots = [];
+        while (true) {
+          slots = [];
+          var row = 0;
+          for (var y = 134; y <= 425; y += sp * .8, row++) {
+            var hw = halfWidth(y, 14); if (hw < 0) continue;
+            var cnt = Math.max(1, Math.floor(hw * 2 / sp) + 1);
+            var span = (cnt - 1) * sp, off = (row % 2 && cnt > 1 && span + sp / 2 <= hw * 2) ? sp / 4 : 0;
+            for (var c = 0; c < cnt; c++) slots.push([200 - span / 2 + c * sp + off, y]);
+          }
+          if (slots.length >= n || sp <= 20) break;
+          sp *= .9;
+        }
+        slots.sort(function (a, b) { return a[1] - b[1] || Math.abs(a[0] - 200) - Math.abs(b[0] - 200); });
+        return slots;
+      }
+      function rankSort(a, b) { return (b.l - a.l) || (b.ts - a.ts); }
+      var TREE_MAX = 40; // 樹上最多掛幾顆吊飾（溫暖前幾名）；其餘都在留言牆
+      var ranked = [], positions = {};
+      function placeAll() {
+        ranked = items.slice().sort(rankSort);
+        var n = Math.min(ranked.length, TREE_MAX), slots = buildSlots(n);
+        positions = {};
+        for (var i = 0; i < n; i++) {
+          // 少量吊飾時平均分散在整棵樹，順序仍是第 1 名在最上面
+          var si = n <= slots.length ? Math.floor(i * slots.length / n) : i % slots.length;
+          positions[ranked[i].id] = slots[si] || [200, 300];
+        }
+      }
+
+      /* ---------- 畫面：聖誕樹 ---------- */
+      var ornEls = {};
+      function renderTree() {
+        $('xt-total').textContent = items.length;
+        var onTree = ranked.slice(0, TREE_MAX);
+        $('xt-ontree').textContent = items.length > TREE_MAX ? '，樹上掛著溫暖最多的前 ' + TREE_MAX + ' 份' : '';
+        var tn = $('xt-tab-n'); if (tn) tn.textContent = items.length;
+        var n = onTree.length, seen = {};
+        var base = n > 80 ? 5.5 : n > 55 ? 6 : n > 30 ? 7 : 8;
+        onTree.forEach(function (it, i) {
+          var b = ornEls[it.id], k = KIND[it.k] || KIND.person, p = positions[it.id];
+          if (!b) {
+            b = document.createElement('button'); b.type = 'button'; b.dataset.id = it.id;
+            b.innerHTML = '<span class="swing"><span class="cap"></span><span class="ball"><i>' + k.icon + '</i></span></span>';
+            ornBox.appendChild(b); ornEls[it.id] = b;
+          }
+          seen[it.id] = 1;
+          var top3 = i < 3 && it.l > 0;
+          b.className = 'xt-orn ' + it.k + (top3 ? ' is-top' : '') + (it.id === newestId ? ' is-new' : '') + (filter !== 'all' && it.k !== filter ? ' is-dim' : '');
+          b.style.left = (p[0] / 4) + '%'; b.style.top = (p[1] / 5) + '%';
+          b.style.setProperty('--w', (top3 ? base + [2, 1.4, 1][i] : base) + '%');
+          b.style.setProperty('--d', (-(i % 5) * 0.6) + 's');
+          b.setAttribute('aria-label', '溫暖第 ' + (i + 1) + ' 名，' + it.l + ' 份溫暖：' + it.t.slice(0, 24));
+        });
+        Object.keys(ornEls).forEach(function (id) { if (!seen[id]) { ornEls[id].remove(); delete ornEls[id]; } });
+      }
+
+      /* ---------- 畫面：溫暖排行榜 ---------- */
+      function renderRank() {
+        var top = ranked.slice(0, 5);
+        $('xt-rank').innerHTML = top.length ? top.map(function (it, i) {
+          return '<li><button type="button" class="xt-rank-item" data-goto="' + esc(it.id) + '" data-r="' + (i + 1) + '">' +
+            '<span class="xt-medal">' + (i + 1) + '</span>' +
+            '<span class="xt-rank-txt xt-hand">' + esc(it.t) + '</span>' +
+            '<span class="xt-rank-cnt">♥ ' + it.l + '</span></button></li>';
+        }).join('') : '<li class="xt-hand text-center text-[#8a7458] py-6">還沒有感謝，寫下第一份吧 ✦</li>';
+      }
+
+      /* ---------- 畫面：感謝留言牆 ---------- */
+      var sortBy = 'hot', PAGE = 24, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
+      function likeBtn(it) {
+        var on = !!liked[it.id];
+        if (it.status === 'pending') return '<span></span>';
+        return '<button type="button" class="xt-like' + (on ? ' is-on' : '') + '" data-like="' + esc(it.id) + '" aria-pressed="' + on + '" aria-label="' + (on ? '收回溫暖' : '送出溫暖 +1') + '，目前 ' + it.l + ' 份溫暖">' +
+               '<span class="h" aria-hidden="true">♥</span><span class="t">' + (on ? '已送出溫暖' : '溫暖 +1') + '</span><b class="n">' + it.l + '</b></button>';
+      }
+      function cardHTML(it) {
+        var k = KIND[it.k] || KIND.person, rank = ranked.indexOf(it);
+        var canDel = ALLOW_USER_DELETE && (it.status === 'mine' || it.status === 'private' || it.status === 'pending');
+        var r = ((it.id.charCodeAt(it.id.length - 1) || 0) % 5 - 2) * .5;
+        return '<article class="xt-card-note ' + it.k + '" data-card="' + esc(it.id) + '" style="--r:' + r + 'deg;--tr:' + (-r * 2) + 'deg">' +
+          (rank > -1 && rank < 3 && it.l > 0 ? '<span class="xt-ribbon">🏆 溫暖第 ' + (rank + 1) + ' 名</span>' : '') +
+          '<div class="flex flex-wrap items-center gap-2"><span class="inline-block text-xs font-semibold tracking-wider px-2.5 py-0.5 rounded-full ' + k.tag + '">' + k.label + '</span>' + BADGE[it.status] + '</div>' +
+          '<p class="xt-hand xt-txt" data-dbl="' + esc(it.id) + '" title="點兩下送出溫暖">' + esc(it.t) + '</p>' +
+          '<p class="xt-hand xt-sign text-sm text-right">— ' + (it.n ? esc(it.n) : '一位匿名的聖誕小精靈') + '</p>' +
+          '<div class="flex items-center justify-between gap-3 mt-3">' + likeBtn(it) +
+          (canDel ? '<button type="button" class="xt-del' + (armedDel === it.id ? ' is-armed' : '') + '" data-del="' + esc(it.id) + '">' + (armedDel === it.id ? '⚠️ 再按一次確認刪除' : '刪除') + '</button>' : '') +
+          '</div></article>';
+      }
+      function wallList() {
+        var q = (($('xt-search') || {}).value || '').trim().toLowerCase();
+        var list = items.filter(function (it) { return (filter === 'all' || it.k === filter) && (!q || (it.t + ' ' + (it.n || '')).toLowerCase().indexOf(q) > -1); });
+        list.sort(sortBy === 'hot' ? rankSort : function (a, b) { return b.ts - a.ts; });
+        return list;
+      }
+      // keepOrder：按溫暖時不立刻重排留言牆，避免卡片從手指下跳走
+      function renderWall(keepOrder) {
+        var list;
+        if (keepOrder && wallOrder.length) {
+          var byId = {}; items.forEach(function (it) { byId[it.id] = it; });
+          list = wallOrder.map(function (id) { return byId[id]; }).filter(Boolean);
+        } else {
+          list = wallList(); wallOrder = list.map(function (it) { return it.id; });
+        }
+        var vis = list.slice(0, shown);
+        $('xt-wall').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<p class="xt-hand text-center text-[#8a7458] text-lg py-10" style="column-span:all">' + ((($('xt-search') || {}).value || '').trim() ? '找不到符合的感謝' : '這裡還沒有感謝，寫下第一份吧 ✦') + '</p>';
+        var more = $('xt-more'); more.hidden = list.length <= shown;
+        more.textContent = '看更多感謝 ↓（還有 ' + Math.max(0, list.length - shown) + ' 則）';
+      }
+
+      function renderAll(keepWall) { rebuild(); placeAll(); renderTree(); renderRank(); renderWall(keepWall); }
+
+      function pause() {}
+      function say(text, ok) { msgEl.textContent = text; msgEl.className = ok ? 'text-[#1f4a36] font-semibold' : 'text-[#a8322b] font-semibold'; }
+
+      /* ---------- 找到某則感謝：捲到留言牆並發亮 ---------- */
+      function flashOrn(id) { var o = ornEls[id]; if (o) { o.classList.remove('is-loved'); void o.offsetWidth; o.classList.add('is-loved'); } }
+      function gotoCard(id) {
+        var it = items[indexOfId(id)]; if (!it) return;
+        if (window.xtTab) window.xtTab('wall', true);
+        if (filter !== 'all' && it.k !== filter) { filter = 'all'; syncPills(); renderWall(false); }
+        var pos = wallOrder.indexOf(id);
+        if (pos >= shown) { shown = pos + 1; renderWall(true); }
+        var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
+        c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
+        flashOrn(id);
+      }
+      ornBox.addEventListener('click', function (e) { var b = e.target.closest('.xt-orn'); if (b) gotoCard(b.dataset.id); });
+      $('xt-rank').addEventListener('click', function (e) { var b = e.target.closest('[data-goto]'); if (b) gotoCard(b.getAttribute('data-goto')); });
+      $('xt-wall').addEventListener('mouseover', function (e) {
+        var c = e.target.closest('.xt-card-note'); var id = c && c.getAttribute('data-card');
+        Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.toggle('is-active', k === id); });
+      });
+      $('xt-wall').addEventListener('mouseleave', function () { Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.remove('is-active'); }); });
+      $('xt-more').addEventListener('click', function () { shown += PAGE; renderWall(true); });
+      var sT; $('xt-search').addEventListener('input', function () { clearTimeout(sT); sT = setTimeout(function () { shown = PAGE; renderWall(false); }, 200); });
+
+      /* ---------- 送出 ---------- */
+      function addThanks() {
+        if (busy) return;
+        var t = textEl.value.trim();
+        if (!t) { say('請先寫下想感謝的話喔 🙂'); textEl.focus(); return; }
+        if (t.indexOf('＿＿＿') > -1) { say('記得把「＿＿＿」換成你想寫的內容喔'); textEl.focus(); return; }
+        var kind = (form.querySelector('input[name="kind"]:checked') || {}).value || 'person';
+        var rec = { id: uid(), k: kind, t: t, n: nameEl.value.trim(), ts: Date.now(), shared: false };
+
+        if (shareEl.checked && API_URL) {
+          rec.shared = true; rec.token = uid() + uid();
+          busy = true; submitBtn.disabled = true; say('🎄 正在掛上大家的聖誕樹…', true);
+          api({ action: 'add', id: rec.id, token: rec.token, k: rec.k, t: rec.t, n: rec.n })
+            .then(function (d) {
+              if (!d || !d.ok) throw new Error(d && d.error);
+              if (d.item && d.item.ts) rec.ts = +d.item.ts;
+              if (d.visible) shared.push({ id: rec.id, k: rec.k, t: rec.t, n: rec.n, ts: rec.ts, l: 0 }); else rec.pending = true;
+              finishAdd(rec, d.visible ? '🎉 已掛上大家的聖誕樹，謝謝你的分享！' : '⏳ 已送出！管理者確認後，大家就看得到囉');
+            })
+            .catch(function () { say('網路好像不太順，留言還在，請再按一次試試 🙏'); })
+            .then(function () { busy = false; submitBtn.disabled = false; });
+        } else {
+          finishAdd(rec, shareEl.checked
+            ? '🔒 分享功能尚未開通，已先掛在你自己的樹上'
+            : '🔒 已掛上你的聖誕樹（只有你看得到）');
+        }
+      }
+      function finishAdd(rec, text) {
+        mine.push(rec); saveMine();
+        newestId = rec.id; shown = Math.max(shown, PAGE);
+        if (filter !== 'all' && filter !== rec.k) { filter = 'all'; syncPills(); }
+        textEl.value = ''; nameEl.value = ''; shareEl.checked = false; updateCount();
+        renderAll(false);
+        say(text, true);
+        if (window.xtCelebrate) window.xtCelebrate(text.replace(/^\S+\s/, ''));
+        setTimeout(function () { newestId = null; }, 1200);
+      }
+      submitBtn.addEventListener('click', addThanks);
+      form.addEventListener('submit', function (e) { e.preventDefault(); addThanks(); });
+      textEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) addThanks(); });
+      nameEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); addThanks(); } });
+
+      /* ---------- 起頭句 ---------- */
+      $('xt-starters').innerHTML = STARTERS.map(function (x, i) {
+        return '<button type="button" data-i="' + i + '" class="xt-chip">＋ ' + x.t + '</button>';
+      }).join('');
+      $('xt-starters').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var x = STARTERS[+b.dataset.i];
+        form.querySelector('input[name="kind"][value="' + x.k + '"]').checked = true;
+        textEl.value = x.s; textEl.focus();
+        var p = textEl.value.indexOf('＿＿＿');
+        if (p > -1) textEl.setSelectionRange(p, p + 3); else textEl.setSelectionRange(textEl.value.length, textEl.value.length);
+        updateCount();
+      });
+      function updateCount() { $('xt-count').textContent = textEl.value.length; }
+      textEl.addEventListener('input', function () { updateCount(); msgEl.textContent = ''; });
+
+      /* ---------- 溫暖 +1 ---------- */
+      function floatHearts(x, y, n) {
+        for (var k = 0; k < n; k++) {
+          var h = document.createElement('span'); h.className = 'xt-fheart'; h.textContent = '♥';
+          h.style.left = x + 'px'; h.style.top = y + 'px';
+          h.style.color = ['#e0564b', '#f08a7e', '#f7c548', '#ff9fb2'][k % 4];
+          h.style.fontSize = (12 + Math.random() * 14) + 'px';
+          h.style.setProperty('--dx', ((Math.random() - .5) * 90) + 'px');
+          h.style.setProperty('--dy', (-60 - Math.random() * 80) + 'px');
+          h.style.animationDelay = (k * 40) + 'ms';
+          document.body.appendChild(h); setTimeout(function (el) { el.remove(); }.bind(null, h), 1300 + k * 40);
+        }
+      }
+      function bigHeart(id) {
+        var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
+        var h = document.createElement('span'); h.className = 'xt-bigheart'; h.textContent = '♥'; h.setAttribute('aria-hidden', 'true');
+        c.appendChild(h); setTimeout(function () { h.remove(); }, 900);
+      }
+      var liking = {};
+      function toggleLike(id, el, viaDbl) {
+        var it = items[indexOfId(id)]; if (!it || it.status === 'pending' || liking[id]) return;
+        var wasOn = !!liked[id];
+        if (viaDbl && wasOn) { bigHeart(id); return; } // 點兩下只會送出，不會收回
+        var delta = wasOn ? -1 : 1;
+        if (wasOn) delete liked[id]; else liked[id] = 1;
+        saveLiked();
+        var srv = null; shared.forEach(function (s) { if (s.id === id) srv = s; });
+        if (srv) srv.l = Math.max(0, (srv.l || 0) + delta);
+        var r = (el || document.body).getBoundingClientRect();
+        renderAll(true); // 樹上的吊飾會依新的溫暖數滑到新位置
+        if (delta > 0) {
+          floatHearts(r.left + r.width / 2, r.top + r.height / 2, 7);
+          if (viaDbl) bigHeart(id);
+          var nb = document.querySelector('.xt-like[data-like="' + id + '"] .h'); if (nb) { nb.classList.remove('is-pop'); void nb.offsetWidth; nb.classList.add('is-pop'); }
+          flashOrn(id);
+        }
+        if (srv && API_URL) {
+          liking[id] = 1;
+          api({ action: 'like', id: id, delta: delta })
+            .then(function (d) { if (!d || !d.ok) throw new Error(); if (typeof d.l === 'number') srv.l = d.l; })
+            .catch(function () { // 失敗就還原
+              if (wasOn) liked[id] = 1; else delete liked[id]; saveLiked();
+              srv.l = Math.max(0, srv.l - delta); say('網路不太順，溫暖沒送出去，稍後再試試 🙏');
+            })
+            .then(function () { delete liking[id]; renderAll(true); });
+        }
+      }
+      $('xt-wall').addEventListener('click', function (e) {
+        var b = e.target.closest('.xt-like'); if (b) { toggleLike(b.getAttribute('data-like'), b, false); return; }
+        var d = e.target.closest('[data-del]'); if (d) { deleteOwn(d.getAttribute('data-del'), d); return; }
+        var c = e.target.closest('.xt-card-note'); if (c) flashOrn(c.getAttribute('data-card'));
+      });
+      $('xt-wall').addEventListener('dblclick', function (e) {
+        var p = e.target.closest('[data-dbl]'); if (!p) return;
+        if (window.getSelection) try { window.getSelection().removeAllRanges(); } catch (err) {}
+        toggleLike(p.getAttribute('data-dbl'), p, true);
+      });
+
+      /* ---------- 刪除自己的留言（按兩次確認）---------- */
+      function deleteOwn(id, b) {
+        if (armedDel !== id) {
+          armedDel = id; b.textContent = '⚠️ 再按一次確認刪除'; b.classList.add('is-armed');
+          clearTimeout(armTimer); armTimer = setTimeout(function () { armedDel = null; renderWall(true); }, 3000);
+          return;
+        }
+        armedDel = null; clearTimeout(armTimer);
+        var m = null; mine.forEach(function (x) { if (x.id === id) m = x; });
+        if (!m) return;
+        function removeLocal() {
+          mine = mine.filter(function (x) { return x.id !== id; });
+          shared = shared.filter(function (x) { return x.id !== id; });
+          lastSig = shared.map(function (s) { return s.id; }).join(',');
+          saveMine(); renderAll(false);
+        }
+        if (m.shared && API_URL) {
+          b.textContent = '刪除中…'; b.disabled = true;
+          api({ action: 'delete', id: id, token: m.token })
+            .then(function (d) { if (d && (d.ok || d.error === 'not_found')) removeLocal(); else throw new Error(); })
+            .catch(function () { b.disabled = false; b.textContent = '刪除失敗，請稍後再試'; });
+        } else {
+          removeLocal();
+        }
+      }
+
+      /* ---------- 篩選 / 排序 ---------- */
+      function syncPills() {
+        filterBox.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === filter); });
+        $('xt-sort').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.s === sortBy); });
+      }
+      function setFilter(f) { filter = f; shown = PAGE; syncPills(); renderAll(false); }
+      filterBox.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setFilter(b.dataset.f); });
+      $('xt-sort').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; sortBy = b.dataset.s; shown = PAGE; syncPills(); renderWall(false); });
+
+      $('xt-to-form').addEventListener('click', function (e) {
+        e.preventDefault();
+        window.xtTab('write');
+        setTimeout(function () { textEl.focus({ preventScroll: true }); }, 50);
+      });
+
+      /* ---------- 自動更新 ---------- */
+      if (API_URL) setInterval(function () { if (!document.hidden) fetchShared(); }, REFRESH_MS);
+
+      // 所有「聖誕感恩」入口（導覽列、大標徽章、跑馬燈、手機選單）：一律平滑捲到活動，並讓標題閃一下
+      document.querySelectorAll('a[href="#xmas-thanks"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click(); // 先收起手機選單，避免位置算錯
+          requestAnimationFrame(function () {
+            var sec = document.getElementById('xmas-thanks');
+            var y = sec.getBoundingClientRect().top + window.pageYOffset - 90;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          });
+          try { history.replaceState(null, '', '#xmas-thanks'); } catch (err) {}
+          var t = document.getElementById('xt-title');
+          if (t) { t.classList.remove('xt-arrive'); void t.offsetWidth; t.classList.add('xt-arrive'); }
+        });
+      });
+
+      // 手機選單：點「聖誕感恩」後收起選單
+      var mLink = document.querySelector('.xt-mobile-link');
+      // （手機選單的收合已在上方的入口處理中完成）
+      // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：等樣式與字型載完再捲到活動
+      if (location.hash === '#xmas-thanks') {
+        var goXmas = function () {
+          var sec = document.getElementById('xmas-thanks');
+          window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'auto' });
+        };
+        window.addEventListener('load', function () { goXmas(); setTimeout(goXmas, 400); });
+      }
+
+      /* ---------- 飄雪 ---------- */
+      var snow = document.querySelector('#xmas-thanks .xt-snow');
+      for (var i = 0; i < 45; i++) {
+        var s = document.createElement('i'), z = 2 + Math.random() * 5;
+        s.style.left = (Math.random() * 100) + '%';
+        s.style.width = s.style.height = z + 'px';
+        s.style.animationDuration = (16 + Math.random() * 14) + 's';
+        s.style.animationDelay = (-Math.random() * 30) + 's';
+        snow.appendChild(s);
+      }
+
+      syncPills(); renderAll(false);
+      fetchShared();
+    })();
+  </script>
+  <!-- ==================== 🧩 奶皇包的感謝信 互動邏輯 ==================== -->
+  <script>
+    (function () {
+      var LETTER = [
+        '親愛的夥伴們：',
+        '',
+        '這一年，謝謝有你！',
+        '在醫院這個忙碌的工作環境裡，我們每天都在與不同的人合作，也在一次次的互相支援中，完成許多不容易的任務。',
+        '',
+        '這個 12 月，讓我們練習把感謝說出口，別讓心中的謝意只是放在心裡。'
+      ].join('\n');
+      var SIGN = '—— 人際技巧・奶皇包';
+      var KEY = 'selXmasNaihuangHung';
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var $ = function (id) { return document.getElementById(id); };
+      var scene = $('xt-nh'), textEl = $('xt-nh-text'), say = $('xt-nh-say'), bun = $('xt-nh-bun');
+      var skipBtn = $('xt-nh-skip'), hangBtn = $('xt-nh-hang'), goBtn = $('xt-nh-go'), letter = $('xt-nh-letter'), env = $('xt-nh-env');
+      var dlg = $('xt-nh-dlg'), dlgText = $('xt-nh-dlg-text'), dlgClose = $('xt-nh-dlg-close');
+      if (!scene || !env) return;
+      $('xt-nh-full').textContent = LETTER + '\n' + SIGN; // 給螢幕報讀器的完整內容
+      function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+      function fullHTML() { return esc(LETTER) + '<span class="sign">' + esc(SIGN) + '</span>'; }
+      dlgText.innerHTML = fullHTML();
+
+      var hung = false; try { hung = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      var typing = null, i = 0, done = false, started = false;
+
+      function speak(t, ms) { say.textContent = t; say.classList.add('is-show'); clearTimeout(speak.t); if (ms) speak.t = setTimeout(function () { say.classList.remove('is-show'); }, ms); }
+      function hop() { bun.classList.remove('is-hop'); void bun.offsetWidth; bun.classList.add('is-hop'); }
+      function finish() {
+        clearInterval(typing); done = true; textEl.innerHTML = fullHTML(); skipBtn.hidden = true;
+        if (hung) { goBtn.hidden = false; speak('信已經掛在樹頂囉！換你寫感謝吧 ✦'); }
+        else { hangBtn.hidden = false; speak('寫好了！可以幫我把信掛上聖誕樹嗎？🎄'); }
+      }
+      function start() {
+        if (started) return; started = true;
+        scene.classList.add('is-in');
+        if (hung || reduce) { finish(); return; }
+        speak('嗨！我是人際技巧的奶皇包 🧩 先寫一封感謝信給大家～');
+        setTimeout(function () {
+          if (done) return; // 已按「直接看完」就不再開始打字
+          typing = setInterval(function () {
+            i++;
+            textEl.innerHTML = esc(LETTER.slice(0, i)) + '<span class="caret"></span>';
+            if (i >= LETTER.length) finish();
+          }, 50);
+        }, 900);
+      }
+      skipBtn.addEventListener('click', finish);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es, ob) { es.forEach(function (e) { if (e.isIntersecting) { start(); ob.disconnect(); } }); }, { threshold: .35 }).observe(scene);
+      } else start();
+
+      // 掛上聖誕樹：信折起來 → 捲到樹 → 信封飛到星星下方
+      function showEnv(isNew) { env.hidden = false; if (isNew) { env.classList.remove('is-new'); void env.offsetWidth; env.classList.add('is-new'); } }
+      if (hung) showEnv(false);
+      // 共用：信封從畫面上某處（fromRect）飛到樹頂星星下方
+      function flyToTree(fromRect, onLand) {
+        if (window.xtTab) window.xtTab('tree', true);
+        var fly = document.createElement('div'); fly.className = 'xt-nh-fly'; fly.innerHTML = '<i>♥</i>';
+        fly.style.left = (fromRect.left + fromRect.width / 2 - 23) + 'px'; fly.style.top = (fromRect.top + fromRect.height / 2 - 16) + 'px';
+        document.body.appendChild(fly);
+        var tree = $('xt-tree');
+        env.hidden = false; env.style.visibility = 'hidden';
+        setTimeout(function () {
+          tree.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+          setTimeout(function () {
+            var to = env.getBoundingClientRect(), now = fly.getBoundingClientRect();
+            fly.style.transform = 'translate(' + (to.left + to.width / 2 - (now.left + 23)) + 'px,' + (to.top + to.height / 2 - (now.top + 16)) + 'px) rotate(360deg) scale(' + (to.width / 46) + ')';
+            setTimeout(function () {
+              fly.remove(); env.style.visibility = ''; showEnv(true);
+              hung = true; try { localStorage.setItem(KEY, '1'); } catch (e) {}
+              if (window.xtSparkle) { var r = env.getBoundingClientRect(); window.xtSparkle(r.left + r.width / 2, r.top + r.height / 2); }
+              if (onLand) onLand();
+            }, reduce ? 50 : 1150);
+          }, reduce ? 50 : 800);
+        }, reduce ? 0 : 500);
+      }
+      hangBtn.addEventListener('click', function () {
+        hangBtn.hidden = true; hop();
+        var from = letter.getBoundingClientRect();
+        letter.classList.add('is-fold');
+        flyToTree(from, function () {
+          letter.classList.remove('is-fold'); goBtn.hidden = false;
+          speak('掛好了！謝謝你 ✦ 換你寫下想感謝的人吧！');
+        });
+      });
+      goBtn.addEventListener('click', function () {
+        if (window.xtTab) window.xtTab('write');
+        setTimeout(function () { $('xt-text').focus({ preventScroll: true }); }, 50);
+      });
+      bun.addEventListener('click', function () {
+        hop();
+        var lines = ['要不要，再嘗試溝通一次？🧩', '什麼樣的說法，比較容易被接受？說話前，先想想對方的感受', '忙不過來時，記得開口：「可以幫我一下嗎？」', '人際技巧，幫你連結他人 ✦'];
+        speak(lines[(bun._n = ((bun._n || 0) + 1)) % lines.length], 5000);
+      });
+
+      // 樹上的信封：點了讀信
+      var back = null;
+      env.addEventListener('click', function () { back = document.activeElement; dlg.classList.add('is-show'); dlgClose.focus(); });
+      function closeDlg() { dlg.classList.remove('is-show'); if (back) back.focus(); }
+      dlgClose.addEventListener('click', closeDlg);
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDlg(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dlg.classList.contains('is-show')) closeDlg(); });
+
+      /* ---------- 🧩 奶皇包開場：第一次打開網頁時播放 ---------- */
+      var OP_KEY = 'selXmasOpeningSeen';
+      var op = $('xt-op'), opSay = $('xt-op-say'), opText = $('xt-op-text'), opPaper = $('xt-op-paper'), opPen = $('xt-op-pen'), opSkip = $('xt-op-skip');
+      var opTimers = [], opTyping = null, opRunning = false;
+      function opLater(fn, ms) { opTimers.push(setTimeout(fn, ms)); }
+      function opSpeak(t) {
+        opSay.classList.remove('is-show');
+        opLater(function () { opSay.textContent = t; opSay.classList.add('is-show'); }, 180);
+      }
+      function opPenTo() {
+        var c = opText.querySelector('.caret'); if (!c) return;
+        var r = c.getBoundingClientRect();
+        var pos = 'translate(' + (r.left + 2) + 'px,' + (r.top - 6) + 'px)'; opPen.style.setProperty('--pos', pos); opPen.style.transform = pos;
+      }
+      function opClose(fromRect) {
+        opRunning = false;
+        opTimers.forEach(clearTimeout); opTimers = []; clearInterval(opTyping);
+        try { localStorage.setItem(OP_KEY, '1'); } catch (e) {}
+        op.classList.add('is-out'); opPen.classList.remove('is-on', 'is-writing');
+        document.documentElement.style.overflow = '';
+        setTimeout(function () { op.hidden = true; op.className = 'xt-op'; }, 700);
+        if (fromRect) {
+          // 信飛上樹後，奶皇包那一段也顯示「已掛上」
+          flyToTree(fromRect, function () { if (started) finish(); });
+        }
+      }
+      function playOpening() {
+        if (reduce || opRunning) return;
+        opRunning = true;
+        opTimers.forEach(clearTimeout); opTimers = []; clearInterval(opTyping);
+        op.hidden = false; op.className = 'xt-op p1'; opText.innerHTML = ''; opSay.classList.remove('is-show');
+        document.documentElement.style.overflow = 'hidden';
+        opSkip.focus();
+        opLater(function () { opSpeak('大家好！我是人際技巧的奶皇包 🧩'); }, 700);
+        opLater(function () { opSpeak('12 月，由我來主持「聖誕感恩活動」！'); }, 2900);
+        opLater(function () { op.className = 'xt-op p2'; opSpeak('先寫一封感謝信給大家～ ✍️'); }, 5400);
+        opLater(function () {
+          var k = 0;
+          opPen.classList.add('is-on', 'is-writing');
+          opTyping = setInterval(function () {
+            k++;
+            opText.innerHTML = esc(LETTER.slice(0, k)) + '<span class="caret"></span>';
+            opPenTo();
+            if (k >= LETTER.length) {
+              clearInterval(opTyping);
+              opText.innerHTML = fullHTML() ;
+              opPen.classList.remove('is-writing');
+              opLater(function () { opPen.classList.remove('is-on'); opSpeak('寫好了！現在把信掛上聖誕樹 🎄'); }, 900);
+              opLater(function () { op.className = 'xt-op p3'; }, 2600);
+              opLater(function () { var r = opPaper.getBoundingClientRect(); opClose(r); }, 3300);
+            }
+          }, 55);
+        }, 6500);
+      }
+      opSkip.addEventListener('click', function () { opClose(null); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && opRunning) opClose(null); });
+      // 重播按鈕
+      var replay = $('xt-nh-replay'); if (replay) replay.addEventListener('click', function () { window.scrollTo({ top: 0 }); playOpening(); });
+      // 第一次打開才自動播放；從其他頁點「聖誕感恩」過來（網址帶 #xmas-thanks）時不打擾
+      var seen = false; try { seen = localStorage.getItem(OP_KEY) === '1'; } catch (e) {}
+      if (!seen && !reduce) {
+        if (document.readyState === 'complete') setTimeout(playOpening, 300);
+        else window.addEventListener('load', function () { setTimeout(playOpening, 300); });
+      }
+    })();
+  </script>
+</body>
+</html>
