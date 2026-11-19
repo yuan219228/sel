@@ -58,8 +58,24 @@ function isShown_(v) {
   return v === true || String(v).toUpperCase() === 'TRUE';
 }
 
+/** GET ?action=stats：給管理儀表板的統計（含隱藏數量，但不含隱藏留言的內容與任何密鑰） */
+function stats_() {
+  const values = getSheet_().getDataRange().getValues().slice(1).filter(function (r) { return r[COL.ID]; });
+  const rows = values.map(function (r) {
+    return {
+      ts: new Date(r[COL.TIME]).getTime() || 0,
+      k: KINDS.indexOf(String(r[COL.KIND])) > -1 ? String(r[COL.KIND]) : 'person',
+      l: Math.max(0, Number(r[COL.LIKES]) || 0),
+      named: String(r[COL.NAME] || '').replace(/^'/, '') !== '',
+      shown: isShown_(r[COL.SHOW])
+    };
+  });
+  return json_({ ok: true, rows: rows, generatedAt: Date.now() });
+}
+
 /** GET：讀取所有「顯示」的留言 */
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.action === 'stats') return stats_();
   const values = getSheet_().getDataRange().getValues().slice(1);
   const items = values
     .filter(function (r) { return r[COL.ID] && isShown_(r[COL.SHOW]); })

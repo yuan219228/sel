@@ -502,10 +502,10 @@
     .xt-nh-text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -2px; background: #c9a052; animation: xtCaret .8s steps(1) infinite; }
     @keyframes xtCaret { 50% { opacity: 0; } }
     .xt-nh-text .sign { display: block; text-align: right; color: #8a5f14; }
-    .xt-nh-intro { margin-top: 14px; width: 100%; max-width: 280px; background: #fffaf0; border: 1px dashed #e3c47a; border-radius: 16px; padding: 14px 16px; text-align: left; }
-    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; font-size: 13px; line-height: 1.6; margin: 0; }
-    .xt-nh-intro dt { color: #8a5f14; font-weight: 700; white-space: nowrap; }
-    .xt-nh-intro dd { margin: 0; color: #3b2f25; }
+    .xt-nh-intro { margin-top: 18px; width: 100%; max-width: 760px; background: linear-gradient(180deg, #fffaf0, #fdf0d8); border: 2px solid #f0d58e; border-radius: 22px; padding: 22px 26px; text-align: left; box-shadow: 0 14px 30px -18px rgba(180, 100, 10, .45); }
+    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 12px 18px; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.7; margin: 0; }
+    .xt-nh-intro dt { color: #fff; font-weight: 800; white-space: nowrap; background: linear-gradient(180deg, #f7b23b, #e08a12); border-radius: 10px; padding: 2px 12px; align-self: start; font-size: .9em; }
+    .xt-nh-intro dd { margin: 0; color: #3b2f25; font-weight: 500; }
     /* 飛行中的信封 */
     .xt-nh-fly { position: fixed; z-index: 65; width: 46px; height: 32px; pointer-events: none; transition: transform 1.1s cubic-bezier(.45, -.2, .3, 1.2), opacity .3s; }
     /* 信封（吊飾與飛行共用） */
@@ -954,6 +954,18 @@
           <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
         </div>
 
+            <!-- 認識奶皇包 -->
+        <div class="xt-nh-intro mx-auto mb-10">
+          <p class="xt-serif font-bold text-warm-text mb-4" style="font-size:clamp(24px,2.6vw,34px)">認識奶皇包 🧩</p>
+          <dl>
+            <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
+            <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
+            <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
+            <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
+            <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
+          </dl>
+        </div>
+
         <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
           <!-- 奶皇包 -->
           <div class="relative flex flex-col items-center">
@@ -962,17 +974,6 @@
             <span class="xt-nh-lead">12 月活動帶領人</span>
             <span class="xt-nh-tag">人際技巧・奶皇包</span>
             <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
-            <!-- 認識奶皇包 -->
-            <div class="xt-nh-intro">
-              <p class="xt-serif font-bold text-warm-text text-base mb-2">認識奶皇包 🧩</p>
-              <dl>
-                <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
-                <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
-                <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
-                <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
-                <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
-              </dl>
-            </div>
           </div>
 
           <!-- 信紙 -->
