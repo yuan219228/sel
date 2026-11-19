@@ -11,8 +11,7 @@
 
 | 檔案 | 用途 |
 |---|---|
-| `index-static.html` | 首頁（聖誕主圖、跑馬燈、活動入口） |
-| `xmas.html` | **12 月聖誕感恩活動頁**：開場、感恩聖誕樹、留言牆、寫感謝、奶皇包的信（分頁） |
+| `index-static.html` | 首頁（**含 12 月聖誕感恩活動**：開場、感恩聖誕樹、留言牆、寫感謝、奶皇包的信） |
 | `dashboard.html` | 管理儀表板（原情緒溫度計＋初心留言牆，**新增聖誕感恩活動統計**） |
 | `index.html` | 自動轉到 `index-static.html`（讓網站根網址也能打開首頁） |
 | `abilities.html`、`selfcheck.html`、`scenario.html`、`learning-support.html`、`message-wall.html`、`game-heart.html`、`game-communication.html`、`quiz.html` | 原網站其他頁面（從正式網站複製，未修改；`game-heart.html` 的「首頁」連結已由不存在的 `index.html` 改為 `index-static.html`） |
