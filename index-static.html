@@ -488,7 +488,10 @@
     @keyframes xtNhIn { from { opacity: 0; transform: translateY(60px) scale(.6); } }
     @keyframes xtNhIdle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-4px); } }
     .xt-nh-bun.is-hop { animation: xtHop .55s cubic-bezier(.3, 1.6, .5, 1) !important; }
-    .xt-nh-tag { margin-top: 6px; font-size: 12px; letter-spacing: .15em; color: #8a5f14; background: #fff3d1; border: 1px solid #f0d58e; padding: 2px 12px; border-radius: 9999px; }
+    .xt-nh-tag { margin-top: 8px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(24px, 3vw, 34px); line-height: 1.25; letter-spacing: .1em; white-space: nowrap;
+      color: #fff; background: linear-gradient(180deg, #f7b23b, #e08a12); border: 3px solid #fff3d1; padding: .15em .75em; border-radius: 9999px;
+      text-shadow: 0 2px 0 rgba(140, 80, 0, .35); box-shadow: 0 12px 26px -12px rgba(180, 100, 10, .6); }
+    .xt-nh-lead { display: block; font-size: 13px; letter-spacing: .3em; color: #a8977d; margin-top: 10px; }
     .xt-nh-say { position: relative; margin-bottom: 10px; max-width: 220px; min-height: 0; background: #fffdf8; border: 1px solid #f0d58e; border-radius: 14px; padding: 8px 12px;
       font-size: 14px; line-height: 1.6; color: #3b2f25; box-shadow: 0 10px 22px -12px rgba(120, 70, 10, .45); opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s; }
     .xt-nh-say.is-show { opacity: 1; transform: none; }
@@ -542,10 +545,10 @@
     .xt-op-skip:hover { background: #fff; color: #3b2f25; }
     .xt-op-stage { position: relative; width: min(1200px, 96vw); height: 100vh; }
     .xt-op-bunwrap { position: absolute; left: 50%; bottom: 1%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; transition: left 1s cubic-bezier(.5, 0, .2, 1), bottom 1s cubic-bezier(.5, 0, .2, 1); }
-    .xt-op-bun { height: min(62vh, 780px); max-width: 92vw; object-fit: contain; width: auto; transform-origin: 50% 100%; filter: drop-shadow(0 22px 30px rgba(120, 70, 10, .3));
+    .xt-op-bun { height: min(48vh, 560px); max-width: 92vw; object-fit: contain; width: auto; transform-origin: 50% 100%; filter: drop-shadow(0 22px 30px rgba(120, 70, 10, .3));
       transition: height 1s cubic-bezier(.5, 0, .2, 1); animation: xtOpIn 1.1s cubic-bezier(.3, 1.45, .5, 1) both, xtNhIdle 3s ease-in-out 1.1s infinite; }
     @keyframes xtOpIn { from { opacity: 0; transform: translateY(70%) scale(.5); } }
-    .xt-op-name { margin-top: 4px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(30px, 5.2vw, 64px); line-height: 1.25; letter-spacing: .12em; white-space: nowrap;
+    .xt-op-name { margin-top: 4px; font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(26px, 8vw, 96px); max-width: 96vw; line-height: 1.2; margin-top: 10px; letter-spacing: .12em; white-space: nowrap;
       color: #fff; background: linear-gradient(180deg, #f7b23b, #e08a12); border: 3px solid #fff3d1; padding: .12em .7em; border-radius: 9999px;
       text-shadow: 0 2px 0 rgba(140, 80, 0, .35); box-shadow: 0 14px 30px -12px rgba(180, 100, 10, .6); animation: xtOpName .8s cubic-bezier(.3, 1.6, .5, 1) .6s both; }
     @keyframes xtOpName { from { opacity: 0; transform: scale(.4); } }
@@ -576,7 +579,7 @@
       .xt-op.p2 .xt-op-bun, .xt-op.p3 .xt-op-bun { height: 20vh; }
       .xt-op.p2 .xt-op-say, .xt-op.p3 .xt-op-say { display: none; }
       .xt-op.p2 .xt-op-name, .xt-op.p3 .xt-op-name { display: none; }
-      .xt-op.p1 .xt-op-bun { height: 54vh; }
+      .xt-op.p1 .xt-op-bun { height: 40vh; }
       .xt-op-paper { left: 0; right: 0; width: auto; top: 25vh; min-height: 0; padding: 40px 20px 22px; }
     }
     .xt-nh-replay { margin-top: 10px; font-size: 12px; color: #8a5f14; text-decoration: underline; text-underline-offset: 3px; }
@@ -852,6 +855,7 @@
           <div class="relative flex flex-col items-center">
             <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
             <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+            <span class="xt-nh-lead">12 月活動帶領人</span>
             <span class="xt-nh-tag">人際技巧・奶皇包</span>
             <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
             <!-- 認識奶皇包 -->
