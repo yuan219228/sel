@@ -584,6 +584,27 @@
     }
     .xt-nh-replay { margin-top: 10px; font-size: 12px; color: #8a5f14; text-decoration: underline; text-underline-offset: 3px; }
 
+    /* ==================== 🎄 聖誕感恩活動 全螢幕彈出視窗 ==================== */
+    .xt-modal { position: fixed; inset: 0; z-index: 80; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, #fff6e6 0%, #fff8f0 60%), #FFF8F0; }
+    .xt-modal[hidden] { display: none; }
+    .xt-modal.is-open { animation: xtModalIn .45s cubic-bezier(.3, 1.2, .4, 1); }
+    @keyframes xtModalIn { from { opacity: 0; transform: translateY(24px) scale(.985); } }
+    .xt-modal-bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px clamp(12px, 3vw, 28px);
+      background: linear-gradient(90deg, #6e1b1b 0%, #a3302a 50%, #6e1b1b 100%); color: #fff4dc; box-shadow: inset 0 -1px 0 rgba(241, 220, 162, .6), 0 8px 20px -10px rgba(110, 27, 27, .6); }
+    .xt-modal-title { font-family: 'Noto Serif TC', serif; font-weight: 700; letter-spacing: .1em; font-size: clamp(15px, 2vw, 19px); }
+    .xt-modal-close { flex-shrink: 0; padding: 6px 16px; border-radius: 9999px; font-size: 14px; font-weight: 600; color: #4a2c0c; background: linear-gradient(180deg, #f7e3a6, #d8ad55); box-shadow: 0 1px 0 rgba(255,255,255,.5) inset; }
+    .xt-modal-close:hover { filter: brightness(1.05); }
+    body.xt-locked { overflow: hidden; }
+    .xt-badge-pulse { animation: xtBadge 2.2s ease-in-out infinite; }
+    @keyframes xtBadge { 0% { box-shadow: 0 0 0 0 rgba(200, 70, 61, .6); } 70%, 100% { box-shadow: 0 0 0 10px rgba(200, 70, 61, 0); } }
+    @media (prefers-reduced-motion: reduce) { .xt-badge-pulse { animation: none; } }
+    #xt-snowfx { z-index: 85 !important; }
+    .xt-spark, .xt-fheart, .xt-nh-fly { z-index: 97 !important; }
+    #xt-celebrate, #xt-nh-dlg { z-index: 96 !important; }
+    #xt-snowman, #xt-snowman-say, #xt-fx-toggle { z-index: 88 !important; }
+    @media (prefers-reduced-motion: reduce) { .xt-modal.is-open { animation: none; } }
+
   </style>
 
 
@@ -696,7 +717,7 @@
                 <span>🌸</span><span>奇美醫院 SEL 學習小棧</span>
               </span>
               <!-- 🎄 聖誕感恩活動入口 -->
-              <a href="#xmas-thanks" class="inline-flex items-center gap-1.5 bg-xmas-red text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm hover:brightness-110 transition-all">
+              <a href="#xmas-thanks" class="xt-badge-pulse inline-flex items-center gap-1.5 bg-xmas-red text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm hover:brightness-110 transition-all">
                 <span>🎄</span><span>12月 聖誕感恩活動進行中</span><span aria-hidden="true">→</span>
               </a>
             </div>
@@ -759,283 +780,6 @@
         <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--img:url(./public/xmas-bun-1.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-2.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-3.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-5.png);--d:1.2s" aria-hidden="true"></span></div>
       </div>
     </a>
-
-    <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
-    <section id="xmas-thanks" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 scroll-mt-24" aria-labelledby="xt-title">
-
-      <!-- 感恩聖誕樹 -->
-      <div id="xt-tree-area" class="text-center mb-8 scroll-mt-24">
-        <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
-        <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感恩聖誕樹</h3>
-        <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-        <p class="text-sub-text text-sm">大家已經寫下 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝<span id="xt-ontree"></span>。點一顆吊飾，讀讀大家的心意</p>
-        <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
-        <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↓</a>
-      </div>
-
-      <div class="xt-tree-stage rounded-[28px] shadow-card p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
-        <!-- 左：樹 -->
-        <div class="xt-tree" id="xt-tree">
-          <svg viewBox="0 0 400 500" aria-hidden="true">
-            <defs>
-              <linearGradient id="xtLeaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a8a61"/><stop offset="1" stop-color="#1c5038"/></linearGradient>
-              <linearGradient id="xtTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a35"/><stop offset=".55" stop-color="#6b4224"/><stop offset="1" stop-color="#4c2d17"/></linearGradient>
-              <radialGradient id="xtStarG" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#fff8d6"/><stop offset=".45" stop-color="#f7d36a"/><stop offset="1" stop-color="#d49a2c"/></radialGradient>
-              <radialGradient id="xtGlow"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".9"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/></radialGradient>
-              <linearGradient id="xtSnowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e7eef2"/></linearGradient>
-              <pattern id="xtNeedle" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M2 3 Q9 10 16 3" fill="none" stroke="#0e3a26" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></pattern>
-              <filter id="xtShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#0b2a1c" flood-opacity=".35"/></filter>
-              <filter id="xtBlur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
-              <clipPath id="xtTier0"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z"/></clipPath>
-              <clipPath id="xtTier1"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z"/></clipPath>
-              <clipPath id="xtTier2"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z"/></clipPath>
-              <clipPath id="xtTier3"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z"/></clipPath>
-            </defs>
-            <!-- 雪地 -->
-            <ellipse cx="200" cy="482" rx="196" ry="14" fill="#d9c8ae" opacity=".35" filter="url(#xtBlur)"/>
-            <path d="M8 482 Q60 452 140 458 Q200 446 262 458 Q342 450 392 482 Z" fill="url(#xtSnowG)"/>
-            <!-- 樹幹 -->
-            <rect x="182" y="430" width="36" height="42" rx="5" fill="url(#xtTrunk)"/>
-            <path d="M190 436 V468 M200 434 V470 M210 438 V466" stroke="#3e2412" stroke-opacity=".35" stroke-width="1.4"/>
-            <g filter="url(#xtShadow)"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z" fill="url(#xtLeaf)"/></g>
-            <g clip-path="url(#xtTier3)">
-              <rect x="0" y="248" width="400" height="212" fill="url(#xtNeedle)"/>
-              <path d="M200 243 L420 470 L200 470 Z" fill="#0b2e1f" opacity=".22"/>
-              <path d="M200 243 L-20 470 L60 470 Z" fill="#ffffff" opacity=".05"/>
-              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
-              <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
-            </g>
-            <path d="M12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
-            <g class="xt-bulb"><circle cx="25.4" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="25.4" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="52.3" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="52.3" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="79.1" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="79.1" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="106.0" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="106.0" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.9" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.9" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.7" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.7" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.6" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.6" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.4" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.4" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.3" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.3" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.1" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.1" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.0" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.0" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="320.9" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="320.9" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="347.7" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="347.7" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="374.6" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="374.6" cy="427.0" r="2.6" fill="#fffbe9"/></g>
-            <g filter="url(#xtShadow)"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z" fill="url(#xtLeaf)"/></g>
-            <g clip-path="url(#xtTier2)">
-              <rect x="0" y="170" width="400" height="222" fill="url(#xtNeedle)"/>
-              <path d="M200 165 L420 402 L200 402 Z" fill="#0b2e1f" opacity=".22"/>
-              <path d="M200 165 L-20 402 L60 402 Z" fill="#ffffff" opacity=".05"/>
-              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
-              <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
-            </g>
-            <path d="M35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
-            <g class="xt-bulb"><circle cx="48.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="48.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="76.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="76.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="103.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="103.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="131.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="131.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="158.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="158.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="241.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="241.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="268.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="268.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="296.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="296.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="323.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="323.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="351.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="351.2" cy="359.0" r="2.6" fill="#fffbe9"/></g>
-            <g filter="url(#xtShadow)"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z" fill="url(#xtLeaf)"/></g>
-            <g clip-path="url(#xtTier1)">
-              <rect x="0" y="100" width="400" height="200" fill="url(#xtNeedle)"/>
-              <path d="M200 95 L420 310 L200 310 Z" fill="#0b2e1f" opacity=".22"/>
-              <path d="M200 95 L-20 310 L60 310 Z" fill="#ffffff" opacity=".05"/>
-              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
-              <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
-            </g>
-            <path d="M65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
-            <g class="xt-bulb"><circle cx="78.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="78.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="105.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="105.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.5" cy="271.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.5" cy="267.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="321.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="321.5" cy="267.0" r="2.6" fill="#fffbe9"/></g>
-            <g filter="url(#xtShadow)"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z" fill="url(#xtLeaf)"/></g>
-            <g clip-path="url(#xtTier0)">
-              <rect x="0" y="40" width="400" height="150" fill="url(#xtNeedle)"/>
-              <path d="M200 35 L420 200 L200 200 Z" fill="#0b2e1f" opacity=".22"/>
-              <path d="M200 35 L-20 200 L60 200 Z" fill="#ffffff" opacity=".05"/>
-              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
-              <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
-            </g>
-            <path d="M108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
-            <g class="xt-bulb"><circle cx="119.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="119.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="142.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="142.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="165.5" cy="161.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="165.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="188.5" cy="157.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="188.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="211.5" cy="161.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="211.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="234.5" cy="157.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="234.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="257.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="257.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="280.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="280.5" cy="157.0" r="2.6" fill="#fffbe9"/></g>
-            <!-- 禮物 -->
-            <g>
-              <rect x="64" y="440" width="58" height="40" rx="3" fill="#a8322b"/><rect x="64" y="440" width="58" height="9" rx="2" fill="#c0443a"/>
-              <rect x="89" y="440" width="8" height="40" fill="#e7c06a"/>
-              <path d="M93 440 q-16 -16 -20 -4 q4 8 20 4 q16 -16 20 -4 q-4 8 -20 4" fill="#f0cf7e" stroke="#c9a04a" stroke-width="1"/>
-              <rect x="286" y="448" width="48" height="32" rx="3" fill="#2f7d68"/><rect x="286" y="448" width="48" height="8" rx="2" fill="#3c9580"/>
-              <rect x="306" y="448" width="7" height="32" fill="#fbf4e4"/>
-              <path d="M309.5 448 q-13 -13 -16 -3 q3 6 16 3 q13 -13 16 -3 q-3 6 -16 3" fill="#fffaf0" stroke="#e1d3b6" stroke-width="1"/>
-              <rect x="236" y="458" width="38" height="22" rx="3" fill="#e9b04f"/><rect x="236" y="458" width="38" height="6" rx="2" fill="#f2c56f"/>
-              <rect x="252" y="458" width="6" height="22" fill="#a8322b"/>
-            </g>
-            <!-- 星星 -->
-            <circle cx="200" cy="38" r="40" fill="url(#xtGlow)"/>
-            <path class="xt-rays" d="M226.0 38.0 L248.0 38.0 M224.0 47.9 L235.1 52.5 M218.4 56.4 L233.9 71.9 M209.9 62.0 L214.5 73.1 M200.0 64.0 L200.0 86.0 M190.1 62.0 L185.5 73.1 M181.6 56.4 L166.1 71.9 M176.0 47.9 L164.9 52.5 M174.0 38.0 L152.0 38.0 M176.0 28.1 L164.9 23.5 M181.6 19.6 L166.1 4.1 M190.1 14.0 L185.5 2.9 M200.0 12.0 L200.0 -10.0 M209.9 14.0 L214.5 2.9 M218.4 19.6 L233.9 4.1 M224.0 28.1 L235.1 23.5" stroke="#f3cf6e" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
-            <path class="xt-star" d="M200.0 16.0 L205.6 30.3 L220.9 31.2 L209.0 40.9 L212.9 55.8 L200.0 47.5 L187.1 55.8 L191.0 40.9 L179.1 31.2 L194.4 30.3 Z" fill="url(#xtStarG)" stroke="#b9822a" stroke-width="1.6" stroke-linejoin="round"/>
-          </svg>
-          <!-- 奶皇包的感謝信（信封吊飾，掛在星星下方） -->
-          <button type="button" id="xt-nh-env" class="xt-nh-env" hidden aria-label="奶皇包的感謝信，點我閱讀">
-            <span class="swing"><span class="env"><i aria-hidden="true">♥</i></span></span>
-          </button>
-          <div id="xt-ornaments"></div>
-        </div>
-
-        <!-- 右：溫暖排行榜 -->
-        <div>
-          <div class="xt-paper xt-letter">
-            <div class="xt-letter-label">WARMEST ・ 溫暖排行榜</div>
-            <p class="text-center text-xs text-[#a8977d] mb-4">收到最多溫暖的感謝，會掛在聖誕樹最頂端 ✦</p>
-            <ol id="xt-rank" class="space-y-2"></ol>
-            <div class="xt-seal" aria-hidden="true">♥</div>
-          </div>
-          <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
-        </div>
-        <!-- 包子報佳音 -->
-        <div class="lg:col-span-2 text-center">
-          <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
-          <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
-          <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
-            <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-1.png)"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-2.png)"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-3.png)"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-4.png)"></span></button>
-            <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-5.png)"></span></button>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- 感謝留言牆 -->
-      <div id="xt-wall-area" class="mt-16 scroll-mt-24">
-        <div class="text-center mb-7">
-          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
-          <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
-          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-          <p class="text-sub-text text-sm">一起讀讀大家的感謝，喜歡就送一份溫暖 ♥（在文字上點兩下也可以）</p>
-        </div>
-        <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
-          <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
-            <button type="button" class="xt-pill" data-f="all" aria-pressed="true">全部</button>
-            <button type="button" class="xt-pill" data-f="person" aria-pressed="false"><span class="xt-dot person"></span>人</button>
-            <button type="button" class="xt-pill" data-f="event" aria-pressed="false"><span class="xt-dot event"></span>事</button>
-            <button type="button" class="xt-pill" data-f="thing" aria-pressed="false"><span class="xt-dot thing"></span>物</button>
-          </div>
-          <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
-          <input type="search" id="xt-search" class="xt-field px-4 py-1.5 text-sm w-full sm:w-56" placeholder="🔍 搜尋感謝或署名" aria-label="搜尋感謝或署名" />
-          <div class="flex gap-2" id="xt-sort" role="group" aria-label="排序方式">
-            <button type="button" class="xt-pill" data-s="hot" aria-pressed="true">♥ 最多溫暖</button>
-            <button type="button" class="xt-pill" data-s="new" aria-pressed="false">最新</button>
-          </div>
-        </div>
-        <div id="xt-wall" class="xt-wall"></div>
-        <div class="text-center mt-4"><button type="button" id="xt-more" class="xt-pill" hidden>看更多感謝 ↓</button></div>
-      </div>
-
-      <div class="mt-16"></div>
-      <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
-        <div class="xt-aurora" aria-hidden="true"></div>
-        <div class="xt-frame" aria-hidden="true"></div>
-        <div class="xt-lights" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="xt-snow" aria-hidden="true"></div>
-
-        <!-- 標題 -->
-        <div class="relative text-center mb-9">
-          <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
-          <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
-          <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
-          <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
-          <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
-            在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
-            寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
-          </p>
-        </div>
-
-        <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
-        <figure class="xt-illus" id="xt-illus">
-          <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
-               onerror="this.closest('figure').remove()" />
-        </figure>
-
-        <!-- 填寫表單 -->
-        <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
-          <fieldset>
-            <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-              <label class="xt-kind relative cursor-pointer">
-                <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
-                <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
-              </label>
-              <label class="xt-kind relative cursor-pointer">
-                <input type="radio" name="kind" value="event" class="absolute opacity-0" />
-                <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
-              </label>
-              <label class="xt-kind relative cursor-pointer">
-                <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
-                <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
-              </label>
-            </div>
-          </fieldset>
-
-          <div class="mt-7">
-            <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
-            <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
-            <textarea id="xt-text" maxlength="200" rows="4"
-              class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
-              placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
-            <div class="flex justify-between text-xs mt-1.5">
-              <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
-              <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
-            </div>
-          </div>
-
-          <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
-            <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
-            <span class="text-sm leading-relaxed">
-              <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
-              <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
-            </span>
-          </label>
-
-          <div class="mt-4 flex flex-col sm:flex-row gap-3">
-            <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
-            <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
-          </div>
-          <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
-            感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
-            分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
-          </p>
-        </form>
-      </div>
-
-      <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
-      <div id="xt-nh" class="xt-nh mt-16 scroll-mt-24" aria-labelledby="xt-nh-title">
-        <div class="text-center mb-8">
-          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
-          <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
-          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-          <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
-        </div>
-
-            <!-- 認識奶皇包 -->
-        <div class="xt-nh-intro mx-auto mb-10">
-          <p class="xt-serif font-bold text-warm-text mb-4" style="font-size:clamp(24px,2.6vw,34px)">認識奶皇包 🧩</p>
-          <dl>
-            <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
-            <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
-            <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
-            <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
-            <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
-          </dl>
-        </div>
-
-        <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
-          <!-- 奶皇包 -->
-          <div class="relative flex flex-col items-center">
-            <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
-            <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
-            <span class="xt-nh-lead">12 月活動帶領人</span>
-            <span class="xt-nh-tag">人際技巧・奶皇包</span>
-            <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
-          </div>
-
-          <!-- 信紙 -->
-          <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
-            <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
-            <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
-            <div id="xt-nh-full" class="sr-only"></div>
-            <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
-              <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
-              <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
-              <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
 
     <!-- ==================== 什麼是 SEL ==================== -->
     <section class="relative overflow-hidden bg-gradient-to-br from-[#f0f7ff] via-[#fdf8f2] to-[#f0faf4] py-16 sm:py-20">
@@ -1134,6 +878,292 @@
     </section>
 
   </main>
+
+  <!-- ==================== 🎄 聖誕感恩活動：全螢幕彈出視窗（點「12月 聖誕感恩活動進行中」打開） ==================== -->
+  <div id="xt-modal" class="xt-modal" role="dialog" aria-modal="true" aria-label="12 月聖誕感恩活動" hidden>
+    <div class="xt-modal-bar">
+      <span class="xt-modal-title">🎄 12 月聖誕感恩活動</span>
+      <button type="button" id="xt-modal-close" class="xt-modal-close">✕ 回到首頁</button>
+    </div>
+    <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
+      <section id="xmas-thanks" class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-16" aria-labelledby="xt-title">
+
+        <!-- 感恩聖誕樹 -->
+        <div id="xt-tree-area" class="text-center mb-8 scroll-mt-24">
+          <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
+          <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感恩聖誕樹</h3>
+          <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+          <p class="text-sub-text text-sm">大家已經寫下 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝<span id="xt-ontree"></span>。點一顆吊飾，讀讀大家的心意</p>
+          <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
+          <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↓</a>
+        </div>
+
+        <div class="xt-tree-stage rounded-[28px] shadow-card p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
+          <!-- 左：樹 -->
+          <div class="xt-tree" id="xt-tree">
+            <svg viewBox="0 0 400 500" aria-hidden="true">
+              <defs>
+                <linearGradient id="xtLeaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a8a61"/><stop offset="1" stop-color="#1c5038"/></linearGradient>
+                <linearGradient id="xtTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a35"/><stop offset=".55" stop-color="#6b4224"/><stop offset="1" stop-color="#4c2d17"/></linearGradient>
+                <radialGradient id="xtStarG" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#fff8d6"/><stop offset=".45" stop-color="#f7d36a"/><stop offset="1" stop-color="#d49a2c"/></radialGradient>
+                <radialGradient id="xtGlow"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".9"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/></radialGradient>
+                <linearGradient id="xtSnowG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e7eef2"/></linearGradient>
+                <pattern id="xtNeedle" width="18" height="12" patternUnits="userSpaceOnUse"><path d="M2 3 Q9 10 16 3" fill="none" stroke="#0e3a26" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/></pattern>
+                <filter id="xtShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#0b2a1c" flood-opacity=".35"/></filter>
+                <filter id="xtBlur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+                <clipPath id="xtTier0"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z"/></clipPath>
+                <clipPath id="xtTier1"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z"/></clipPath>
+                <clipPath id="xtTier2"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z"/></clipPath>
+                <clipPath id="xtTier3"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z"/></clipPath>
+              </defs>
+              <!-- 雪地 -->
+              <ellipse cx="200" cy="482" rx="196" ry="14" fill="#d9c8ae" opacity=".35" filter="url(#xtBlur)"/>
+              <path d="M8 482 Q60 452 140 458 Q200 446 262 458 Q342 450 392 482 Z" fill="url(#xtSnowG)"/>
+              <!-- 樹幹 -->
+              <rect x="182" y="430" width="36" height="42" rx="5" fill="url(#xtTrunk)"/>
+              <path d="M190 436 V468 M200 434 V470 M210 438 V466" stroke="#3e2412" stroke-opacity=".35" stroke-width="1.4"/>
+              <g filter="url(#xtShadow)"><path d="M200 248 Q121.0 359.4 12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440 Q279.0 359.4 200 248 Z" fill="url(#xtLeaf)"/></g>
+              <g clip-path="url(#xtTier3)">
+                <rect x="0" y="248" width="400" height="212" fill="url(#xtNeedle)"/>
+                <path d="M200 243 L420 470 L200 470 Z" fill="#0b2e1f" opacity=".22"/>
+                <path d="M200 243 L-20 470 L60 470 Z" fill="#ffffff" opacity=".05"/>
+                <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+                <path d="M75.9 344.0 Q200 440.0 335.4 328.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+              </g>
+              <path d="M12.0 440 Q38.9 453 65.7 440 Q92.6 453 119.4 440 Q146.3 453 173.1 440 Q200.0 453 226.9 440 Q253.7 453 280.6 440 Q307.4 453 334.3 440 Q361.1 453 388.0 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+              <g class="xt-bulb"><circle cx="25.4" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="25.4" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="52.3" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="52.3" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="79.1" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="79.1" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="106.0" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="106.0" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.9" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.9" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.7" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.7" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.6" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.6" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.4" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.4" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.3" cy="431.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.3" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.1" cy="427.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.1" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.0" cy="431.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.0" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="320.9" cy="427.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="320.9" cy="427.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="347.7" cy="431.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="347.7" cy="431.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="374.6" cy="427.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="374.6" cy="427.0" r="2.6" fill="#fffbe9"/></g>
+              <g filter="url(#xtShadow)"><path d="M200 170 Q130.7 287.2 35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372 Q269.3 287.2 200 170 Z" fill="url(#xtLeaf)"/></g>
+              <g clip-path="url(#xtTier2)">
+                <rect x="0" y="170" width="400" height="222" fill="url(#xtNeedle)"/>
+                <path d="M200 165 L420 402 L200 402 Z" fill="#0b2e1f" opacity=".22"/>
+                <path d="M200 165 L-20 402 L60 402 Z" fill="#ffffff" opacity=".05"/>
+                <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+                <path d="M91.1 271.0 Q200 372.0 318.8 254.8" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+              </g>
+              <path d="M35.0 372 Q62.5 385 90.0 372 Q117.5 385 145.0 372 Q172.5 385 200.0 372 Q227.5 385 255.0 372 Q282.5 385 310.0 372 Q337.5 385 365.0 372" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+              <g class="xt-bulb"><circle cx="48.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="48.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="76.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="76.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="103.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="103.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="131.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="131.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="158.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="158.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.8" cy="363.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="241.2" cy="359.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="241.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="268.8" cy="363.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="268.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="296.2" cy="359.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="296.2" cy="359.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="323.8" cy="363.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="323.8" cy="363.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="351.2" cy="359.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="351.2" cy="359.0" r="2.6" fill="#fffbe9"/></g>
+              <g filter="url(#xtShadow)"><path d="M200 100 Q143.3 204.4 65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280 Q256.7 204.4 200 100 Z" fill="url(#xtLeaf)"/></g>
+              <g clip-path="url(#xtTier1)">
+                <rect x="0" y="100" width="400" height="200" fill="url(#xtNeedle)"/>
+                <path d="M200 95 L420 310 L200 310 Z" fill="#0b2e1f" opacity=".22"/>
+                <path d="M200 95 L-20 310 L60 310 Z" fill="#ffffff" opacity=".05"/>
+                <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+                <path d="M110.9 190.0 Q200 280.0 297.2 175.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+              </g>
+              <path d="M65.0 280 Q92.0 293 119.0 280 Q146.0 293 173.0 280 Q200.0 293 227.0 280 Q254.0 293 281.0 280 Q308.0 293 335.0 280" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+              <g class="xt-bulb"><circle cx="78.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="78.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="105.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="105.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="132.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="132.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="159.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="159.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="186.5" cy="271.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="186.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="213.5" cy="267.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="213.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="240.5" cy="271.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="240.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="267.5" cy="267.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="267.5" cy="267.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="294.5" cy="271.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="294.5" cy="271.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="321.5" cy="267.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="321.5" cy="267.0" r="2.6" fill="#fffbe9"/></g>
+              <g filter="url(#xtShadow)"><path d="M200 40 Q161.4 115.4 108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170 Q238.6 115.4 200 40 Z" fill="url(#xtLeaf)"/></g>
+              <g clip-path="url(#xtTier0)">
+                <rect x="0" y="40" width="400" height="150" fill="url(#xtNeedle)"/>
+                <path d="M200 35 L420 200 L200 200 Z" fill="#0b2e1f" opacity=".22"/>
+                <path d="M200 35 L-20 200 L60 200 Z" fill="#ffffff" opacity=".05"/>
+                <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#7a5414" stroke-opacity=".35" stroke-width="5.5" stroke-dasharray="0.1 8" stroke-linecap="round" transform="translate(0 1.5)"/>
+                <path d="M139.3 105.0 Q200 170.0 266.2 94.6" fill="none" stroke="#e8bf62" stroke-width="5" stroke-dasharray="0.1 8" stroke-linecap="round"/>
+              </g>
+              <path d="M108.0 170 Q131.0 183 154.0 170 Q177.0 183 200.0 170 Q223.0 183 246.0 170 Q269.0 183 292.0 170" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="30 12 18 22 38 9 14 20" opacity=".93"/>
+              <g class="xt-bulb"><circle cx="119.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="119.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="142.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="142.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="165.5" cy="161.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="165.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="188.5" cy="157.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="188.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="211.5" cy="161.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="211.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="234.5" cy="157.0" r="7" fill="#fff1c4" opacity=".55" filter="url(#xtBlur)"/><circle cx="234.5" cy="157.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="257.5" cy="161.0" r="7" fill="#ffd36b" opacity=".55" filter="url(#xtBlur)"/><circle cx="257.5" cy="161.0" r="2.6" fill="#fffbe9"/></g><g class="xt-bulb"><circle cx="280.5" cy="157.0" r="7" fill="#ff9f86" opacity=".55" filter="url(#xtBlur)"/><circle cx="280.5" cy="157.0" r="2.6" fill="#fffbe9"/></g>
+              <!-- 禮物 -->
+              <g>
+                <rect x="64" y="440" width="58" height="40" rx="3" fill="#a8322b"/><rect x="64" y="440" width="58" height="9" rx="2" fill="#c0443a"/>
+                <rect x="89" y="440" width="8" height="40" fill="#e7c06a"/>
+                <path d="M93 440 q-16 -16 -20 -4 q4 8 20 4 q16 -16 20 -4 q-4 8 -20 4" fill="#f0cf7e" stroke="#c9a04a" stroke-width="1"/>
+                <rect x="286" y="448" width="48" height="32" rx="3" fill="#2f7d68"/><rect x="286" y="448" width="48" height="8" rx="2" fill="#3c9580"/>
+                <rect x="306" y="448" width="7" height="32" fill="#fbf4e4"/>
+                <path d="M309.5 448 q-13 -13 -16 -3 q3 6 16 3 q13 -13 16 -3 q-3 6 -16 3" fill="#fffaf0" stroke="#e1d3b6" stroke-width="1"/>
+                <rect x="236" y="458" width="38" height="22" rx="3" fill="#e9b04f"/><rect x="236" y="458" width="38" height="6" rx="2" fill="#f2c56f"/>
+                <rect x="252" y="458" width="6" height="22" fill="#a8322b"/>
+              </g>
+              <!-- 星星 -->
+              <circle cx="200" cy="38" r="40" fill="url(#xtGlow)"/>
+              <path class="xt-rays" d="M226.0 38.0 L248.0 38.0 M224.0 47.9 L235.1 52.5 M218.4 56.4 L233.9 71.9 M209.9 62.0 L214.5 73.1 M200.0 64.0 L200.0 86.0 M190.1 62.0 L185.5 73.1 M181.6 56.4 L166.1 71.9 M176.0 47.9 L164.9 52.5 M174.0 38.0 L152.0 38.0 M176.0 28.1 L164.9 23.5 M181.6 19.6 L166.1 4.1 M190.1 14.0 L185.5 2.9 M200.0 12.0 L200.0 -10.0 M209.9 14.0 L214.5 2.9 M218.4 19.6 L233.9 4.1 M224.0 28.1 L235.1 23.5" stroke="#f3cf6e" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
+              <path class="xt-star" d="M200.0 16.0 L205.6 30.3 L220.9 31.2 L209.0 40.9 L212.9 55.8 L200.0 47.5 L187.1 55.8 L191.0 40.9 L179.1 31.2 L194.4 30.3 Z" fill="url(#xtStarG)" stroke="#b9822a" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+            <!-- 奶皇包的感謝信（信封吊飾，掛在星星下方） -->
+            <button type="button" id="xt-nh-env" class="xt-nh-env" hidden aria-label="奶皇包的感謝信，點我閱讀">
+              <span class="swing"><span class="env"><i aria-hidden="true">♥</i></span></span>
+            </button>
+            <div id="xt-ornaments"></div>
+          </div>
+
+          <!-- 右：溫暖排行榜 -->
+          <div>
+            <div class="xt-paper xt-letter">
+              <div class="xt-letter-label">WARMEST ・ 溫暖排行榜</div>
+              <p class="text-center text-xs text-[#a8977d] mb-4">收到最多溫暖的感謝，會掛在聖誕樹最頂端 ✦</p>
+              <ol id="xt-rank" class="space-y-2"></ol>
+              <div class="xt-seal" aria-hidden="true">♥</div>
+            </div>
+            <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
+          </div>
+          <!-- 包子報佳音 -->
+          <div class="lg:col-span-2 text-center">
+            <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
+            <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
+            <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
+              <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-1.png)"></span></button>
+              <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-2.png)"></span></button>
+              <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-3.png)"></span></button>
+              <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-4.png)"></span></button>
+              <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-5.png)"></span></button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 感謝留言牆 -->
+        <div id="xt-wall-area" class="mt-16 scroll-mt-24">
+          <div class="text-center mb-7">
+            <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
+            <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
+            <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+            <p class="text-sub-text text-sm">一起讀讀大家的感謝，喜歡就送一份溫暖 ♥（在文字上點兩下也可以）</p>
+          </div>
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
+              <button type="button" class="xt-pill" data-f="all" aria-pressed="true">全部</button>
+              <button type="button" class="xt-pill" data-f="person" aria-pressed="false"><span class="xt-dot person"></span>人</button>
+              <button type="button" class="xt-pill" data-f="event" aria-pressed="false"><span class="xt-dot event"></span>事</button>
+              <button type="button" class="xt-pill" data-f="thing" aria-pressed="false"><span class="xt-dot thing"></span>物</button>
+            </div>
+            <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
+            <input type="search" id="xt-search" class="xt-field px-4 py-1.5 text-sm w-full sm:w-56" placeholder="🔍 搜尋感謝或署名" aria-label="搜尋感謝或署名" />
+            <div class="flex gap-2" id="xt-sort" role="group" aria-label="排序方式">
+              <button type="button" class="xt-pill" data-s="hot" aria-pressed="true">♥ 最多溫暖</button>
+              <button type="button" class="xt-pill" data-s="new" aria-pressed="false">最新</button>
+            </div>
+          </div>
+          <div id="xt-wall" class="xt-wall"></div>
+          <div class="text-center mt-4"><button type="button" id="xt-more" class="xt-pill" hidden>看更多感謝 ↓</button></div>
+        </div>
+
+        <div class="mt-16"></div>
+        <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
+          <div class="xt-aurora" aria-hidden="true"></div>
+          <div class="xt-frame" aria-hidden="true"></div>
+          <div class="xt-lights" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="xt-snow" aria-hidden="true"></div>
+
+          <!-- 標題 -->
+          <div class="relative text-center mb-9">
+            <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
+            <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
+            <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
+            <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
+            <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
+              在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
+              寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
+            </p>
+          </div>
+
+          <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
+          <figure class="xt-illus" id="xt-illus">
+            <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
+                 onerror="this.closest('figure').remove()" />
+          </figure>
+
+          <!-- 填寫表單 -->
+          <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
+            <fieldset>
+              <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
+                  <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
+                </label>
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="event" class="absolute opacity-0" />
+                  <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
+                </label>
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
+                  <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="mt-7">
+              <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
+              <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
+              <textarea id="xt-text" maxlength="200" rows="4"
+                class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
+                placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
+              <div class="flex justify-between text-xs mt-1.5">
+                <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
+                <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
+              </div>
+            </div>
+
+            <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
+              <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
+              <span class="text-sm leading-relaxed">
+                <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
+                <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
+              </span>
+            </label>
+
+            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+              <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
+              <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
+            </div>
+            <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
+              感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
+              分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
+            </p>
+          </form>
+        </div>
+
+        <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
+        <div id="xt-nh" class="xt-nh mt-16 scroll-mt-24" aria-labelledby="xt-nh-title">
+          <div class="text-center mb-8">
+            <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
+            <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
+            <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+            <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
+          </div>
+
+              <!-- 認識奶皇包 -->
+          <div class="xt-nh-intro mx-auto mb-10">
+            <p class="xt-serif font-bold text-warm-text mb-4" style="font-size:clamp(24px,2.6vw,34px)">認識奶皇包 🧩</p>
+            <dl>
+              <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
+              <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
+              <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
+              <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
+              <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
+            </dl>
+          </div>
+
+          <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
+            <!-- 奶皇包 -->
+            <div class="relative flex flex-col items-center">
+              <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
+              <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+              <span class="xt-nh-lead">12 月活動帶領人</span>
+              <span class="xt-nh-tag">人際技巧・奶皇包</span>
+              <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
+            </div>
+
+            <!-- 信紙 -->
+            <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
+              <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
+              <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
+              <div id="xt-nh-full" class="sr-only"></div>
+              <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
+                <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
+                <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
+                <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+  </div>
+
 
   <!-- ==================== Footer ==================== -->
   <footer class="bg-white border-t border-amber-100 py-8 mt-16">
@@ -1307,6 +1337,8 @@
       }
       var lastY = scrollY, scrollV = 0, raf = null;
       addEventListener('scroll', function () { var y = scrollY; scrollV += (y - lastY); lastY = y; }, { passive: true });
+      var mBox = document.getElementById('xt-modal'), mLast = 0;
+      if (mBox) mBox.addEventListener('scroll', function () { var y = mBox.scrollTop; scrollV += (y - mLast); mLast = y; }, { passive: true });
       function drawFlake(f) {
         ctx.globalAlpha = f.a;
         if (f.r > 3) { // 大雪花畫成六角
@@ -1441,19 +1473,20 @@
         if (on) { var r = snowman.getBoundingClientRect(); swirl(r.left + r.width / 2, r.top + r.height * .55); }
       });
       smSay.addEventListener('click', function (e) {
-        if (e.target.closest('.xt-go')) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); smSay.classList.remove('is-show'); }
+        if (e.target.closest('.xt-go')) { if (window.xtOpenModal) window.xtOpenModal(); setTimeout(function () { var f = document.getElementById('xt-to-form'); if (f) f.click(); }, 500); smSay.classList.remove('is-show'); }
       });
       function onScrollSnowman() {
         if (!on) { snowman.classList.remove('is-up'); return; }
-        snowman.classList.toggle('is-up', scrollY > 380);
-        if (scrollY <= 380) smSay.classList.remove('is-show');
+        var inModal = document.body.classList.contains('xt-locked');
+        snowman.classList.toggle('is-up', inModal || scrollY > 380);
+        if (!inModal && scrollY <= 380) smSay.classList.remove('is-show');
       }
       addEventListener('scroll', onScrollSnowman, { passive: true });
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting && !arrived && on) { arrived = true; smSpeak('你到啦！就是這裡 ✦<br>寫下這一年最想感謝的人吧'); } });
-        }, { threshold: .25 }).observe(target);
-      }
+      window.addEventListener('xt-modal-open', function () {
+        onScrollSnowman();
+        if (!arrived && on) { arrived = true; setTimeout(function () { smSpeak('你到啦！就是這裡 ✦<br>寫下這一年最想感謝的人吧'); }, 1200); }
+      });
+      document.getElementById('xt-modal-close').addEventListener('click', function () { setTimeout(onScrollSnowman, 0); });
 
       /* ---------- 3. 包子報佳音 ---------- */
       var choir = document.getElementById('xt-choir');
@@ -1946,40 +1979,48 @@
 
       $('xt-to-form').addEventListener('click', function (e) {
         e.preventDefault();
-        var y = form.getBoundingClientRect().top + window.pageYOffset - 100;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+        var box = $('xt-modal');
+        box.scrollTo({ top: box.scrollTop + form.getBoundingClientRect().top - 80, behavior: 'smooth' });
         setTimeout(function () { textEl.focus({ preventScroll: true }); }, 700);
       });
 
       /* ---------- 自動更新 ---------- */
       if (API_URL) setInterval(function () { if (!document.hidden) fetchShared(); }, REFRESH_MS);
 
-      // 所有「聖誕感恩」入口（導覽列、大標徽章、跑馬燈、手機選單）：一律平滑捲到活動，並讓標題閃一下
-      document.querySelectorAll('a[href="#xmas-thanks"]').forEach(function (a) {
-        a.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click(); // 先收起手機選單，避免位置算錯
-          requestAnimationFrame(function () {
-            var sec = document.getElementById('xmas-thanks');
-            var y = sec.getBoundingClientRect().top + window.pageYOffset - 90;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-          });
+      // 所有「聖誕感恩」入口（大標徽章、跑馬燈、導覽列、手機選單）：打開全螢幕活動畫面
+      var modal = $('xt-modal'), modalBack = null;
+      function openModal() {
+        if (typeof menuOpen !== 'undefined' && menuOpen) menuBtn.click();
+        if (modal.hidden) {
+          modalBack = document.activeElement;
+          modal.hidden = false; modal.scrollTop = 0;
+          modal.classList.remove('is-open'); void modal.offsetWidth; modal.classList.add('is-open');
+          document.body.classList.add('xt-locked');
           try { history.replaceState(null, '', '#xmas-thanks'); } catch (err) {}
-          var t = document.getElementById('xt-title');
-          if (t) { t.classList.remove('xt-arrive'); void t.offsetWidth; t.classList.add('xt-arrive'); }
-        });
+          $('xt-modal-close').focus({ preventScroll: true });
+          renderAll(true);
+          window.dispatchEvent(new Event('xt-modal-open'));
+        }
+      }
+      function closeModal() {
+        modal.hidden = true; document.body.classList.remove('xt-locked');
+        try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
+        if (modalBack && modalBack.focus) modalBack.focus({ preventScroll: true });
+      }
+      window.xtOpenModal = openModal;
+      document.querySelectorAll('a[href="#xmas-thanks"]').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
       });
-
-      // 手機選單：點「聖誕感恩」後收起選單
-      var mLink = document.querySelector('.xt-mobile-link');
-      // （手機選單的收合已在上方的入口處理中完成）
-      // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：等樣式與字型載完再捲到活動
+      $('xt-modal-close').addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape' || modal.hidden) return;
+        var busy = !$('xt-op').hidden || $('xt-celebrate').classList.contains('is-show') || $('xt-nh-dlg').classList.contains('is-show');
+        if (!busy) closeModal();
+      });
+      // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：直接打開
       if (location.hash === '#xmas-thanks') {
-        var goXmas = function () {
-          var sec = document.getElementById('xmas-thanks');
-          window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'auto' });
-        };
-        window.addEventListener('load', function () { goXmas(); setTimeout(goXmas, 400); });
+        if (document.readyState === 'complete') setTimeout(openModal, 50);
+        else window.addEventListener('load', function () { setTimeout(openModal, 50); });
       }
 
       /* ---------- 飄雪 ---------- */
@@ -2120,7 +2161,6 @@
         opTimers.forEach(clearTimeout); opTimers = []; clearInterval(opTyping);
         try { localStorage.setItem(OP_KEY, '1'); } catch (e) {}
         op.classList.add('is-out'); opPen.classList.remove('is-on', 'is-writing');
-        document.documentElement.style.overflow = '';
         setTimeout(function () { op.hidden = true; op.className = 'xt-op'; }, 700);
         if (fromRect) {
           // 信飛上樹後，奶皇包那一段也顯示「已掛上」
@@ -2132,7 +2172,6 @@
         opRunning = true;
         opTimers.forEach(clearTimeout); opTimers = []; clearInterval(opTyping);
         op.hidden = false; op.className = 'xt-op p1'; opText.innerHTML = ''; opSay.classList.remove('is-show');
-        document.documentElement.style.overflow = 'hidden';
         opSkip.focus();
         opLater(function () { opSpeak('大家好！我是人際技巧的奶皇包 🧩'); }, 700);
         opLater(function () { opSpeak('12 月，由我來主持「聖誕感恩活動」！'); }, 2900);
@@ -2158,13 +2197,13 @@
       opSkip.addEventListener('click', function () { opClose(null); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && opRunning) opClose(null); });
       // 重播按鈕
-      var replay = $('xt-nh-replay'); if (replay) replay.addEventListener('click', function () { window.scrollTo({ top: 0 }); playOpening(); });
-      // 第一次打開才自動播放；從其他頁點「聖誕感恩」過來（網址帶 #xmas-thanks）時不打擾
+      var replay = $('xt-nh-replay'); if (replay) replay.addEventListener('click', function () { playOpening(); });
+      // 第一次打開活動畫面時自動播放
       var seen = false; try { seen = localStorage.getItem(OP_KEY) === '1'; } catch (e) {}
-      if (!seen && !reduce && location.hash !== '#xmas-thanks') {
-        if (document.readyState === 'complete') setTimeout(playOpening, 300);
-        else window.addEventListener('load', function () { setTimeout(playOpening, 300); });
-      }
+      window.addEventListener('xt-modal-open', function () {
+        try { seen = localStorage.getItem(OP_KEY) === '1'; } catch (e) {}
+        if (!seen && !reduce) setTimeout(playOpening, 350);
+      });
     })();
   </script>
 </body>
