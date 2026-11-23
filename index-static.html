@@ -520,8 +520,9 @@
     .xt-nh-text .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -2px; background: #c9a052; animation: xtCaret .8s steps(1) infinite; }
     @keyframes xtCaret { 50% { opacity: 0; } }
     .xt-nh-text .sign { display: block; text-align: right; color: #8a5f14; }
-    .xt-nh-intro { margin-top: 18px; width: 100%; max-width: 760px; background: linear-gradient(180deg, #fffaf0, #fdf0d8); border: 2px solid #f0d58e; border-radius: 22px; padding: 22px 26px; text-align: left; box-shadow: 0 14px 30px -18px rgba(180, 100, 10, .45); }
-    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 12px 18px; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.7; margin: 0; }
+    .xt-nh-intro { margin-top: 0; width: 100%; max-width: 900px; background: linear-gradient(180deg, #fffaf0, #fdf0d8); border: 2px solid #f0d58e; border-radius: 20px; padding: 16px 22px; text-align: left; box-shadow: 0 14px 30px -18px rgba(180, 100, 10, .45); }
+    .xt-nh-intro dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: clamp(15px, 1.3vw, 17px); line-height: 1.6; margin: 0; }
+    @media (min-width: 900px) { .xt-nh-intro dl { grid-template-columns: auto 1fr auto 1fr; column-gap: 14px; } }
     .xt-nh-intro dt { color: #fff; font-weight: 800; white-space: nowrap; background: linear-gradient(180deg, #f7b23b, #e08a12); border-radius: 10px; padding: 2px 12px; align-self: start; font-size: .9em; }
     .xt-nh-intro dd { margin: 0; color: #3b2f25; font-weight: 500; }
     /* 飛行中的信封 */
@@ -915,15 +916,140 @@
     <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
       <section id="xmas-thanks" class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-16" aria-labelledby="xt-title">
 
+        <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
+        <div id="xt-nh" class="xt-nh scroll-mt-24" aria-labelledby="xt-nh-title">
+          <div class="text-center mb-8">
+            <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
+            <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
+            <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
+            <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
+          </div>
+
+              <!-- 認識奶皇包 -->
+          <div class="xt-nh-intro mx-auto mb-8">
+            <p class="xt-serif font-bold text-warm-text mb-3" style="font-size:clamp(20px,2vw,24px)">認識奶皇包 🧩</p>
+            <dl>
+              <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
+              <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
+              <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
+              <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
+              <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
+            </dl>
+          </div>
+
+          <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
+            <!-- 奶皇包 -->
+            <div class="relative flex flex-col items-center">
+              <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
+              <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+              <span class="xt-nh-lead">12 月活動帶領人</span>
+              <span class="xt-nh-tag">人際技巧・奶皇包</span>
+              <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
+            </div>
+
+            <!-- 信紙 -->
+            <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
+              <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
+              <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
+              <div id="xt-nh-full" class="sr-only"></div>
+              <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
+                <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
+                <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
+                <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="xt-write-area" class="mt-16 scroll-mt-24">
+        <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
+          <div class="xt-aurora" aria-hidden="true"></div>
+          <div class="xt-frame" aria-hidden="true"></div>
+          <div class="xt-lights" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="xt-snow" aria-hidden="true"></div>
+
+          <!-- 標題 -->
+          <div class="relative text-center mb-9">
+            <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
+            <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
+            <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
+            <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
+            <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
+              在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
+              寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
+            </p>
+          </div>
+
+          <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
+          <figure class="xt-illus" id="xt-illus">
+            <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
+                 onerror="this.closest('figure').remove()" />
+          </figure>
+
+          <!-- 填寫表單 -->
+          <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
+            <fieldset>
+              <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
+                  <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
+                </label>
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="event" class="absolute opacity-0" />
+                  <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
+                </label>
+                <label class="xt-kind relative cursor-pointer">
+                  <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
+                  <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="mt-7">
+              <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
+              <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
+              <textarea id="xt-text" maxlength="200" rows="4"
+                class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
+                placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
+              <div class="flex justify-between text-xs mt-1.5">
+                <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
+                <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
+              </div>
+            </div>
+
+            <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
+              <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
+              <span class="text-sm leading-relaxed">
+                <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
+                <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
+              </span>
+            </label>
+
+            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+              <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
+              <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
+            </div>
+            <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
+              感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
+              分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
+            </p>
+          </form>
+        </div>
+        </div>
+
         <!-- 感恩聖誕樹 -->
-        <div id="xt-tree-area" class="text-center mb-8 scroll-mt-24">
+        <div id="xt-tree-area" class="text-center mt-16 mb-8 scroll-mt-24">
           <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Our Thankful Tree</p>
           <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感恩聖誕樹</h3>
           <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
           <p class="text-sub-text text-sm">大家已經寫下 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝<span id="xt-ontree"></span>。點一顆吊飾，讀讀大家的心意</p>
           <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
           <button type="button" id="xt-tree-next" class="xt-pill mt-3" hidden>🎄 換一批吊飾</button>
-          <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↓</a>
+          <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↑</a>
         </div>
 
         <div class="xt-tree-stage rounded-[28px] shadow-card p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-center">
@@ -1068,130 +1194,6 @@
             <button type="button" id="xt-next" class="xt-car-btn next" aria-label="下一則">›</button>
           </div>
           <p class="text-center mt-4 xt-serif text-[#8a7458]" aria-live="polite"><span id="xt-car-pos">0 / 0</span></p>
-        </div>
-
-        <div class="mt-16"></div>
-        <div class="xt-banner relative overflow-hidden rounded-[28px] px-5 sm:px-10 pt-16 sm:pt-20 pb-12 sm:pb-14 shadow-card-hover">
-          <div class="xt-aurora" aria-hidden="true"></div>
-          <div class="xt-frame" aria-hidden="true"></div>
-          <div class="xt-lights" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="xt-snow" aria-hidden="true"></div>
-
-          <!-- 標題 -->
-          <div class="relative text-center mb-9">
-            <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
-            <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
-            <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
-            <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
-            <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
-              在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
-              寫下這一年你<strong class="text-[#f1dca2] font-semibold">最想感謝的人、事、物</strong>，化作一顆吊飾，掛上我們的感恩聖誕樹。
-            </p>
-          </div>
-
-          <!-- 聖誕包子插圖：把圖檔放到 public/xmas-buns-sweater.jpg 即會顯示；沒有圖檔時自動隱藏 -->
-          <figure class="xt-illus" id="xt-illus">
-            <img src="./public/xmas-buns-sweater.jpg" alt="五顆穿著毛衣的 SEL 包子在雪地裡，分別代表自我覺察、自我管理、社會覺察、人際技巧、負責任的決策" loading="lazy"
-                 onerror="this.closest('figure').remove()" />
-          </figure>
-
-          <!-- 填寫表單 -->
-          <form id="xt-form" class="xt-paper relative max-w-3xl mx-auto rounded-[22px] p-6 sm:p-9" novalidate>
-            <fieldset>
-              <legend class="xt-serif font-bold text-warm-text text-base mb-3 flex items-center"><span class="xt-step">1</span>我想感謝的是</legend>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
-                <label class="xt-kind relative cursor-pointer">
-                  <input type="radio" name="kind" value="person" class="absolute opacity-0" checked />
-                  <span class="xt-kind-card"><span class="xt-mini-ball person" aria-hidden="true">♥</span><span><b class="block text-warm-text text-base leading-tight">人</b><small class="text-[#8a7458] text-xs">同事・家人・病人・自己</small></span></span>
-                </label>
-                <label class="xt-kind relative cursor-pointer">
-                  <input type="radio" name="kind" value="event" class="absolute opacity-0" />
-                  <span class="xt-kind-card"><span class="xt-mini-ball event" aria-hidden="true">✦</span><span><b class="block text-warm-text text-base leading-tight">事</b><small class="text-[#8a7458] text-xs">難忘的時刻・小確幸</small></span></span>
-                </label>
-                <label class="xt-kind relative cursor-pointer">
-                  <input type="radio" name="kind" value="thing" class="absolute opacity-0" />
-                  <span class="xt-kind-card"><span class="xt-mini-ball thing" aria-hidden="true">★</span><span><b class="block text-warm-text text-base leading-tight">物</b><small class="text-[#8a7458] text-xs">陪伴我的小東西</small></span></span>
-                </label>
-              </div>
-            </fieldset>
-
-            <div class="mt-7">
-              <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
-              <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
-              <textarea id="xt-text" maxlength="200" rows="4"
-                class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
-                placeholder="例如：謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。"></textarea>
-              <div class="flex justify-between text-xs mt-1.5">
-                <span id="xt-msg" class="text-xmas-red font-semibold" role="status"></span>
-                <span class="text-[#a8977d]"><span id="xt-count">0</span> / 200</span>
-              </div>
-            </div>
-
-            <label class="xt-share mt-4 flex items-start gap-3 px-4 py-3 cursor-pointer">
-              <input type="checkbox" id="xt-share" class="mt-1.5 w-5 h-5 flex-shrink-0" />
-              <span class="text-sm leading-relaxed">
-                <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
-                <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
-              </span>
-            </label>
-
-            <div class="mt-4 flex flex-col sm:flex-row gap-3">
-              <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
-              <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
-            </div>
-            <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
-              感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
-              分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
-            </p>
-          </form>
-        </div>
-
-        <!-- ==================== 🧩 奶皇包的感謝信 ==================== -->
-        <div id="xt-nh" class="xt-nh mt-16 scroll-mt-24" aria-labelledby="xt-nh-title">
-          <div class="text-center mb-8">
-            <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">A Letter from Custard Bun</p>
-            <h3 id="xt-nh-title" class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">奶皇包的感謝信</h3>
-            <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-            <p class="text-sub-text text-sm">12 月由「人際技巧」的奶皇包陪大家說謝謝 🧩</p>
-          </div>
-
-              <!-- 認識奶皇包 -->
-          <div class="xt-nh-intro mx-auto mb-10">
-            <p class="xt-serif font-bold text-warm-text mb-4" style="font-size:clamp(24px,2.6vw,34px)">認識奶皇包 🧩</p>
-            <dl>
-              <dt>代表能力</dt><dd>人際技巧<br /><span class="text-[#a8977d]">Relationship Skills</span></dd>
-              <dt>擅長</dt><dd>和不同的人建立、維持良好關係：有效溝通、積極傾聽、合作、解決衝突，需要時尋求協助</dd>
-              <dt>隨身寶物</dt><dd>一組拼圖，提醒自己：協調與合作，事情才能拼得完整</dd>
-              <dt>口頭禪</dt><dd>「要不要，再嘗試溝通一次？」</dd>
-              <dt>12 月任務</dt><dd>擔任聖誕感恩活動主持人，陪大家把謝謝說出口</dd>
-            </dl>
-          </div>
-
-          <div class="xt-nh-stage relative grid grid-cols-1 md:grid-cols-[250px_1fr] gap-6 md:gap-10 items-start max-w-4xl mx-auto">
-            <!-- 奶皇包 -->
-            <div class="relative flex flex-col items-center">
-              <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
-              <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
-              <span class="xt-nh-lead">12 月活動帶領人</span>
-              <span class="xt-nh-tag">人際技巧・奶皇包</span>
-              <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
-            </div>
-
-            <!-- 信紙 -->
-            <div id="xt-nh-letter" class="xt-paper xt-nh-letter rounded-[22px] px-6 sm:px-9 pt-9 pb-7">
-              <div class="xt-letter-label">THANK YOU LETTER ・ 感謝信</div>
-              <div id="xt-nh-text" class="xt-hand xt-nh-text" aria-live="off"></div>
-              <div id="xt-nh-full" class="sr-only"></div>
-              <div class="flex flex-wrap items-center justify-between gap-3 mt-6">
-                <button type="button" id="xt-nh-skip" class="text-xs text-[#a8977d] hover:text-[#7a6a55] underline underline-offset-4">直接看完 ›</button>
-                <button type="button" id="xt-nh-hang" class="xt-btn" hidden>🎄 幫奶皇包把信掛上聖誕樹</button>
-                <button type="button" id="xt-nh-go" class="xt-btn" hidden>✍️ 換我寫感謝</button>
-              </div>
-            </div>
-          </div>
         </div>
 
       </section>
@@ -2247,7 +2249,10 @@
         setTimeout(function () { op.hidden = true; op.className = 'xt-op'; }, 700);
         if (fromRect) {
           // 信飛上樹後，奶皇包那一段也顯示「已掛上」
-          flyToTree(fromRect, function () { if (started) finish(); });
+          flyToTree(fromRect, function () {
+            if (started) finish();
+            setTimeout(function () { var wa = $('xt-write-area'); if (wa) wa.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }, 1300);
+          });
         }
       }
       function playOpening() {
