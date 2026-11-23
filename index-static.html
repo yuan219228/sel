@@ -447,9 +447,27 @@
     .xt-rank-txt { flex: 1; min-width: 0; font-size: 15px; line-height: 1.5; color: #3b2f25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .xt-rank-cnt { flex-shrink: 0; font-size: 13px; font-weight: 700; color: #b02a22; font-family: 'Noto Serif TC', serif; }
 
-    .xt-wall { columns: 1; column-gap: 20px; }
-    @media (min-width: 640px)  { .xt-wall { columns: 2; } }
-    @media (min-width: 1024px) { .xt-wall { columns: 3; } }
+    #xt-search { width: 100%; max-width: 260px; }
+    @media (max-width: 640px) { #xt-search { max-width: none; } }
+    /* 留言輪播（左右觀看） */
+    .xt-carousel-wrap { position: relative; }
+    .xt-carousel { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 18px 8px 26px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .xt-carousel::-webkit-scrollbar { display: none; }
+    .xt-carousel:focus-visible { outline: 2px solid #c9a052; outline-offset: 4px; border-radius: 12px; }
+    .xt-carousel .xt-card-note { flex: 0 0 min(320px, 80vw); margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; }
+    .xt-carousel .xt-card-note .xt-txt { flex: 1; }
+    .xt-car-btn { position: absolute; top: 50%; z-index: 3; width: 46px; height: 46px; margin-top: -23px; border-radius: 50%; font-size: 28px; line-height: 1; color: #fff;
+      background: linear-gradient(180deg, #2a5d45, #1f4a36); border: 2px solid #f1dca2; box-shadow: 0 8px 18px -8px rgba(20, 51, 38, .7); transition: transform .2s, opacity .2s; }
+    .xt-car-btn:hover { transform: scale(1.08); }
+    .xt-car-btn:disabled { opacity: .3; cursor: default; transform: none; }
+    .xt-car-btn.prev { left: -8px; } .xt-car-btn.next { right: -8px; }
+    @media (max-width: 640px) { .xt-car-btn { width: 38px; height: 38px; margin-top: -19px; font-size: 22px; } .xt-car-btn.prev { left: -4px; } .xt-car-btn.next { right: -4px; } }
+    /* 留言數卡 */
+    .xt-count-big { font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(56px, 7vw, 84px); line-height: 1.1; color: #a8322b; margin: 4px 0 10px; }
+    .xt-count-big small { font-size: 20px; font-weight: 700; color: #7a6a55; }
+    .xt-count-kinds { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; font-size: 15px; color: #7a6a55; }
+    .xt-count-kinds span { display: inline-flex; align-items: center; gap: 6px; }
+    .xt-count-kinds b { color: #3b2f25; font-size: 18px; }
     .xt-card-note { position: relative; break-inside: avoid; margin: 0 0 22px; padding: 26px 20px 16px; border-radius: 6px 6px 18px 6px;
       background: var(--bg); border: 1px solid var(--bd); box-shadow: 0 1px 0 #fff inset, 0 14px 26px -16px rgba(60, 40, 10, .4);
       transform: rotate(var(--r, 0deg)); transition: transform .25s, box-shadow .25s; }
@@ -596,6 +614,14 @@
     .xt-modal-close { flex-shrink: 0; padding: 6px 16px; border-radius: 9999px; font-size: 14px; font-weight: 600; color: #4a2c0c; background: linear-gradient(180deg, #f7e3a6, #d8ad55); box-shadow: 0 1px 0 rgba(255,255,255,.5) inset; }
     .xt-modal-close:hover { filter: brightness(1.05); }
     body.xt-locked { overflow: hidden; }
+    .xt-badge-wrap { position: relative; display: inline-flex; flex-direction: column; align-items: center; }
+    .xt-badge-hint { position: relative; margin-top: 12px; white-space: nowrap;
+      padding: 6px 14px; border-radius: 12px; font-size: 14px; font-weight: 700; color: #7a2a24; background: #fff7e6; border: 2px solid #f0c069;
+      box-shadow: 0 10px 22px -10px rgba(160, 60, 30, .5); animation: xtHintBob 1.4s ease-in-out infinite; pointer-events: none; }
+    .xt-badge-hint::before { content: ""; position: absolute; left: 50%; bottom: 100%; margin-left: -8px; border: 8px solid transparent; border-bottom-color: #f0c069; }
+    .xt-badge-hint[hidden] { display: none; }
+    @keyframes xtHintBob { 0%, 100% { margin-top: 0; } 50% { margin-top: 6px; } }
+    @media (prefers-reduced-motion: reduce) { .xt-badge-hint { animation: none; } }
     .xt-badge-pulse { animation: xtBadge 2.2s ease-in-out infinite; }
     @keyframes xtBadge { 0% { box-shadow: 0 0 0 0 rgba(200, 70, 61, .6); } 70%, 100% { box-shadow: 0 0 0 10px rgba(200, 70, 61, 0); } }
     @media (prefers-reduced-motion: reduce) { .xt-badge-pulse { animation: none; } }
@@ -714,9 +740,13 @@
                 <span>🌸</span><span>奇美醫院 SEL 學習小棧</span>
               </span>
               <!-- 🎄 聖誕感恩活動入口 -->
-              <a href="#xmas-thanks" class="xt-badge-pulse inline-flex items-center gap-1.5 bg-xmas-red text-white text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm hover:brightness-110 transition-all">
-                <span>🎄</span><span>12月 聖誕感恩活動進行中</span><span aria-hidden="true">→</span>
-              </a>
+              <span class="xt-badge-wrap">
+                <a href="#xmas-thanks" class="xt-badge-pulse inline-flex items-center gap-1.5 bg-xmas-red text-white text-sm sm:text-base font-bold px-5 py-2 rounded-full shadow-md hover:brightness-110 transition-all">
+                  <span>🎄</span><span>12月 聖誕感恩活動進行中</span><span aria-hidden="true">→</span>
+                </a>
+                <!-- 引導提示：還沒打開過活動的人才會看到 -->
+                <span id="xt-badge-hint" class="xt-badge-hint" aria-hidden="true" hidden>👆 點這裡，一起寫下這一年的感謝！</span>
+              </span>
             </div>
 
             <h1 class="text-[2rem] leading-[1.2] sm:text-5xl md:text-6xl font-bold text-warm-text mb-5 sm:mb-6 tracking-tight">
@@ -982,12 +1012,18 @@
             <div id="xt-ornaments"></div>
           </div>
 
-          <!-- 右：溫暖排行榜 -->
+          <!-- 右：大家的留言數 -->
           <div>
-            <div class="xt-paper xt-letter">
-              <div class="xt-letter-label">WARMEST ・ 溫暖排行榜</div>
-              <p class="text-center text-xs text-[#a8977d] mb-4">收到最多溫暖的感謝，會掛在聖誕樹最頂端 ✦</p>
-              <ol id="xt-rank" class="space-y-2"></ol>
+            <div class="xt-paper xt-letter text-center">
+              <div class="xt-letter-label">THANK YOU ・ 大家的感謝</div>
+              <p class="text-sm text-[#8a7458] mt-2">目前已經有</p>
+              <p class="xt-count-big"><span id="xt-count-all">0</span><small> 份感謝</small></p>
+              <div class="xt-count-kinds">
+                <span><i class="xt-dot person"></i>人 <b id="xt-count-person">0</b></span>
+                <span><i class="xt-dot event"></i>事 <b id="xt-count-event">0</b></span>
+                <span><i class="xt-dot thing"></i>物 <b id="xt-count-thing">0</b></span>
+              </div>
+              <button type="button" id="xt-go-wall" class="xt-btn mt-6">◀ 左右翻看大家的感謝 ▶</button>
               <div class="xt-seal" aria-hidden="true">♥</div>
             </div>
             <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
@@ -1013,7 +1049,7 @@
             <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
             <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
             <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-            <p class="text-sub-text text-sm">一起讀讀大家的感謝，喜歡就送一份溫暖 ♥（在文字上點兩下也可以）</p>
+            <p class="text-sub-text text-sm">按左右箭頭、或用手指左右滑，一則一則讀大家的感謝</p>
           </div>
           <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
             <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
@@ -1024,13 +1060,13 @@
             </div>
             <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
             <input type="search" id="xt-search" class="xt-field px-4 py-1.5 text-sm w-full sm:w-56" placeholder="🔍 搜尋感謝或署名" aria-label="搜尋感謝或署名" />
-            <div class="flex gap-2" id="xt-sort" role="group" aria-label="排序方式">
-              <button type="button" class="xt-pill" data-s="hot" aria-pressed="true">♥ 最多溫暖</button>
-              <button type="button" class="xt-pill" data-s="new" aria-pressed="false">最新</button>
-            </div>
           </div>
-          <div id="xt-wall" class="xt-wall"></div>
-          <div class="text-center mt-4"><button type="button" id="xt-more" class="xt-pill" hidden>看更多感謝 ↓</button></div>
+          <div class="xt-carousel-wrap">
+            <button type="button" id="xt-prev" class="xt-car-btn prev" aria-label="上一則">‹</button>
+            <div id="xt-wall" class="xt-carousel" tabindex="0" aria-label="感謝留言，可左右捲動"></div>
+            <button type="button" id="xt-next" class="xt-car-btn next" aria-label="下一則">›</button>
+          </div>
+          <p class="text-center mt-4 xt-serif text-[#8a7458]" aria-live="polite"><span id="xt-car-pos">0 / 0</span></p>
         </div>
 
         <div class="mt-16"></div>
@@ -1461,7 +1497,7 @@
       ];
       var li = 0, smTimer = null, arrived = false;
       function smSpeak(html, withGo) {
-        smTxt.innerHTML = html + (withGo ? '<br><button type="button" class="xt-go">前往寫感謝 →</button>' : '');
+        smTxt.innerHTML = html + (withGo === 'open' ? '<br><button type="button" class="xt-open">🎄 打開聖誕感恩活動 →</button>' : withGo ? '<br><button type="button" class="xt-go">前往寫感謝 →</button>' : '');
         smSay.classList.add('is-show'); clearTimeout(smTimer);
         smTimer = setTimeout(function () { smSay.classList.remove('is-show'); }, 6000);
       }
@@ -1470,15 +1506,25 @@
         if (on) { var r = snowman.getBoundingClientRect(); swirl(r.left + r.width / 2, r.top + r.height * .55); }
       });
       smSay.addEventListener('click', function (e) {
+        if (e.target.closest('.xt-open')) { if (window.xtOpenModal) window.xtOpenModal(); smSay.classList.remove('is-show'); return; }
         if (e.target.closest('.xt-go')) { if (window.xtOpenModal) window.xtOpenModal(); setTimeout(function () { var f = document.getElementById('xt-to-form'); if (f) f.click(); }, 500); smSay.classList.remove('is-show'); }
       });
       function onScrollSnowman() {
         if (!on) { snowman.classList.remove('is-up'); return; }
         var inModal = document.body.classList.contains('xt-locked');
-        snowman.classList.toggle('is-up', inModal || scrollY > 380);
-        if (!inModal && scrollY <= 380) smSay.classList.remove('is-show');
+        snowman.classList.toggle('is-up', inModal || invite || scrollY > 380);
+        if (!inModal && !invite && scrollY <= 380) smSay.classList.remove('is-show');
       }
       addEventListener('scroll', onScrollSnowman, { passive: true });
+      // 還沒參加過活動：奶皇包一進首頁就出來邀請
+      var invite = false;
+      try { invite = localStorage.getItem('selXmasOpened') !== '1'; } catch (err) {}
+      if (invite && on) setTimeout(function () {
+        onScrollSnowman();
+        smSpeak('嗨！我是人際技巧的奶皇包 🧩<br>點上面紅色的「12月 聖誕感恩活動進行中」<br>一起寫下這一年的感謝吧！', 'open');
+        clearTimeout(smTimer); smTimer = setTimeout(function () { smSay.classList.remove('is-show'); }, 12000);
+      }, 1500);
+      window.addEventListener('xt-modal-open', function () { invite = false; });
       window.addEventListener('xt-modal-open', function () {
         onScrollSnowman();
         if (!arrived && on) { arrived = true; setTimeout(function () { smSpeak('你到啦！就是這裡 ✦<br>寫下這一年最想感謝的人吧'); }, 1200); }
@@ -1703,8 +1749,8 @@
         slots.sort(function (a, b) { return a[1] - b[1] || Math.abs(a[0] - 200) - Math.abs(b[0] - 200); });
         return slots;
       }
-      function rankSort(a, b) { return (b.l - a.l) || (b.ts - a.ts); }
-      var TREE_MAX = 40; // 樹上最多掛幾顆吊飾（溫暖前幾名）；其餘都在留言牆
+      function rankSort(a, b) { return b.ts - a.ts; } // 不排名：最新的在前面
+      var TREE_MAX = 40; // 樹上最多掛幾顆吊飾（最新的幾份）；全部都在留言牆
       var ranked = [], positions = {};
       function placeAll() {
         ranked = items.slice().sort(rankSort);
@@ -1722,7 +1768,7 @@
       function renderTree() {
         $('xt-total').textContent = items.length;
         var onTree = ranked.slice(0, TREE_MAX);
-        $('xt-ontree').textContent = items.length > TREE_MAX ? '，樹上掛著溫暖最多的前 ' + TREE_MAX + ' 份' : '';
+        $('xt-ontree').textContent = items.length > TREE_MAX ? '，樹上掛著最新的 ' + TREE_MAX + ' 份' : '';
         var n = onTree.length, seen = {};
         var base = n > 80 ? 5.5 : n > 55 ? 6 : n > 30 ? 7 : 8;
         onTree.forEach(function (it, i) {
@@ -1733,30 +1779,26 @@
             ornBox.appendChild(b); ornEls[it.id] = b;
           }
           seen[it.id] = 1;
-          var top3 = i < 3 && it.l > 0;
+          var top3 = false;
           b.className = 'xt-orn ' + it.k + (top3 ? ' is-top' : '') + (it.id === newestId ? ' is-new' : '') + (filter !== 'all' && it.k !== filter ? ' is-dim' : '');
           b.style.left = (p[0] / 4) + '%'; b.style.top = (p[1] / 5) + '%';
           b.style.setProperty('--w', (top3 ? base + [2, 1.4, 1][i] : base) + '%');
           b.style.setProperty('--d', (-(i % 5) * 0.6) + 's');
-          b.setAttribute('aria-label', '溫暖第 ' + (i + 1) + ' 名，' + it.l + ' 份溫暖：' + it.t.slice(0, 24));
+          b.setAttribute('aria-label', (KIND[it.k] || KIND.person).label + '：' + it.t.slice(0, 24));
         });
         Object.keys(ornEls).forEach(function (id) { if (!seen[id]) { ornEls[id].remove(); delete ornEls[id]; } });
       }
 
-      /* ---------- 畫面：溫暖排行榜 ---------- */
+      /* ---------- 畫面：留言數 ---------- */
       function renderRank() {
-        var top = ranked.slice(0, 5);
-        $('xt-rank').innerHTML = top.length ? top.map(function (it, i) {
-          return '<li><button type="button" class="xt-rank-item" data-goto="' + esc(it.id) + '" data-r="' + (i + 1) + '">' +
-            '<span class="xt-medal">' + (i + 1) + '</span>' +
-            '<span class="xt-rank-txt xt-hand">' + esc(it.t) + '</span>' +
-            '<span class="xt-rank-cnt">♥ ' + it.l + '</span></button></li>';
-        }).join('') : '<li class="xt-hand text-center text-[#8a7458] py-6">還沒有感謝，寫下第一份吧 ✦</li>';
+        $('xt-count-all').textContent = items.length;
+        ['person', 'event', 'thing'].forEach(function (k) { $('xt-count-' + k).textContent = items.filter(function (it) { return it.k === k; }).length; });
       }
 
       /* ---------- 畫面：感謝留言牆 ---------- */
-      var sortBy = 'hot', PAGE = 24, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
+      var sortBy = 'new', PAGE = 100000, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
       function likeBtn(it) {
+        return '<span></span>'; // 不顯示溫暖數（不排名）
         var on = !!liked[it.id];
         if (it.status === 'pending') return '<span></span>';
         return '<button type="button" class="xt-like' + (on ? ' is-on' : '') + '" data-like="' + esc(it.id) + '" aria-pressed="' + on + '" aria-label="' + (on ? '收回溫暖' : '送出溫暖 +1') + '，目前 ' + it.l + ' 份溫暖">' +
@@ -1767,9 +1809,8 @@
         var canDel = ALLOW_USER_DELETE && (it.status === 'mine' || it.status === 'private' || it.status === 'pending');
         var r = ((it.id.charCodeAt(it.id.length - 1) || 0) % 5 - 2) * .5;
         return '<article class="xt-card-note ' + it.k + '" data-card="' + esc(it.id) + '" style="--r:' + r + 'deg;--tr:' + (-r * 2) + 'deg">' +
-          (rank > -1 && rank < 3 && it.l > 0 ? '<span class="xt-ribbon">🏆 溫暖第 ' + (rank + 1) + ' 名</span>' : '') +
           '<div class="flex flex-wrap items-center gap-2"><span class="inline-block text-xs font-semibold tracking-wider px-2.5 py-0.5 rounded-full ' + k.tag + '">' + k.label + '</span>' + BADGE[it.status] + '</div>' +
-          '<p class="xt-hand xt-txt" data-dbl="' + esc(it.id) + '" title="點兩下送出溫暖">' + esc(it.t) + '</p>' +
+          '<p class="xt-hand xt-txt">' + esc(it.t) + '</p>' +
           '<p class="xt-hand xt-sign text-sm text-right">— ' + (it.n ? esc(it.n) : '一位匿名的聖誕小精靈') + '</p>' +
           '<div class="flex items-center justify-between gap-3 mt-3">' + likeBtn(it) +
           (canDel ? '<button type="button" class="xt-del' + (armedDel === it.id ? ' is-armed' : '') + '" data-del="' + esc(it.id) + '">' + (armedDel === it.id ? '⚠️ 再按一次確認刪除' : '刪除') + '</button>' : '') +
@@ -1791,10 +1832,37 @@
           list = wallList(); wallOrder = list.map(function (it) { return it.id; });
         }
         var vis = list.slice(0, shown);
-        $('xt-wall').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<p class="xt-hand text-center text-[#8a7458] text-lg py-10" style="column-span:all">' + ((($('xt-search') || {}).value || '').trim() ? '找不到符合的感謝' : '這裡還沒有感謝，寫下第一份吧 ✦') + '</p>';
-        var more = $('xt-more'); more.hidden = list.length <= shown;
-        more.textContent = '看更多感謝 ↓（還有 ' + Math.max(0, list.length - shown) + ' 則）';
+        $('xt-wall').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<p class="xt-hand text-center text-[#8a7458] text-lg py-10 w-full">' + ((($('xt-search') || {}).value || '').trim() ? '找不到符合的感謝' : '這裡還沒有感謝，寫下第一份吧 ✦') + '</p>';
+        if (!keepOrder) $('xt-wall').scrollLeft = 0;
+        updateCarPos();
       }
+      /* ---------- 左右輪播 ---------- */
+      function carCards() { return $('xt-wall').querySelectorAll('.xt-card-note'); }
+      function carIndex() {
+        var w = $('xt-wall'), cs = carCards(), mid = w.scrollLeft + w.clientWidth / 2, best = 0, bd = 1e9;
+        for (var i = 0; i < cs.length; i++) { var c = cs[i], d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } }
+        return best;
+      }
+      function updateCarPos() {
+        var w = $('xt-wall'), n = carCards().length;
+        var cs = carCards(), a = -1, z = -1, L = w.scrollLeft - 2, R = w.scrollLeft + w.clientWidth + 2;
+        for (var i = 0; i < cs.length; i++) { if (cs[i].offsetLeft >= L && cs[i].offsetLeft + cs[i].offsetWidth <= R) { if (a < 0) a = i; z = i; } }
+        if (a < 0) { a = z = carIndex(); }
+        $('xt-car-pos').textContent = n ? ('第 ' + (a + 1) + (z > a ? '–' + (z + 1) : '') + ' 則，共 ' + n + ' 則') : '還沒有感謝';
+        $('xt-prev').disabled = !n || w.scrollLeft <= 2;
+        $('xt-next').disabled = !n || w.scrollLeft + w.clientWidth >= w.scrollWidth - 2;
+      }
+      function carGo(dir) {
+        var cs = carCards(); if (!cs.length) return;
+        var i = Math.max(0, Math.min(cs.length - 1, carIndex() + dir)), c = cs[i], w = $('xt-wall');
+        w.scrollTo({ left: c.offsetLeft - (w.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+      }
+      $('xt-prev').addEventListener('click', function () { carGo(-1); });
+      $('xt-next').addEventListener('click', function () { carGo(1); });
+      var carT; $('xt-wall').addEventListener('scroll', function () { clearTimeout(carT); carT = setTimeout(updateCarPos, 80); }, { passive: true });
+      $('xt-wall').addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); carGo(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); carGo(-1); } });
+      addEventListener('resize', updateCarPos);
+      $('xt-go-wall').addEventListener('click', function () { $('xt-wall-area').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
       function renderAll(keepWall) { rebuild(); placeAll(); renderTree(); renderRank(); renderWall(keepWall); }
 
@@ -1809,18 +1877,17 @@
         var pos = wallOrder.indexOf(id);
         if (pos >= shown) { shown = pos + 1; renderWall(true); }
         var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
-        c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var w = $('xt-wall'); w.scrollTo({ left: c.offsetLeft - (w.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+        $('xt-wall-area').scrollIntoView({ behavior: 'smooth', block: 'center' });
         c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
         flashOrn(id);
       }
       ornBox.addEventListener('click', function (e) { var b = e.target.closest('.xt-orn'); if (b) gotoCard(b.dataset.id); });
-      $('xt-rank').addEventListener('click', function (e) { var b = e.target.closest('[data-goto]'); if (b) gotoCard(b.getAttribute('data-goto')); });
       $('xt-wall').addEventListener('mouseover', function (e) {
         var c = e.target.closest('.xt-card-note'); var id = c && c.getAttribute('data-card');
         Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.toggle('is-active', k === id); });
       });
       $('xt-wall').addEventListener('mouseleave', function () { Object.keys(ornEls).forEach(function (k) { ornEls[k].classList.remove('is-active'); }); });
-      $('xt-more').addEventListener('click', function () { shown += PAGE; renderWall(true); });
       var sT; $('xt-search').addEventListener('input', function () { clearTimeout(sT); sT = setTimeout(function () { shown = PAGE; renderWall(false); }, 200); });
 
       /* ---------- 送出 ---------- */
@@ -1968,11 +2035,10 @@
       /* ---------- 篩選 / 排序 ---------- */
       function syncPills() {
         filterBox.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.f === filter); });
-        $('xt-sort').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.s === sortBy); });
+
       }
       function setFilter(f) { filter = f; shown = PAGE; syncPills(); renderAll(false); }
       filterBox.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setFilter(b.dataset.f); });
-      $('xt-sort').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; sortBy = b.dataset.s; shown = PAGE; syncPills(); renderWall(false); });
 
       $('xt-to-form').addEventListener('click', function (e) {
         e.preventDefault();
@@ -2005,6 +2071,13 @@
         if (modalBack && modalBack.focus) modalBack.focus({ preventScroll: true });
       }
       window.xtOpenModal = openModal;
+      var OPENED_KEY = 'selXmasOpened', hint = $('xt-badge-hint'), opened = false;
+      try { opened = localStorage.getItem(OPENED_KEY) === '1'; } catch (err) {}
+      if (hint && !opened) hint.hidden = false;
+      window.addEventListener('xt-modal-open', function () {
+        if (hint) hint.hidden = true;
+        try { localStorage.setItem(OPENED_KEY, '1'); } catch (err) {}
+      });
       document.querySelectorAll('a[href="#xmas-thanks"]').forEach(function (a) {
         a.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
       });
