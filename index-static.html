@@ -632,6 +632,27 @@
     #xt-snowman, #xt-snowman-say, #xt-fx-toggle { z-index: 88 !important; }
     @media (prefers-reduced-motion: reduce) { .xt-modal.is-open { animation: none; } }
 
+    /* ==================== 🧩 核心能力：人際技巧 ==================== */
+    .xt-core-pill { display: inline-block; padding: 6px 20px; border-radius: 9999px; font-size: clamp(15px, 1.8vw, 19px); font-weight: 700; letter-spacing: .08em;
+      color: #4a2c0c; background: linear-gradient(180deg, #fde7a8, #f0b23f); box-shadow: 0 8px 18px -8px rgba(0,0,0,.45); }
+    .xt-core-pill b { color: #8a3a00; }
+    .xt-core-sub { margin-top: 10px; font-family: 'Noto Serif TC', serif; font-weight: 600; font-size: clamp(16px, 2vw, 22px); color: #fff4dc; letter-spacing: .1em; }
+    .xt-modal-core { font-size: .85em; color: #f7d98b; margin-left: 4px; }
+    @media (max-width: 520px) { .xt-modal-core { display: none; } }
+    .xt-badge-core { margin-top: 8px; font-size: 13px; font-weight: 700; color: #8a5f14; letter-spacing: .05em; }
+    .xt-badge-core b { color: #c8463d; }
+    .xt-tip3 { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 12px 14px; border-radius: 16px; background: #fff6e2; border: 1.5px dashed #f0c069; }
+    .xt-tip3-bun { width: 52px; flex-shrink: 0; }
+    .xt-tip3-title { font-weight: 700; color: #7a4a10; font-size: 14px; margin-bottom: 6px; }
+    .xt-tip3-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; counter-reset: s; margin: 0; padding: 0; list-style: none; }
+    .xt-tip3-steps li { counter-increment: s; background: #fffdf8; border: 1px solid #f0d58e; border-radius: 12px; padding: 6px 10px; font-size: 13px; line-height: 1.5; }
+    .xt-tip3-steps li b { display: block; color: #3b2f25; }
+    .xt-tip3-steps li b::before { content: counter(s) " "; color: #e08a12; font-weight: 900; }
+    .xt-tip3-steps li span { color: #8a7458; }
+    @media (max-width: 560px) { .xt-tip3-steps { grid-template-columns: 1fr; } .xt-tip3-bun { width: 40px; } }
+    .xt-cel-core { margin-top: 10px; padding: 8px 12px; border-radius: 12px; background: #fff3d1; color: #7a4a10; font-size: 14px; font-weight: 600; line-height: 1.6; }
+    .xt-cel-core b { color: #c8463d; }
+
   </style>
 
 
@@ -747,6 +768,7 @@
                 </a>
                 <!-- 引導提示：還沒打開過活動的人才會看到 -->
                 <span id="xt-badge-hint" class="xt-badge-hint" aria-hidden="true" hidden>👆 點這裡，一起寫下這一年的感謝！</span>
+                <span class="xt-badge-core">🧩 12 月核心能力：<b>人際技巧</b></span>
               </span>
             </div>
 
@@ -802,10 +824,10 @@
     </section>
 
     <!-- ==================== 🎄 聖誕感恩活動 跑馬燈 ==================== -->
-    <a href="#xmas-thanks" class="xt-marquee block relative overflow-hidden" aria-label="12月聖誕感恩活動：寫下這一年最想感謝的人、事、物，掛上感恩聖誕樹，點此立即參加">
+    <a href="#xmas-thanks" class="xt-marquee block relative overflow-hidden" aria-label="12月聖誕感恩活動，核心能力是人際技巧：說出一句謝謝，就是在練習連結彼此。點此立即參加">
       <div class="xt-mq-track">
-        <div class="xt-mq-group"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--img:url(./public/xmas-bun-1.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-2.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-3.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-5.png);--d:1.2s" aria-hidden="true"></span></div>
-        <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>十二月</b>聖誕感恩活動，溫暖開跑</span><span class="xt-bun" style="--img:url(./public/xmas-bun-1.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-2.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-3.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">點一顆吊飾，讀讀同仁的溫暖心意</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-5.png);--d:1.2s" aria-hidden="true"></span></div>
+        <div class="xt-mq-group"><span class="xt-mq-item"><b>12 月核心能力：人際技巧</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">說出一句謝謝，就是在練習<b>連結彼此</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:1.2s" aria-hidden="true"></span></div>
+        <div class="xt-mq-group" aria-hidden="true"><span class="xt-mq-item"><b>12 月核心能力：人際技巧</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:0s" aria-hidden="true"></span><span class="xt-mq-item">說出一句謝謝，就是在練習<b>連結彼此</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.3s" aria-hidden="true"></span><span class="xt-mq-item">寫下這一年最想感謝的<b>人・事・物</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.6s" aria-hidden="true"></span><span class="xt-mq-item">把感謝化作吊飾，掛上<b>感恩聖誕樹</b></span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:.9s" aria-hidden="true"></span><span class="xt-mq-item xt-mq-cta">立即參加 →</span><span class="xt-bun" style="--img:url(./public/xmas-bun-4.png);--d:1.2s" aria-hidden="true"></span></div>
       </div>
     </a>
 
@@ -910,7 +932,7 @@
   <!-- ==================== 🎄 聖誕感恩活動：全螢幕彈出視窗（點「12月 聖誕感恩活動進行中」打開） ==================== -->
   <div id="xt-modal" class="xt-modal" role="dialog" aria-modal="true" aria-label="12 月聖誕感恩活動" hidden>
     <div class="xt-modal-bar">
-      <span class="xt-modal-title">🎄 12 月聖誕感恩活動</span>
+      <span class="xt-modal-title">🎄 12 月聖誕感恩活動<span class="xt-modal-core">｜🧩 核心能力：人際技巧</span></span>
       <button type="button" id="xt-modal-close" class="xt-modal-close">✕ 回到首頁</button>
     </div>
     <!-- ==================== 🎄 12月 聖誕感恩活動 ==================== -->
@@ -974,8 +996,9 @@
           <!-- 標題 -->
           <div class="relative text-center mb-9">
             <p class="xt-script text-[#f1dca2] text-3xl sm:text-4xl mb-1" aria-hidden="true">Merry Christmas</p>
-            <p class="text-[#f1dca2]/80 text-xs sm:text-sm tracking-[.4em] mb-3">十二月限定・聖誕感恩活動</p>
+            <p class="xt-core-pill mb-4">🧩 12 月核心能力：<b>人際技巧</b></p>
             <h2 id="xt-title" class="xt-glint xt-serif xt-gold-text text-4xl md:text-6xl font-bold tracking-wider leading-tight">這一年，謝謝你</h2>
+            <p class="xt-core-sub">說出一句謝謝，就是在練習連結彼此</p>
             <div class="xt-divider my-5" aria-hidden="true"><span class="text-sm">✦</span></div>
             <p class="text-white/85 text-base sm:text-lg leading-loose max-w-2xl mx-auto">
               在忙碌的值班與照護之間，總有人、有些事、有些小東西，默默撐住了我們。<br class="hidden sm:block" />
@@ -1011,6 +1034,13 @@
 
             <div class="mt-7">
               <label for="xt-text" class="xt-serif block font-bold text-warm-text text-base mb-3"><span class="xt-step">2</span>寫下你的感謝</label>
+              <div class="xt-tip3" aria-label="奶皇包的人際技巧小撇步">
+                <img src="./public/naihuang-xmas.png" alt="" class="xt-tip3-bun" />
+                <div>
+                  <p class="xt-tip3-title">🧩 奶皇包的人際技巧小撇步：好的感謝，說清楚這三件事</p>
+                  <ol class="xt-tip3-steps"><li><b>對誰說</b><span>學姊、隔壁床的家屬…</span></li><li><b>他做了什麼</b><span>交班時多提醒一句…</span></li><li><b>帶給你什麼</b><span>讓我安心、少了一次失誤…</span></li></ol>
+                </div>
+              </div>
               <div id="xt-starters" class="flex flex-wrap gap-2 mb-3" aria-label="不知道怎麼開頭？點一下帶入句子"></div>
               <textarea id="xt-text" maxlength="200" rows="4"
                 class="xt-field xt-hand px-4 py-3 text-lg leading-relaxed resize-y"
@@ -1034,7 +1064,7 @@
               <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
             </div>
             <p class="text-xs text-[#a8977d] mt-4 leading-relaxed">
-              感恩練習小提醒：把注意力放在「被支持的時刻」，是一種<b class="text-[#7a6a55]">自我覺察</b>；說出謝謝，則是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
+              🧩 把謝謝說出口，讓對方知道「你的付出，我看見了」，這就是在練習<b class="text-[#7a6a55]">人際技巧</b>。<br />
               分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
             </p>
           </form>
@@ -1154,18 +1184,6 @@
               <div class="xt-seal" aria-hidden="true">♥</div>
             </div>
             <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
-          </div>
-          <!-- 包子報佳音 -->
-          <div class="lg:col-span-2 text-center">
-            <p class="xt-serif text-[#8a7458] text-sm tracking-[.3em] mb-1">SEL 包子聖誕報佳音</p>
-            <p class="text-xs text-[#a8977d] mb-2">點點看，每顆包子都有一句聖誕悄悄話</p>
-            <div id="xt-choir" class="xt-choir flex justify-center items-end gap-1 sm:gap-6">
-              <button type="button" class="xt-choir-item" style="--i:0" data-i="0" aria-label="自我覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-1.png)"></span></button>
-              <button type="button" class="xt-choir-item" style="--i:1" data-i="1" aria-label="自我管理包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-2.png)"></span></button>
-              <button type="button" class="xt-choir-item" style="--i:2" data-i="2" aria-label="社會覺察包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-3.png)"></span></button>
-              <button type="button" class="xt-choir-item" style="--i:3" data-i="3" aria-label="人際技巧包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-4.png)"></span></button>
-              <button type="button" class="xt-choir-item" style="--i:4" data-i="4" aria-label="負責任的決策包子，點我聽聖誕悄悄話"><span class="xt-say" role="status"></span><span class="xt-bun2" style="--img:url(./public/xmas-bun-5.png)"></span></button>
-            </div>
           </div>
         </div>
 
@@ -1317,6 +1335,7 @@
       <div class="relative px-6 pt-5 pb-6">
         <p class="xt-script text-[#c9a052] text-3xl leading-none" aria-hidden="true">Thank you</p>
         <h4 id="xt-cel-title" class="xt-serif text-xl font-bold text-warm-text mt-2">你的感謝已經掛上聖誕樹了！</h4>
+        <p class="xt-cel-core">🧩 你剛剛練習了<b>人際技巧</b>：主動表達感謝，讓對方知道他的付出被看見！</p>
         <p id="xt-cel-msg" class="text-sm text-[#8a7458] mt-2 leading-relaxed"></p>
         <button type="button" id="xt-cel-close" class="xt-btn mt-5">去看看我的吊飾 <span aria-hidden="true">✦</span></button>
       </div>
@@ -1535,29 +1554,7 @@
       document.getElementById('xt-modal-close').addEventListener('click', function () { setTimeout(onScrollSnowman, 0); });
 
       /* ---------- 3. 包子報佳音 ---------- */
-      var choir = document.getElementById('xt-choir');
-      var WHISPER = [
-        ['停一下，問問自己：今天的心情是什麼顏色？', '這一年，你最驕傲的一刻是什麼？'],
-        ['累了就深呼吸三次，給自己一杯熱可可 ☕', '休息不是偷懶，是為了走更長的路。'],
-        ['身邊的同事今天看起來好嗎？一句關心就很暖。', '每位病人背後，都有一個等他回家的家。'],
-        ['說聲「謝謝你」，是最好的聖誕禮物 🎁', '今天，試著稱讚一位夥伴吧！'],
-        ['好好休息，也是負責任的選擇。', '新的一年，為自己定一個溫柔的小目標。']
-      ];
-      var wIdx = [0, 0, 0, 0, 0];
-      choir.addEventListener('click', function (e) {
-        var b = e.target.closest('.xt-choir-item'); if (!b) return;
-        var i = +b.dataset.i, say = b.querySelector('.xt-say');
-        choir.querySelectorAll('.xt-say').forEach(function (s) { if (s !== say) s.classList.remove('is-show'); });
-        say.textContent = WHISPER[i][wIdx[i]++ % WHISPER[i].length];
-        say.classList.add('is-show');
-        b.classList.remove('is-hop'); void b.offsetWidth; b.classList.add('is-hop');
-        clearTimeout(b._t); b._t = setTimeout(function () { say.classList.remove('is-show'); }, 4500);
-      });
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (es, ob) {
-          es.forEach(function (e) { if (e.isIntersecting) { choir.classList.add('is-in'); ob.disconnect(); } });
-        }, { threshold: .4 }).observe(choir);
-      } else choir.classList.add('is-in');
+      /* （包子報佳音已移除，讓焦點集中在人際技巧） */
 
 
       window.xtSparkle = function (x, y) { if (on) iceBurst(x, y); };
@@ -1567,7 +1564,7 @@
       function closeCel() { cel.classList.remove('is-show'); if (celBack) celBack.focus(); }
       window.xtCelebrate = function (text) {
         celBack = document.activeElement;
-        celMsg.textContent = text + ' 包子們開心得在雪地裡打滾～';
+        celMsg.textContent = text;
         cel.classList.add('is-show'); celClose.focus();
         if (on) { iceBurst(innerWidth / 2, innerHeight / 2 - 120); iceBurst(innerWidth / 2 - 150, innerHeight / 2 + 40); iceBurst(innerWidth / 2 + 150, innerHeight / 2 + 40); }
         if (on) for (var k = 0; k < 18; k++) {
@@ -1628,12 +1625,12 @@
         public:  ''
       };
       var STARTERS = [
-        { k: 'person', t: '謝謝同事', s: '謝謝同事＿＿＿，在我最忙的時候' },
-        { k: 'person', t: '謝謝病人與家屬', s: '謝謝那位病人／家屬，一句「辛苦了」讓我' },
-        { k: 'person', t: '謝謝家人', s: '謝謝家人，在我輪班回家時' },
-        { k: 'person', t: '謝謝自己', s: '謝謝自己，這一年即使很累，還是' },
-        { k: 'event',  t: '謝謝某個時刻', s: '謝謝今年＿＿＿的那一天，讓我覺得' },
-        { k: 'thing',  t: '謝謝陪伴我的小物', s: '謝謝陪我值班的＿＿＿，' }
+        { k: 'person', t: '交班時的提醒', s: '謝謝＿＿＿，交班時多提醒我一句＿＿＿，讓我' },
+        { k: 'person', t: '忙不過來時的支援', s: '謝謝＿＿＿，在我忙不過來的時候主動來幫忙，讓我' },
+        { k: 'person', t: '我開口求助時', s: '謝謝＿＿＿，在我開口說「可以幫我一下嗎？」的時候，' },
+        { k: 'event',  t: '一起合作完成的事', s: '謝謝大家一起完成＿＿＿，那次的合作讓我覺得' },
+        { k: 'event',  t: '化解誤會的那次溝通', s: '謝謝＿＿＿，願意再跟我溝通一次，讓我們' },
+        { k: 'person', t: '病人與家屬的一句話', s: '謝謝那位病人／家屬，一句「辛苦了」讓我' }
       ];
       var SAMPLES = [
         { id: 's1', k: 'person', t: '謝謝夜班一起扛過急診高峰的學姊，那杯熱可可我會一直記得。', n: '護理師小安', ts: 1, l: 12 },
@@ -2262,7 +2259,7 @@
         op.hidden = false; op.className = 'xt-op p1'; opText.innerHTML = ''; opSay.classList.remove('is-show');
         opSkip.focus();
         opLater(function () { opSpeak('大家好！我是人際技巧的奶皇包 🧩'); }, 700);
-        opLater(function () { opSpeak('12 月，由我來主持「聖誕感恩活動」！'); }, 2900);
+        opLater(function () { opSpeak('12 月，我們一起練習人際技巧，從說一聲謝謝開始！'); }, 2900);
         opLater(function () { op.className = 'xt-op p2'; opSpeak('先寫一封感謝信給大家～ ✍️'); }, 5400);
         opLater(function () {
           var k = 0;
