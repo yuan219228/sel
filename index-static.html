@@ -451,17 +451,21 @@
     @media (max-width: 640px) { #xt-search { max-width: none; } }
     /* 留言輪播（左右觀看） */
     .xt-carousel-wrap { position: relative; }
-    .xt-carousel { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 18px 8px 26px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    .xt-carousel::-webkit-scrollbar { display: none; }
+    .xt-carousel { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; padding: 14px 4px 8px; }
     .xt-carousel:focus-visible { outline: 2px solid #c9a052; outline-offset: 4px; border-radius: 12px; }
-    .xt-carousel .xt-card-note { flex: 0 0 min(320px, 80vw); margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; }
+    .xt-carousel .xt-card-note { margin: 0; display: flex; flex-direction: column; }
     .xt-carousel .xt-card-note .xt-txt { flex: 1; }
-    .xt-car-btn { position: absolute; top: 50%; z-index: 3; width: 46px; height: 46px; margin-top: -23px; border-radius: 50%; font-size: 28px; line-height: 1; color: #fff;
+    .xt-carousel.is-turn { animation: xtTurn .35s ease-out; }
+    @keyframes xtTurn { from { opacity: 0; transform: translateX(var(--turn, 20px)); } }
+    .xt-pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 18px; flex-wrap: wrap; }
+    .xt-car-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; border-radius: 9999px; font-size: 15px; font-weight: 700; color: #fff;
       background: linear-gradient(180deg, #2a5d45, #1f4a36); border: 2px solid #f1dca2; box-shadow: 0 8px 18px -8px rgba(20, 51, 38, .7); transition: transform .2s, opacity .2s; }
-    .xt-car-btn:hover { transform: scale(1.08); }
+    .xt-car-btn:hover { transform: translateY(-1px); }
     .xt-car-btn:disabled { opacity: .3; cursor: default; transform: none; }
-    .xt-car-btn.prev { left: -8px; } .xt-car-btn.next { right: -8px; }
-    @media (max-width: 640px) { .xt-car-btn { width: 38px; height: 38px; margin-top: -19px; font-size: 22px; } .xt-car-btn.prev { left: -4px; } .xt-car-btn.next { right: -4px; } }
+    .xt-pager-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .xt-pager-dots button { min-width: 34px; height: 34px; padding: 0 8px; border-radius: 9999px; font-size: 14px; font-weight: 700; color: #7a6a55; background: #fffdf9; border: 1px solid #e3d2b0; }
+    .xt-pager-dots button[aria-current="page"] { background: #c8463d; border-color: #c8463d; color: #fff; }
+    @media (prefers-reduced-motion: reduce) { .xt-carousel.is-turn { animation: none; } }
     /* 留言數卡 */
     .xt-count-big { font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: clamp(56px, 7vw, 84px); line-height: 1.1; color: #a8322b; margin: 4px 0 10px; }
     .xt-count-big small { font-size: 20px; font-weight: 700; color: #7a6a55; }
@@ -1180,7 +1184,7 @@
                 <span><i class="xt-dot event"></i>事 <b id="xt-count-event">0</b></span>
                 <span><i class="xt-dot thing"></i>物 <b id="xt-count-thing">0</b></span>
               </div>
-              <button type="button" id="xt-go-wall" class="xt-btn mt-6">◀ 左右翻看大家的感謝 ▶</button>
+              <button type="button" id="xt-go-wall" class="xt-btn mt-6">📝 看大家的感謝 ↓</button>
               <div class="xt-seal" aria-hidden="true">♥</div>
             </div>
             <p class="text-center text-xs text-[#a8977d] mt-6">點樹上的吊飾，就能在下方留言牆找到那則感謝</p>
@@ -1194,7 +1198,7 @@
             <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
             <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
             <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-            <p class="text-sub-text text-sm">按左右箭頭、或用手指左右滑，一則一則讀大家的感謝；喜歡就送一份溫暖 ♥</p>
+            <p class="text-sub-text text-sm">每頁 30 則，按「上一頁／下一頁」或用手指左右滑換頁；喜歡就送一份溫暖 ♥</p>
           </div>
           <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
             <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
@@ -1206,12 +1210,15 @@
             <span class="hidden sm:inline-block w-px h-6 bg-[#e3d2b0]" aria-hidden="true"></span>
             <input type="search" id="xt-search" class="xt-field px-4 py-1.5 text-sm w-full sm:w-56" placeholder="🔍 搜尋感謝或署名" aria-label="搜尋感謝或署名" />
           </div>
+          <p class="text-center xt-serif text-[#8a7458] mb-1" aria-live="polite"><span id="xt-car-pos">0 / 0</span></p>
           <div class="xt-carousel-wrap">
-            <button type="button" id="xt-prev" class="xt-car-btn prev" aria-label="上一則">‹</button>
-            <div id="xt-wall" class="xt-carousel" tabindex="0" aria-label="感謝留言，可左右捲動"></div>
-            <button type="button" id="xt-next" class="xt-car-btn next" aria-label="下一則">›</button>
+            <div id="xt-wall" class="xt-carousel" tabindex="0" aria-label="感謝留言，每頁 30 則，可用左右方向鍵換頁"></div>
           </div>
-          <p class="text-center mt-4 xt-serif text-[#8a7458]" aria-live="polite"><span id="xt-car-pos">0 / 0</span></p>
+          <div class="xt-pager">
+            <button type="button" id="xt-prev" class="xt-car-btn" aria-label="上一頁">‹ 上一頁</button>
+            <div id="xt-pages" class="xt-pager-dots"></div>
+            <button type="button" id="xt-next" class="xt-car-btn" aria-label="下一頁">下一頁 ›</button>
+          </div>
         </div>
 
       </section>
@@ -1809,6 +1816,7 @@
       }
 
       /* ---------- 畫面：感謝留言牆 ---------- */
+      var WALL_PER_PAGE = 30, wallPage = 0;
       var sortBy = 'new', PAGE = 100000, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
       function likeBtn(it) {
         var on = !!liked[it.id];
@@ -1843,37 +1851,46 @@
         } else {
           list = wallList(); wallOrder = list.map(function (it) { return it.id; });
         }
-        var vis = list.slice(0, shown);
+        var pages = Math.max(1, Math.ceil(list.length / WALL_PER_PAGE));
+        if (!keepOrder) wallPage = 0;
+        if (wallPage >= pages) wallPage = pages - 1;
+        var vis = list.slice(wallPage * WALL_PER_PAGE, wallPage * WALL_PER_PAGE + WALL_PER_PAGE);
+        wallTotal = list.length;
         $('xt-wall').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<p class="xt-hand text-center text-[#8a7458] text-lg py-10 w-full">' + ((($('xt-search') || {}).value || '').trim() ? '找不到符合的感謝' : '這裡還沒有感謝，寫下第一份吧 ✦') + '</p>';
-        if (!keepOrder) $('xt-wall').scrollLeft = 0;
         updateCarPos();
       }
+      var wallTotal = 0;
       /* ---------- 左右輪播 ---------- */
-      function carCards() { return $('xt-wall').querySelectorAll('.xt-card-note'); }
-      function carIndex() {
-        var w = $('xt-wall'), cs = carCards(), mid = w.scrollLeft + w.clientWidth / 2, best = 0, bd = 1e9;
-        for (var i = 0; i < cs.length; i++) { var c = cs[i], d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } }
-        return best;
-      }
       function updateCarPos() {
-        var w = $('xt-wall'), n = carCards().length;
-        var cs = carCards(), a = -1, z = -1, L = w.scrollLeft - 2, R = w.scrollLeft + w.clientWidth + 2;
-        for (var i = 0; i < cs.length; i++) { if (cs[i].offsetLeft >= L && cs[i].offsetLeft + cs[i].offsetWidth <= R) { if (a < 0) a = i; z = i; } }
-        if (a < 0) { a = z = carIndex(); }
-        $('xt-car-pos').textContent = n ? ('第 ' + (a + 1) + (z > a ? '–' + (z + 1) : '') + ' 則，共 ' + n + ' 則') : '還沒有感謝';
-        $('xt-prev').disabled = !n || w.scrollLeft <= 2;
-        $('xt-next').disabled = !n || w.scrollLeft + w.clientWidth >= w.scrollWidth - 2;
+        var pages = Math.max(1, Math.ceil(wallTotal / WALL_PER_PAGE));
+        var from = wallPage * WALL_PER_PAGE + 1, to = Math.min(wallTotal, from + WALL_PER_PAGE - 1);
+        $('xt-car-pos').textContent = wallTotal ? ('第 ' + (wallPage + 1) + ' / ' + pages + ' 頁（第 ' + from + '–' + to + ' 則，共 ' + wallTotal + ' 則）') : '還沒有感謝';
+        $('xt-prev').disabled = wallPage <= 0;
+        $('xt-next').disabled = wallPage >= pages - 1;
+        var dots = '';
+        for (var i = 0; i < pages; i++) dots += '<button type="button" data-p="' + i + '"' + (i === wallPage ? ' aria-current="page"' : '') + ' aria-label="第 ' + (i + 1) + ' 頁">' + (i + 1) + '</button>';
+        $('xt-pages').innerHTML = pages > 1 ? dots : '';
+        $('xt-prev').parentNode.style.display = pages > 1 ? '' : 'none';
       }
-      function carGo(dir) {
-        var cs = carCards(); if (!cs.length) return;
-        var i = Math.max(0, Math.min(cs.length - 1, carIndex() + dir)), c = cs[i], w = $('xt-wall');
-        w.scrollTo({ left: c.offsetLeft - (w.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+      function goPage(p, dir) {
+        var pages = Math.max(1, Math.ceil(wallTotal / WALL_PER_PAGE));
+        p = Math.max(0, Math.min(pages - 1, p)); if (p === wallPage) return;
+        wallPage = p; renderWall(true);
+        var w = $('xt-wall'); w.style.setProperty('--turn', (dir || 1) * 24 + 'px'); w.classList.remove('is-turn'); void w.offsetWidth; w.classList.add('is-turn');
+        var top = $('xt-wall-area').getBoundingClientRect().top;
+        if (top < 0) $('xt-wall-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      $('xt-prev').addEventListener('click', function () { carGo(-1); });
-      $('xt-next').addEventListener('click', function () { carGo(1); });
-      var carT; $('xt-wall').addEventListener('scroll', function () { clearTimeout(carT); carT = setTimeout(updateCarPos, 80); }, { passive: true });
-      $('xt-wall').addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); carGo(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); carGo(-1); } });
-      addEventListener('resize', updateCarPos);
+      $('xt-prev').addEventListener('click', function () { goPage(wallPage - 1, -1); });
+      $('xt-next').addEventListener('click', function () { goPage(wallPage + 1, 1); });
+      $('xt-pages').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (b) goPage(+b.dataset.p, +b.dataset.p > wallPage ? 1 : -1); });
+      $('xt-wall').addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') { e.preventDefault(); goPage(wallPage + 1, 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); goPage(wallPage - 1, -1); } });
+      // 手指左右滑換頁
+      var sx = null, sy = null;
+      $('xt-wall').addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      $('xt-wall').addEventListener('touchend', function (e) {
+        if (sx == null) return; var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) goPage(wallPage + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      }, { passive: true });
       $('xt-go-wall').addEventListener('click', function () { $('xt-wall-area').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
       function renderAll(keepWall) { rebuild(); placeAll(); renderTree(); renderRank(); renderWall(keepWall); }
@@ -1887,10 +1904,9 @@
         var it = items[indexOfId(id)]; if (!it) return;
         if (filter !== 'all' && it.k !== filter) { filter = 'all'; syncPills(); renderWall(false); }
         var pos = wallOrder.indexOf(id);
-        if (pos >= shown) { shown = pos + 1; renderWall(true); }
+        if (pos > -1 && Math.floor(pos / WALL_PER_PAGE) !== wallPage) { wallPage = Math.floor(pos / WALL_PER_PAGE); renderWall(true); }
         var c = document.querySelector('.xt-card-note[data-card="' + id + '"]'); if (!c) return;
-        var w = $('xt-wall'); w.scrollTo({ left: c.offsetLeft - (w.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
-        $('xt-wall-area').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        c.scrollIntoView({ behavior: 'smooth', block: 'center' });
         c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
         flashOrn(id);
       }
