@@ -922,6 +922,7 @@
           <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
           <p class="text-sub-text text-sm">大家已經寫下 <strong id="xt-total" class="xt-serif text-[#a8322b] text-lg">0</strong> 份感謝<span id="xt-ontree"></span>。點一顆吊飾，讀讀大家的心意</p>
           <p id="xt-sync" class="text-xs text-[#a8977d] mt-1"></p>
+          <button type="button" id="xt-tree-next" class="xt-pill mt-3" hidden>🎄 換一批吊飾</button>
           <a href="#xt-form" id="xt-to-form" class="xt-btn mt-5">✍️ 我也要寫感謝 ↓</a>
         </div>
 
@@ -1049,7 +1050,7 @@
             <p class="xt-script text-[#c9a052] text-3xl" aria-hidden="true">Thank-you Wall</p>
             <h3 class="xt-serif text-3xl md:text-4xl font-bold text-warm-text tracking-wider">感謝留言牆</h3>
             <div class="xt-divider my-4" aria-hidden="true"><span class="text-xs">✦</span></div>
-            <p class="text-sub-text text-sm">按左右箭頭、或用手指左右滑，一則一則讀大家的感謝</p>
+            <p class="text-sub-text text-sm">按左右箭頭、或用手指左右滑，一則一則讀大家的感謝；喜歡就送一份溫暖 ♥</p>
           </div>
           <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
             <div class="flex flex-wrap justify-center gap-2" id="xt-filter" role="group" aria-label="篩選感謝類別">
@@ -1750,16 +1751,19 @@
         return slots;
       }
       function rankSort(a, b) { return b.ts - a.ts; } // 不排名：最新的在前面
-      var TREE_MAX = 40; // 樹上最多掛幾顆吊飾（最新的幾份）；全部都在留言牆
+      var TREE_MAX = 40; // 一次最多掛幾顆吊飾；超過時分批輪流掛，讓每一份感謝都有機會掛上樹
+      var treePage = 0;
       var ranked = [], positions = {};
       function placeAll() {
         ranked = items.slice().sort(rankSort);
-        var n = Math.min(ranked.length, TREE_MAX), slots = buildSlots(n);
+        var pages = Math.max(1, Math.ceil(ranked.length / TREE_MAX)); if (treePage >= pages) treePage = 0;
+        var batch = ranked.slice(treePage * TREE_MAX, treePage * TREE_MAX + TREE_MAX);
+        var n = batch.length, slots = buildSlots(n);
         positions = {};
         for (var i = 0; i < n; i++) {
           // 少量吊飾時平均分散在整棵樹，順序仍是第 1 名在最上面
           var si = n <= slots.length ? Math.floor(i * slots.length / n) : i % slots.length;
-          positions[ranked[i].id] = slots[si] || [200, 300];
+          positions[batch[i].id] = slots[si] || [200, 300];
         }
       }
 
@@ -1767,8 +1771,10 @@
       var ornEls = {};
       function renderTree() {
         $('xt-total').textContent = items.length;
-        var onTree = ranked.slice(0, TREE_MAX);
-        $('xt-ontree').textContent = items.length > TREE_MAX ? '，樹上掛著最新的 ' + TREE_MAX + ' 份' : '';
+        var pages = Math.max(1, Math.ceil(ranked.length / TREE_MAX));
+        var onTree = ranked.slice(treePage * TREE_MAX, treePage * TREE_MAX + TREE_MAX);
+        $('xt-ontree').textContent = pages > 1 ? '，聖誕樹每次掛 ' + TREE_MAX + ' 份、輪流展示（第 ' + (treePage + 1) + ' / ' + pages + ' 批）' : '';
+        var nb = $('xt-tree-next'); if (nb) { nb.hidden = pages < 2; nb.textContent = '🎄 換一批吊飾（' + (treePage + 1) + ' / ' + pages + '）'; }
         var n = onTree.length, seen = {};
         var base = n > 80 ? 5.5 : n > 55 ? 6 : n > 30 ? 7 : 8;
         onTree.forEach(function (it, i) {
@@ -1789,6 +1795,14 @@
         Object.keys(ornEls).forEach(function (id) { if (!seen[id]) { ornEls[id].remove(); delete ornEls[id]; } });
       }
 
+      function nextBatch() {
+        var pages = Math.max(1, Math.ceil(items.length / TREE_MAX)); if (pages < 2) return;
+        treePage = (treePage + 1) % pages; placeAll(); renderTree();
+      }
+      $('xt-tree-next').addEventListener('click', function () { treeHold = Date.now() + 40000; nextBatch(); });
+      var treeHold = 0;
+      setInterval(function () { if (!document.hidden && Date.now() > treeHold && !$('xt-modal').hidden) nextBatch(); }, 20000);
+
       /* ---------- 畫面：留言數 ---------- */
       function renderRank() {
         $('xt-count-all').textContent = items.length;
@@ -1798,7 +1812,6 @@
       /* ---------- 畫面：感謝留言牆 ---------- */
       var sortBy = 'new', PAGE = 100000, shown = PAGE, wallOrder = [], armedDel = null, armTimer = null;
       function likeBtn(it) {
-        return '<span></span>'; // 不顯示溫暖數（不排名）
         var on = !!liked[it.id];
         if (it.status === 'pending') return '<span></span>';
         return '<button type="button" class="xt-like' + (on ? ' is-on' : '') + '" data-like="' + esc(it.id) + '" aria-pressed="' + on + '" aria-label="' + (on ? '收回溫暖' : '送出溫暖 +1') + '，目前 ' + it.l + ' 份溫暖">' +
@@ -1810,7 +1823,7 @@
         var r = ((it.id.charCodeAt(it.id.length - 1) || 0) % 5 - 2) * .5;
         return '<article class="xt-card-note ' + it.k + '" data-card="' + esc(it.id) + '" style="--r:' + r + 'deg;--tr:' + (-r * 2) + 'deg">' +
           '<div class="flex flex-wrap items-center gap-2"><span class="inline-block text-xs font-semibold tracking-wider px-2.5 py-0.5 rounded-full ' + k.tag + '">' + k.label + '</span>' + BADGE[it.status] + '</div>' +
-          '<p class="xt-hand xt-txt">' + esc(it.t) + '</p>' +
+          '<p class="xt-hand xt-txt" data-dbl="' + esc(it.id) + '" title="點兩下送出溫暖">' + esc(it.t) + '</p>' +
           '<p class="xt-hand xt-sign text-sm text-right">— ' + (it.n ? esc(it.n) : '一位匿名的聖誕小精靈') + '</p>' +
           '<div class="flex items-center justify-between gap-3 mt-3">' + likeBtn(it) +
           (canDel ? '<button type="button" class="xt-del' + (armedDel === it.id ? ' is-armed' : '') + '" data-del="' + esc(it.id) + '">' + (armedDel === it.id ? '⚠️ 再按一次確認刪除' : '刪除') + '</button>' : '') +
