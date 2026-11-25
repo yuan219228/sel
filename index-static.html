@@ -506,7 +506,11 @@
     .xt-nh [hidden], #xt-nh-env[hidden] { display: none !important; }
     #xt-nh-full { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .xt-nh-bun { width: 190px; height: auto; filter: drop-shadow(0 14px 18px rgba(120, 70, 10, .28)); transform-origin: 50% 100%; }
-    .xt-nh.is-in .xt-nh-bun { animation: xtNhIn .9s cubic-bezier(.3, 1.5, .5, 1) both, xtNhIdle 3s ease-in-out .9s infinite; }
+    .xt-nh.is-in .xt-nh-bun { animation: xtNhIn .9s cubic-bezier(.3, 1.5, .5, 1) both; }
+    .xt-jelly { position: relative; display: inline-block; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .xt-jelly:active { cursor: grabbing; }
+    .xt-jelly .xt-nh-bun { position: relative; z-index: 1; will-change: transform; pointer-events: none; -webkit-user-drag: none; }
+    .xt-jelly-shadow { position: absolute; left: 50%; bottom: -6px; width: 150px; height: 24px; margin-left: -75px; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(224, 138, 18, .4) 0%, rgba(240, 178, 63, .18) 45%, transparent 72%); filter: blur(3px); will-change: transform, opacity; }
     .xt-nh:not(.is-in) .xt-nh-bun { opacity: 0; }
     @keyframes xtNhIn { from { opacity: 0; transform: translateY(60px) scale(.6); } }
     @keyframes xtNhIdle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-4px); } }
@@ -968,7 +972,10 @@
             <!-- 奶皇包 -->
             <div class="relative flex flex-col items-center">
               <div id="xt-nh-say" class="xt-nh-say" role="status"></div>
-              <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" />
+              <div id="xt-jelly" class="xt-jelly" title="點一下、或按住拖拉奶皇包">
+                <img id="xt-nh-bun" class="xt-nh-bun" src="./public/naihuang-xmas.png" alt="戴聖誕帽、抱著拼圖的奶皇包（人際技巧）" width="278" height="360" draggable="false" />
+                <span class="xt-jelly-shadow" aria-hidden="true"></span>
+              </div>
               <span class="xt-nh-lead">12 月活動帶領人</span>
               <span class="xt-nh-tag">人際技巧・奶皇包</span>
               <button type="button" id="xt-nh-replay" class="xt-nh-replay">▶ 重播奶皇包開場</button>
@@ -2171,7 +2178,7 @@
       var typing = null, i = 0, done = false, started = false;
 
       function speak(t, ms) { say.textContent = t; say.classList.add('is-show'); clearTimeout(speak.t); if (ms) speak.t = setTimeout(function () { say.classList.remove('is-show'); }, ms); }
-      function hop() { bun.classList.remove('is-hop'); void bun.offsetWidth; bun.classList.add('is-hop'); }
+      function hop() { if (window.xtJellyPoke) window.xtJellyPoke(); else { bun.classList.remove('is-hop'); void bun.offsetWidth; bun.classList.add('is-hop'); } }
       function finish() {
         clearInterval(typing); done = true; textEl.innerHTML = fullHTML(); skipBtn.hidden = true;
         if (hung) { goBtn.hidden = false; speak('信已經掛在樹頂囉！換你寫感謝吧 ✦'); }
@@ -2233,7 +2240,7 @@
         var f = $('xt-form'); f.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
         setTimeout(function () { $('xt-text').focus({ preventScroll: true }); }, 700);
       });
-      bun.addEventListener('click', function () {
+      $('xt-jelly').addEventListener('click', function () {
         hop();
         var lines = ['要不要，再嘗試溝通一次？🧩', '什麼樣的說法，比較容易被接受？說話前，先想想對方的感受', '忙不過來時，記得開口：「可以幫我一下嗎？」', '人際技巧，幫你連結他人 ✦'];
         speak(lines[(bun._n = ((bun._n || 0) + 1)) % lines.length], 5000);
@@ -2312,6 +2319,47 @@
         try { seen = localStorage.getItem(OP_KEY) === '1'; } catch (e) {}
         if (!seen && !reduce) setTimeout(playOpening, 350);
       });
+    })();
+  </script>
+  <!-- ==================== 🧩 奶皇包果凍彈性（點一下壓扁回彈、按住拖拉會拉長晃動） ==================== -->
+  <script>
+    (function () {
+      var wrap = document.getElementById('xt-jelly'); if (!wrap) return;
+      var el = wrap.querySelector('.xt-nh-bun'), shadow = wrap.querySelector('.xt-jelly-shadow');
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sx = 1, sy = 1, vx = 0, vy = 0, tilt = 0, vt = 0, ox = 0, vox = 0, K = 0.16, D = 0.80, drag = null, t0 = performance.now();
+      window.xtJellyPoke = function () { vy -= 0.09; vx += 0.07; };
+      function frame(now) {
+        if (!document.hidden && !reduce) {
+          var br = Math.sin((now - t0) / 650) * 0.012, tx = 1 - br, ty = 1 + br, tt = 0, to = 0;
+          if (drag) {
+            var dy = Math.max(-1, Math.min(1, -drag.dy / 140)), dx = Math.max(-1, Math.min(1, drag.dx / 140));
+            ty = 1 + dy * 0.35; tx = 1 - dy * 0.22; tt = dx * 14; to = dx * 26;
+          }
+          vx = (vx + (tx - sx) * K) * D; sx += vx; vy = (vy + (ty - sy) * K) * D; sy += vy;
+          vt = (vt + (tt - tilt) * K) * D; tilt += vt; vox = (vox + (to - ox) * K) * D; ox += vox;
+          wrap.style.transform = 'translateX(' + ox.toFixed(2) + 'px) skewX(' + (-tilt * .6).toFixed(2) + 'deg) rotate(' + (tilt * .4).toFixed(2) + 'deg) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')';
+          wrap.style.transformOrigin = '50% 100%';
+          shadow.style.transform = 'translateX(' + (-ox * .4).toFixed(2) + 'px) scale(' + (sx * 1.05).toFixed(3) + ',' + (1 / Math.max(.6, sy)).toFixed(3) + ')';
+          shadow.style.opacity = Math.max(.35, Math.min(1, 1.6 - sy)).toFixed(2);
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+      wrap.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
+        drag = { x: e.clientX, y: e.clientY, dx: 0, dy: 0, moved: false };
+      });
+      wrap.addEventListener('pointermove', function (e) {
+        if (!drag) return; drag.dx = e.clientX - drag.x; drag.dy = e.clientY - drag.y;
+        if (Math.abs(drag.dx) + Math.abs(drag.dy) > 6) drag.moved = true;
+      });
+      function release() { if (drag && drag.moved) wrap.dataset.dragged = '1'; drag = null; }
+      wrap.addEventListener('pointerup', release);
+      wrap.addEventListener('pointercancel', function () { drag = null; });
+      // 拖拉放開時不要觸發「點一下」說話
+      wrap.addEventListener('click', function (e) { if (wrap.dataset.dragged) { delete wrap.dataset.dragged; e.stopImmediatePropagation(); } }, true);
     })();
   </script>
 </body>
