@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>奶皇包果凍效果試看</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Noto Sans TC', sans-serif; color: #3b2f25; background: #fff8f0; }
+  header { text-align: center; padding: 28px 16px 8px; }
+  h1 { font-family: 'Noto Serif TC', serif; font-size: clamp(22px, 4vw, 32px); margin: 0 0 6px; }
+  header p { margin: 0; color: #8a7458; font-size: 15px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; max-width: 1100px; margin: 22px auto 40px; padding: 0 16px; }
+  .card { background: #fffdf8; border: 1px solid #f0e2c8; border-radius: 22px; padding: 18px 18px 22px; text-align: center; box-shadow: 0 14px 30px -20px rgba(120, 70, 10, .5); }
+  .card h2 { font-family: 'Noto Serif TC', serif; font-size: 19px; margin: 4px 0 4px; }
+  .card .desc { font-size: 13px; color: #8a7458; margin: 0 0 8px; min-height: 2.6em; }
+  /* 舞台：淡淡的格紋背景，才看得出半透明 */
+  .stage { position: relative; height: 340px; border-radius: 18px; overflow: hidden; touch-action: none; cursor: grab;
+    background: radial-gradient(ellipse 60% 50% at 50% 40%, #fff2dc, transparent 70%),
+      repeating-linear-gradient(45deg, #fbf0de 0 14px, #fff8ec 14px 28px); }
+  .stage:active { cursor: grabbing; }
+  .shadow { position: absolute; left: 50%; bottom: 26px; width: 150px; height: 26px; margin-left: -75px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(224, 138, 18, .45) 0%, rgba(240, 178, 63, .2) 45%, transparent 72%); filter: blur(3px); will-change: transform, opacity; }
+  .bun { position: absolute; left: 50%; bottom: 34px; width: 190px; margin-left: -95px; transform-origin: 50% 100%; will-change: transform; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+  /* B / C 的軟糖質感 */
+  .gummy { filter: url(#gummy) saturate(1.15) drop-shadow(0 6px 10px rgba(224, 138, 18, .35)); opacity: .93; }
+  .gummy-strong { filter: url(#gummyStrong) saturate(1.3) drop-shadow(0 8px 14px rgba(224, 138, 18, .45)); opacity: .86; }
+  .tips { font-size: 13px; color: #a8977d; margin-top: 10px; }
+  .note { max-width: 760px; margin: 0 auto 40px; padding: 0 16px; font-size: 14px; color: #7a6a55; line-height: 1.8; }
+  .note b { color: #c8463d; }
+</style>
+</head>
+<body>
+<header>
+  <h1>奶皇包果凍效果 試看</h1>
+  <p>👆 點一下、或按住拖拉奶皇包，感受「像果凍、不是塑膠」的彈性。這頁只是試看，不會出現在正式網站。</p>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- 軟糖：表面光澤（清漆亮點）＋邊緣透光 -->
+    <filter id="gummy" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="blur" />
+      <feSpecularLighting in="blur" surfaceScale="5" specularConstant="1.1" specularExponent="28" lighting-color="#ffffff" result="spec">
+        <fePointLight x="-120" y="-180" z="260" />
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn" />
+      <feMorphology in="SourceAlpha" operator="erode" radius="6" result="core" />
+      <feGaussianBlur in="core" stdDeviation="8" result="coreBlur" />
+      <feComposite in="SourceGraphic" in2="coreBlur" operator="arithmetic" k1="0" k2="1" k3="-0.12" k4="0" result="thin" />
+      <feComposite in="specIn" in2="thin" operator="arithmetic" k1="0" k2="0.75" k3="1" k4="0" />
+    </filter>
+    <filter id="gummyStrong" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur" />
+      <feSpecularLighting in="blur" surfaceScale="7" specularConstant="1.5" specularExponent="40" lighting-color="#ffffff" result="spec">
+        <fePointLight x="-100" y="-160" z="220" />
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn" />
+      <feColorMatrix in="SourceGraphic" type="matrix" values="1.05 0 0 0 0.02  0 0.95 0 0 0.02  0 0 0.8 0 0  0 0 0 1 0" result="warm" />
+      <feMorphology in="SourceAlpha" operator="erode" radius="8" result="core" />
+      <feGaussianBlur in="core" stdDeviation="10" result="coreBlur" />
+      <feComposite in="warm" in2="coreBlur" operator="arithmetic" k1="0" k2="1" k3="-0.2" k4="0" result="thin" />
+      <feComposite in="specIn" in2="thin" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+    </filter>
+  </defs>
+</svg>
+
+<div class="grid">
+  <div class="card">
+    <h2>A｜原本的樣子＋果凍彈性</h2>
+    <p class="desc">外觀不變，只加上果凍般的 Q 彈：點一下會壓扁回彈、拖拉會被拉長再晃回來。</p>
+    <div class="stage" data-bun><div class="shadow"></div><img class="bun" src="./public/naihuang-xmas.png" alt="奶皇包" /></div>
+  </div>
+  <div class="card">
+    <h2>B｜軟糖質感（輕）＋果凍彈性</h2>
+    <p class="desc">表面加上清漆亮點、邊緣微微透光，影子帶奶皇的黃橘色。</p>
+    <div class="stage" data-bun><div class="shadow"></div><img class="bun gummy" src="./public/naihuang-xmas.png" alt="奶皇包（軟糖質感）" /></div>
+  </div>
+  <div class="card">
+    <h2>C｜軟糖質感（強）＋果凍彈性</h2>
+    <p class="desc">更亮的光澤、更通透的邊緣，最像一顆糖果。</p>
+    <div class="stage" data-bun><div class="shadow"></div><img class="bun gummy-strong" src="./public/naihuang-xmas.png" alt="奶皇包（強軟糖質感）" /></div>
+  </div>
+</div>
+
+<p class="note">
+  💡 說明：提示詞是做 <b>3D 軟糖小熊</b>用的（元球、透射折射），網頁上的奶皇包是一張圖片，所以這裡用「光澤＋透光＋彩色影子＋果凍彈性」來模擬。
+  如果要真正的 3D 軟糖奶皇包，需要先用 AI 繪圖工具依提示詞產生一張新圖，我再幫你去背、套上果凍彈性。
+</p>
+
+<script>
+  // 果凍物理：彈簧＋阻尼。點擊＝壓扁回彈；拖拉＝拉伸＋傾斜，放開後晃回原狀；平時微微呼吸。
+  document.querySelectorAll('[data-bun]').forEach(function (stage, idx) {
+    var bun = stage.querySelector('.bun'), shadow = stage.querySelector('.shadow');
+    var sx = 1, sy = 1, vx = 0, vy = 0, tilt = 0, vt = 0, ox = 0, vox = 0;  // 狀態與速度
+    var K = 0.16, D = 0.80;            // 彈性、阻尼（越接近 1 越晃得久）
+    var drag = null, t0 = performance.now() + idx * 700;
+    function frame(now) {
+      var breathe = Math.sin((now - t0) / 650) * 0.012;
+      var tx = 1 - breathe, ty = 1 + breathe, tt = 0, to = 0;
+      if (drag) { // 拖拉時：往上拉＝變高變瘦，往下壓＝變矮變胖，左右＝傾斜
+        var dy = Math.max(-1, Math.min(1, -drag.dy / 140)), dx = Math.max(-1, Math.min(1, drag.dx / 140));
+        ty = 1 + dy * 0.35; tx = 1 - dy * 0.22; tt = dx * 14; to = dx * 26;
+      }
+      vx = (vx + (tx - sx) * K) * D; sx += vx;
+      vy = (vy + (ty - sy) * K) * D; sy += vy;
+      vt = (vt + (tt - tilt) * K) * D; tilt += vt;
+      vox = (vox + (to - ox) * K) * D; ox += vox;
+      bun.style.transform = 'translateX(' + ox.toFixed(2) + 'px) skewX(' + (-tilt * 0.6).toFixed(2) + 'deg) rotate(' + (tilt * 0.4).toFixed(2) + 'deg) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')';
+      shadow.style.transform = 'translateX(' + (ox * 0.6).toFixed(2) + 'px) scale(' + (sx * 1.05).toFixed(3) + ',' + (1 / Math.max(.6, sy)).toFixed(3) + ')';
+      shadow.style.opacity = Math.max(.35, Math.min(1, 1.6 - sy)).toFixed(2);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    stage.addEventListener('pointerdown', function (e) {
+      stage.setPointerCapture(e.pointerId);
+      drag = { x: e.clientX, y: e.clientY, dx: 0, dy: 0, moved: false };
+    });
+    stage.addEventListener('pointermove', function (e) {
+      if (!drag) return; drag.dx = e.clientX - drag.x; drag.dy = e.clientY - drag.y;
+      if (Math.abs(drag.dx) + Math.abs(drag.dy) > 6) drag.moved = true;
+    });
+    function release() {
+      if (!drag) return;
+      if (!drag.moved) { vy -= 0.09; vx += 0.07; }      // 點一下：壓扁再彈起
+      drag = null;
+    }
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
+  });
+</script>
+</body>
+</html>
