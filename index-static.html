@@ -1444,12 +1444,12 @@
       function resize() {
         DPR = Math.min(window.devicePixelRatio || 1, 2);
         W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        var n = Math.round(Math.min(110, Math.max(40, W / 12)));
+        var n = Math.round(Math.min(80, Math.max(30, W / 16)));
         flakes = []; for (var i = 0; i < n; i++) flakes.push(newFlake(true));
       }
       function newFlake(any) {
         var r = Math.random() < .12 ? 3.2 + Math.random() * 2 : .8 + Math.random() * 2.2;
-        return { x: Math.random() * W, y: any ? Math.random() * H : -10, r: r, vy: .12 + r * .1, ph: Math.random() * 6.28, a: .45 + Math.random() * .45, rot: Math.random() * 6 };
+        return { x: Math.random() * W, y: any ? Math.random() * H : -10, r: r, vy: .09 + r * .075, ph: Math.random() * 6.28, a: .45 + Math.random() * .45, rot: Math.random() * 6 };
       }
       var lastY = scrollY, scrollV = 0, raf = null;
       addEventListener('scroll', function () { var y = scrollY; scrollV += (y - lastY); lastY = y; }, { passive: true });
