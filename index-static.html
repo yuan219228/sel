@@ -234,7 +234,6 @@
     #xt-staff-dlg .card { position: relative; width: min(560px, 100%); max-height: 90vh; overflow: auto; padding: 22px 22px 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45); animation: xtPopIn .35s cubic-bezier(.3, 1.4, .5, 1); }
     .xt-staff-x { position: absolute; right: 12px; top: 10px; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; color: #7a5a30; }
     .xt-staff-x:hover { background: #f6e6c2; }
-    .xt-staff-skip { padding: 10px 16px; border-radius: 9999px; font-size: 14px; font-weight: 600; color: #6b5a44; background: #f3ead8; }
     @media (prefers-reduced-motion: reduce) { #xt-staff-dlg .card { animation: none; } }
 
     /* 跑馬燈 */
@@ -1121,8 +1120,7 @@
                 <span>我同意提供上述個人資料作為本次活動與資格核對使用，僅限主辦單位、不對外公開。</span>
               </label>
               <p id="xt-staff-err" class="text-sm font-semibold text-[#c8463d] mt-2 min-h-[1.25rem]" role="status"></p>
-              <div class="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end mt-2">
-                <button type="button" id="xt-staff-skip" class="xt-staff-skip">我不是院內同仁／先不用</button>
+              <div class="flex justify-end mt-2">
                 <button type="button" id="xt-staff-ok" class="xt-btn">確定登記 ✦</button>
               </div>
             </div>
@@ -1735,7 +1733,6 @@
         if (d && d.err) { staffEl.checked = was; staffErr.textContent = d.err; $(d.el).focus(); return; }
         closeStaff();
       });
-      $('xt-staff-skip').addEventListener('click', function () { staffEl.checked = false; closeStaff(); });
       $('xt-staff-x').addEventListener('click', closeStaff);
       staffDlg.addEventListener('click', function (e) { if (e.target === staffDlg) closeStaff(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && staffDlg.classList.contains('is-show')) closeStaff(); });
