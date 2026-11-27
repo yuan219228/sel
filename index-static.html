@@ -620,7 +620,7 @@
     .xt-nh-replay { margin-top: 10px; font-size: 12px; color: #8a5f14; text-decoration: underline; text-underline-offset: 3px; }
 
     /* ==================== 🎄 聖誕感恩活動 全螢幕彈出視窗 ==================== */
-    .xt-modal { position: fixed; inset: 0; z-index: 80; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    .xt-modal { position: fixed; inset: 0; z-index: 80; overflow-y: auto; overscroll-behavior: contain;
       background: radial-gradient(ellipse 80% 50% at 50% 0%, #fff6e6 0%, #fff8f0 60%), #FFF8F0; }
     .xt-modal[hidden] { display: none; }
     .xt-modal.is-open { animation: xtModalIn .45s cubic-bezier(.3, 1.2, .4, 1); }
@@ -1088,7 +1088,7 @@
                 <p class="xt-staff-note">🔒 以下資料僅供本次抽獎聯絡與資格核對，只會存於主辦單位後台、不會顯示在留言牆。</p>
                 <div class="xt-staff-grid">
                   <label>員工姓名 <b>*</b><input type="text" id="xt-s-name" class="xt-field px-3 py-2 text-base" maxlength="30" autocomplete="name" /></label>
-                  <label>人事號 <b>*</b><input type="text" id="xt-s-id" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
+                  <label>人事號 <b>*</b><input type="text" id="xt-s-id" class="xt-field px-3 py-2 text-base" maxlength="20" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" /></label>
                   <label>分機<input type="text" id="xt-s-ext" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
                   <label>Email<input type="email" id="xt-s-email" class="xt-field px-3 py-2 text-base" maxlength="100" autocomplete="email" /></label>
                 </div>
@@ -1539,14 +1539,21 @@
       addEventListener('resize', resize); document.addEventListener('visibilitychange', startSnow);
       var lastTrail = 0;
       addEventListener('pointermove', function (e) {
-        if (!on || reduce) return; var n = performance.now(); if (n - lastTrail < 16) return; lastTrail = n;
+        if (!on || reduce || e.pointerType !== 'mouse') return; // 手機滑動不畫拖尾，避免殘影
+        var n = performance.now(); if (n - lastTrail < 16) return; lastTrail = n;
         trail(e.clientX, e.clientY); if (!raf) raf = requestAnimationFrame(tick);
       }, { passive: true });
       // 點擊（電腦與手機）都會綻放冰晶
       addEventListener('pointerdown', function (e) {
-        if (!on || e.target.closest('#xt-fx-toggle, #xt-celebrate')) return;
+        if (!on || e.pointerType !== 'mouse' || e.target.closest('#xt-fx-toggle, #xt-celebrate')) return;
         iceBurst(e.clientX, e.clientY);
       }, { passive: true });
+      // 手機：只有「點一下」才綻放（滑動捲動時不出現，避免殘影）
+      addEventListener('click', function (e) {
+        if (!on || !e.isTrusted || e.pointerType === 'mouse' || (e.clientX === 0 && e.clientY === 0) || e.target.closest('#xt-fx-toggle, #xt-celebrate')) return;
+        if (matchMedia('(pointer: fine)').matches && !e.pointerType) return;
+        iceBurst(e.clientX, e.clientY);
+      });
 
       /* ---------- 2. 左下角嚮導：奶皇包 ---------- */
       var snowman = document.getElementById('xt-snowman'), smSay = document.getElementById('xt-snowman-say'), smTxt = smSay.querySelector('.txt');
@@ -1697,7 +1704,7 @@
       // 回傳領獎資料；資料不完整時回傳錯誤訊息字串
       function staffData() {
         if (!shareEl.checked || !staffEl.checked) return null;
-        var d = { name: $('xt-s-name').value.trim(), pid: $('xt-s-id').value.trim(), ext: $('xt-s-ext').value.trim(), email: $('xt-s-email').value.trim() };
+        var d = { name: $('xt-s-name').value.trim(), pid: $('xt-s-id').value.trim().toUpperCase(), ext: $('xt-s-ext').value.trim(), email: $('xt-s-email').value.trim() };
         if (!d.name) return { err: '請填寫員工姓名', el: 'xt-s-name' };
         if (!d.pid) return { err: '請填寫人事號', el: 'xt-s-id' };
         if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return { err: 'Email 格式好像不太對', el: 'xt-s-email' };
