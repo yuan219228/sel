@@ -14,7 +14,7 @@
 const SHEET_NAME = '感恩留言';
 const NEED_APPROVAL = false;   // true = 新留言預設不顯示，需管理者勾選「顯示」後才公開
 const ALLOW_USER_DELETE = false; // false = 同仁不能刪除留言，只有管理者能在試算表刪除或隱藏
-const MAX_TEXT = 5000;   // 不限字數（只防止異常超長內容；試算表一格上限約 5 萬字）
+const MAX_TEXT = 200;
 const MAX_NAME = 20;
 const KINDS = ['person', 'event', 'thing'];
 const RATE_LIMIT_PER_MIN = 30; // 簡易防洗版：全站每分鐘最多新增幾則
