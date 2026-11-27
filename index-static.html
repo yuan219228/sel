@@ -646,7 +646,7 @@
       box-shadow: 0 10px 22px -10px rgba(160, 60, 30, .5); animation: xtHintBob 1.4s ease-in-out infinite; pointer-events: none; }
     .xt-badge-hint::before { content: ""; position: absolute; left: 50%; bottom: 100%; margin-left: -8px; border: 8px solid transparent; border-bottom-color: #f0c069; }
     .xt-badge-hint[hidden] { display: none; }
-    @keyframes xtHintBob { 0%, 100% { margin-top: 0; } 50% { margin-top: 6px; } }
+    @keyframes xtHintBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } } /* 只移動提示泡泡本身，不推動下方版面 */
     @media (prefers-reduced-motion: reduce) { .xt-badge-hint { animation: none; } }
     .xt-badge-pulse { animation: xtBadge 2.2s ease-in-out infinite; }
     @keyframes xtBadge { 0% { box-shadow: 0 0 0 0 rgba(200, 70, 61, .6); } 70%, 100% { box-shadow: 0 0 0 10px rgba(200, 70, 61, 0); } }
