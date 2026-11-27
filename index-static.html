@@ -219,6 +219,13 @@
     .xt-share { border: 1px dashed #dcc69a; background: rgba(255, 250, 238, .7); border-radius: 14px; transition: background .2s; }
     .xt-share:hover { background: #fff6e2; }
     .xt-share input { accent-color: #1f4a36; }
+    .xt-staff { border: 1.5px solid #f0c069; background: #fff9ec; border-radius: 14px; padding: 12px 16px; }
+    .xt-staff input[type="checkbox"] { accent-color: #c8463d; }
+    .xt-staff-note { font-size: 13px; color: #7a4a10; background: #fff3d1; border-radius: 10px; padding: 8px 10px; line-height: 1.6; }
+    .xt-staff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 10px; }
+    .xt-staff-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 700; color: #3b2f25; }
+    .xt-staff-grid b { color: #c8463d; }
+    @media (max-width: 560px) { .xt-staff-grid { grid-template-columns: 1fr; } }
 
     /* 跑馬燈 */
     .xt-marquee {
@@ -1068,8 +1075,30 @@
               <span class="text-sm leading-relaxed">
                 <strong class="text-warm-text">我願意分享到「大家的感恩聖誕樹」</strong><br />
                 <span class="text-[#8a7458]">勾選後，所有來到 SEL 學習小棧的人都看得到；不勾選則只掛在你自己的樹上。</span>
+                <span class="block mt-1 font-semibold text-[#c8463d]">🎁 需勾選分享，才能參加小禮物活動</span>
               </span>
             </label>
+
+            <!-- 院內同仁領獎資料（勾選分享後才出現；只存主辦單位後台，不會顯示在留言牆） -->
+            <div id="xt-staff-wrap" class="xt-staff mt-3" hidden>
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="xt-staff" class="mt-1.5 w-5 h-5 flex-shrink-0" />
+                <strong class="text-warm-text text-sm leading-relaxed">我是奇美院內同仁，願意留下個人資料</strong>
+              </label>
+              <div id="xt-staff-form" class="mt-3" hidden>
+                <p class="xt-staff-note">🔒 以下資料僅供本次抽獎聯絡與資格核對，只會存於主辦單位後台、不會顯示在留言牆。</p>
+                <div class="xt-staff-grid">
+                  <label>員工姓名 <b>*</b><input type="text" id="xt-s-name" class="xt-field px-3 py-2 text-base" maxlength="30" autocomplete="name" /></label>
+                  <label>人事號 <b>*</b><input type="text" id="xt-s-id" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
+                  <label>分機<input type="text" id="xt-s-ext" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
+                  <label>Email<input type="email" id="xt-s-email" class="xt-field px-3 py-2 text-base" maxlength="100" autocomplete="email" /></label>
+                </div>
+                <label class="flex items-start gap-3 mt-3 cursor-pointer text-sm leading-relaxed">
+                  <input type="checkbox" id="xt-s-agree" class="mt-1 w-5 h-5 flex-shrink-0" />
+                  <span>我同意提供上述個人資料作為本次活動與資格核對使用，僅限主辦單位、不對外公開。</span>
+                </label>
+              </div>
+            </div>
 
             <div class="mt-4 flex flex-col sm:flex-row gap-3">
               <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
@@ -1655,6 +1684,28 @@
 
       var $ = function (id) { return document.getElementById(id); };
       var form = $('xt-form'), textEl = $('xt-text'), nameEl = $('xt-name'), msgEl = $('xt-msg'), shareEl = $('xt-share');
+      var staffWrap = $('xt-staff-wrap'), staffEl = $('xt-staff'), staffForm = $('xt-staff-form');
+      function syncStaff() {
+        staffWrap.hidden = !shareEl.checked;
+        if (!shareEl.checked) staffEl.checked = false;
+        staffForm.hidden = !staffEl.checked;
+      }
+      shareEl.addEventListener('change', syncStaff);
+      staffEl.addEventListener('change', syncStaff);
+      function clearStaff() {
+        ['xt-s-name', 'xt-s-id', 'xt-s-ext', 'xt-s-email'].forEach(function (id) { $(id).value = ''; });
+        $('xt-s-agree').checked = false; staffEl.checked = false; syncStaff();
+      }
+      // 回傳領獎資料；資料不完整時回傳錯誤訊息字串
+      function staffData() {
+        if (!shareEl.checked || !staffEl.checked) return null;
+        var d = { name: $('xt-s-name').value.trim(), pid: $('xt-s-id').value.trim(), ext: $('xt-s-ext').value.trim(), email: $('xt-s-email').value.trim() };
+        if (!d.name) return { err: '請填寫員工姓名', el: 'xt-s-name' };
+        if (!d.pid) return { err: '請填寫人事號', el: 'xt-s-id' };
+        if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return { err: 'Email 格式好像不太對', el: 'xt-s-email' };
+        if (!$('xt-s-agree').checked) return { err: '請勾選「我同意提供上述個人資料…」', el: 'xt-s-agree' };
+        return d;
+      }
       var submitBtn = $('xt-submit'), syncEl = $('xt-sync');
       var ornBox = $('xt-ornaments');
       var filterBox = $('xt-filter');
@@ -1940,11 +1991,15 @@
         if (t.indexOf('＿＿＿') > -1) { say('記得把「＿＿＿」換成你想寫的內容喔'); textEl.focus(); return; }
         var kind = (form.querySelector('input[name="kind"]:checked') || {}).value || 'person';
         var rec = { id: uid(), k: kind, t: t, n: nameEl.value.trim(), ts: Date.now(), shared: false };
+        var staff = staffData();
+        if (staff && staff.err) { say(staff.err); $(staff.el).focus(); return; }
 
         if (shareEl.checked && API_URL) {
           rec.shared = true; rec.token = uid() + uid();
           busy = true; submitBtn.disabled = true; say('🎄 正在掛上大家的聖誕樹…', true);
-          api({ action: 'add', id: rec.id, token: rec.token, k: rec.k, t: rec.t, n: rec.n })
+          var payload = { action: 'add', id: rec.id, token: rec.token, k: rec.k, t: rec.t, n: rec.n };
+          if (staff) payload.staff = staff; // 只送到主辦單位試算表，不存在瀏覽器、不顯示在留言牆
+          api(payload)
             .then(function (d) {
               if (!d || !d.ok) throw new Error(d && d.error);
               if (d.item && d.item.ts) rec.ts = +d.item.ts;
@@ -1963,7 +2018,7 @@
         mine.push(rec); saveMine();
         newestId = rec.id; shown = Math.max(shown, PAGE);
         if (filter !== 'all' && filter !== rec.k) { filter = 'all'; syncPills(); }
-        textEl.value = ''; nameEl.value = ''; shareEl.checked = false; updateCount();
+        textEl.value = ''; nameEl.value = ''; shareEl.checked = false; clearStaff(); updateCount();
         renderAll(false);
         say(text, true);
         if (window.xtCelebrate) window.xtCelebrate(text.replace(/^\S+\s/, ''));
@@ -2124,11 +2179,12 @@
         a.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
       });
       $('xt-modal-close').addEventListener('click', closeModal);
-      document.addEventListener('keydown', function (e) {
+      // 用「捕獲階段」先判斷：慶祝卡、讀信視窗、開場還開著時，Esc 只關那個小視窗，不關整個活動
+      window.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape' || modal.hidden) return;
         var busy = !$('xt-op').hidden || $('xt-celebrate').classList.contains('is-show') || $('xt-nh-dlg').classList.contains('is-show');
         if (!busy) closeModal();
-      });
+      }, true);
       // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：直接打開
       if (location.hash === '#xmas-thanks') {
         if (document.readyState === 'complete') setTimeout(openModal, 50);

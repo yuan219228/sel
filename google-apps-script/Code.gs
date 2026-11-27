@@ -9,6 +9,7 @@
  *  - 想要「先審核、再公開」：把下方 NEED_APPROVAL 改成 true，並重新部署（新版本）
  *  - 「溫暖數」欄（H 欄）是大家按「溫暖 +1」的累計，可直接查看
  *  - 同仁不能刪除留言（ALLOW_USER_DELETE = false）；要刪除請直接刪掉該列，或取消勾選「顯示」
+ *  - I～N 欄是院內同仁領獎資料，只存在試算表，doGet 與統計都不會回傳；活動結束後請刪除這些欄位的內容
  */
 
 const SHEET_NAME = '感恩留言';
@@ -20,7 +21,9 @@ const KINDS = ['person', 'event', 'thing'];
 const RATE_LIMIT_PER_MIN = 30; // 簡易防洗版：全站每分鐘最多新增幾則
 
 // 欄位順序：A id | B 時間 | C 類別 | D 內容 | E 署名 | F 顯示 | G token雜湊 | H 溫暖數
-const COL = { ID: 0, TIME: 1, KIND: 2, TEXT: 3, NAME: 4, SHOW: 5, HASH: 6, LIKES: 7 };
+//           I 員工姓名 | J 人事號 | K 分機 | L Email | M 同意時間 | N 資格核對（領獎資料：只存後台，絕不回傳到網頁）
+const COL = { ID: 0, TIME: 1, KIND: 2, TEXT: 3, NAME: 4, SHOW: 5, HASH: 6, LIKES: 7, S_NAME: 8, S_ID: 9, S_EXT: 10, S_EMAIL: 11, S_AGREE: 12, S_CHECK: 13 };
+const HEADERS = ['id', '時間', '類別(person人/event事/thing物)', '內容', '署名', '顯示', 'token雜湊(勿改)', '溫暖數', '員工姓名', '人事號', '分機', 'Email', '同意時間', '資格核對'];
 const LIKE_LIMIT_PER_MIN = 600; // 簡易防灌：全站每分鐘最多幾次「溫暖 +1」
 
 function getSheet_() {
@@ -28,11 +31,15 @@ function getSheet_() {
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
-    sh.appendRow(['id', '時間', '類別(person人/event事/thing物)', '內容', '署名', '顯示', 'token雜湊(勿改)', '溫暖數']);
+    sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
-    sh.getRange('A1:H1').setFontWeight('bold').setBackground('#FEE8D5');
+    sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground('#FEE8D5');
     sh.setColumnWidth(4, 420);
     sh.hideColumns(7);
+  }
+  // 舊試算表補上新欄位標題
+  if (sh.getLastColumn() < HEADERS.length) {
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold').setBackground('#FEE8D5');
   }
   return sh;
 }
@@ -117,7 +124,17 @@ function doPost(e) {
 
       const now = new Date();
       const visible = !NEED_APPROVAL;
-      sh.appendRow([id, now, k, t, n, visible, hash_(token), 0]);
+      // 院內同仁領獎資料（選填；只存後台）
+      let s = ['', '', '', '', '', ''];
+      if (d.staff && typeof d.staff === 'object') {
+        const sName = clean_(d.staff.name, 30), sId = clean_(d.staff.pid, 20);
+        if (sName && sId) {
+          const values = sh.getDataRange().getValues();
+          const dup = values.slice(1).filter(function (r) { return String(r[COL.S_ID]).replace(/^'/, '') === sId.replace(/^'/, ''); }).length;
+          s = [sName, sId, clean_(d.staff.ext, 20), clean_(d.staff.email, 100), now, dup ? '重複登記（第 ' + (dup + 1) + ' 次）' : '首次登記'];
+        }
+      }
+      sh.appendRow([id, now, k, t, n, visible, hash_(token), 0].concat(s));
       sh.getRange(sh.getLastRow(), COL.SHOW + 1).insertCheckboxes();
       if (visible) sh.getRange(sh.getLastRow(), COL.SHOW + 1).check();
 
