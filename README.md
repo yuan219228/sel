@@ -3,7 +3,6 @@
 在 SEL 學習小棧首頁加入「這一年，謝謝你」聖誕感恩活動：
 同仁寫下一年來最想感謝的**人、事、物**，掛上感恩聖誕樹；大家可以互送「溫暖 +1」，溫暖越多的感謝掛得越高。
 
-![感恩聖誕樹](docs/screenshots/tree-desktop.png)
 
 ## 檔案說明
 
@@ -19,7 +18,6 @@
 | `assets/quiz-data.js` | 測驗題庫 |
 | `google-apps-script/Code.gs` | 聖誕感恩留言的後端程式（貼到 Google 試算表的 Apps Script） |
 | `google-apps-script/設定教學.md` | Google 試算表開通的詳細步驟與日常管理 |
-| `docs/screenshots/` | 畫面截圖 |
 
 > 瀏覽人次計數器只在醫院正式網站上運作，在其他地方打開時不會顯示，屬正常現象。
 
