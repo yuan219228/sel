@@ -226,6 +226,16 @@
     .xt-staff-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 700; color: #3b2f25; }
     .xt-staff-grid b { color: #c8463d; }
     @media (max-width: 560px) { .xt-staff-grid { grid-template-columns: 1fr; } }
+    .xt-staff-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 14px; color: #5a3b10; background: #fff6e0; border: 1.5px solid #f0c069; border-radius: 12px; padding: 8px 14px; }
+    .xt-staff-sum[hidden] { display: none; }
+    .xt-staff-link { font-weight: 700; color: #b0362e; text-decoration: underline; text-underline-offset: 3px; }
+    #xt-staff-dlg { position: fixed; inset: 0; z-index: 96; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(20, 35, 28, .5); }
+    #xt-staff-dlg.is-show { display: flex; }
+    #xt-staff-dlg .card { position: relative; width: min(560px, 100%); max-height: 90vh; overflow: auto; padding: 22px 22px 18px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.45); animation: xtPopIn .35s cubic-bezier(.3, 1.4, .5, 1); }
+    .xt-staff-x { position: absolute; right: 12px; top: 10px; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; color: #7a5a30; }
+    .xt-staff-x:hover { background: #f6e6c2; }
+    .xt-staff-skip { padding: 10px 16px; border-radius: 9999px; font-size: 14px; font-weight: 600; color: #6b5a44; background: #f3ead8; }
+    @media (prefers-reduced-motion: reduce) { #xt-staff-dlg .card { animation: none; } }
 
     /* 跑馬燈 */
     .xt-marquee {
@@ -1078,27 +1088,12 @@
               </span>
             </label>
 
-            <!-- 院內同仁領獎資料（勾選分享後才出現；只存主辦單位後台，不會顯示在留言牆） -->
-            <div id="xt-staff-wrap" class="xt-staff mt-3" hidden>
-              <label class="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" id="xt-staff" class="mt-1.5 w-5 h-5 flex-shrink-0" />
-                <strong class="text-warm-text text-sm leading-relaxed">我是奇美院內同仁，願意留下個人資料</strong>
-              </label>
-              <div id="xt-staff-form" class="mt-3" hidden>
-                <p class="xt-staff-note">🔒 以下資料僅供本次抽獎聯絡與資格核對，只會存於主辦單位後台、不會顯示在留言牆。</p>
-                <div class="xt-staff-grid">
-                  <label>員工姓名 <b>*</b><input type="text" id="xt-s-name" class="xt-field px-3 py-2 text-base" maxlength="30" autocomplete="name" /></label>
-                  <label>人事號 <b>*</b><input type="text" id="xt-s-id" class="xt-field px-3 py-2 text-base" maxlength="20" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" /></label>
-                  <label>分機<input type="text" id="xt-s-ext" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
-                  <label>Email<input type="email" id="xt-s-email" class="xt-field px-3 py-2 text-base" maxlength="100" autocomplete="email" /></label>
-                </div>
-                <label class="flex items-start gap-3 mt-3 cursor-pointer text-sm leading-relaxed">
-                  <input type="checkbox" id="xt-s-agree" class="mt-1 w-5 h-5 flex-shrink-0" />
-                  <span>我同意提供上述個人資料作為本次活動與資格核對使用，僅限主辦單位、不對外公開。</span>
-                </label>
-              </div>
+            <!-- 院內同仁領獎資料：勾選分享後跳出小視窗填寫；頁面上只顯示一行摘要 -->
+            <input type="checkbox" id="xt-staff" hidden />
+            <div id="xt-staff-wrap" class="xt-staff-sum mt-3" hidden>
+              <span id="xt-staff-sum-text"></span>
+              <button type="button" id="xt-staff-edit" class="xt-staff-link"></button>
             </div>
-
             <div class="mt-4 flex flex-col sm:flex-row gap-3">
               <input type="text" id="xt-name" maxlength="20" class="xt-field flex-1 px-4 py-3 text-base" placeholder="署名（可留空，以匿名顯示）" aria-label="署名" />
               <button type="button" id="xt-submit" class="xt-btn">掛上聖誕樹 <span aria-hidden="true">✦</span></button>
@@ -1108,6 +1103,31 @@
               分享的留言會公開顯示，請勿寫下病人個資或可辨識身分的資訊；不當留言將由管理者移除。
             </p>
           </form>
+          <!-- 🎁 小禮物登記小視窗 -->
+          <div id="xt-staff-dlg" role="dialog" aria-modal="true" aria-labelledby="xt-staff-title">
+            <div class="card xt-staff" id="xt-staff-form">
+              <button type="button" id="xt-staff-x" class="xt-staff-x" aria-label="關閉">✕</button>
+              <h3 id="xt-staff-title" class="text-xl font-bold text-warm-text" style="font-family: 'Noto Serif TC', serif;">🎁 參加小禮物活動</h3>
+              <p class="text-sm text-[#7a6a55] mt-1">奇美院內同仁請留下資料，方便寄信通知領取方式（一人限領一次）。</p>
+              <p class="xt-staff-note mt-3">🔒 以下資料僅供本次抽獎聯絡與資格核對，只會存於主辦單位後台、不會顯示在留言牆。</p>
+              <div class="xt-staff-grid">
+                <label>員工姓名 <b>*</b><input type="text" id="xt-s-name" class="xt-field px-3 py-2 text-base" maxlength="30" autocomplete="name" /></label>
+                <label>人事號 <b>*</b><input type="text" id="xt-s-id" class="xt-field px-3 py-2 text-base" maxlength="20" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" /></label>
+                <label>分機<input type="text" id="xt-s-ext" class="xt-field px-3 py-2 text-base" maxlength="20" inputmode="numeric" autocomplete="off" /></label>
+                <label>Email<input type="email" id="xt-s-email" class="xt-field px-3 py-2 text-base" maxlength="100" autocomplete="email" /></label>
+              </div>
+              <label class="flex items-start gap-3 mt-3 cursor-pointer text-sm leading-relaxed">
+                <input type="checkbox" id="xt-s-agree" class="mt-1 w-5 h-5 flex-shrink-0" />
+                <span>我同意提供上述個人資料作為本次活動與資格核對使用，僅限主辦單位、不對外公開。</span>
+              </label>
+              <p id="xt-staff-err" class="text-sm font-semibold text-[#c8463d] mt-2 min-h-[1.25rem]" role="status"></p>
+              <div class="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end mt-2">
+                <button type="button" id="xt-staff-skip" class="xt-staff-skip">我不是院內同仁／先不用</button>
+                <button type="button" id="xt-staff-ok" class="xt-btn">確定登記 ✦</button>
+              </div>
+            </div>
+          </div>
+
         </div>
         </div>
 
@@ -1689,14 +1709,36 @@
 
       var $ = function (id) { return document.getElementById(id); };
       var form = $('xt-form'), textEl = $('xt-text'), nameEl = $('xt-name'), msgEl = $('xt-msg'), shareEl = $('xt-share');
-      var staffWrap = $('xt-staff-wrap'), staffEl = $('xt-staff'), staffForm = $('xt-staff-form');
+      var staffWrap = $('xt-staff-wrap'), staffEl = $('xt-staff'), staffDlg = $('xt-staff-dlg'), staffErr = $('xt-staff-err'), staffBack = null;
       function syncStaff() {
-        staffWrap.hidden = !shareEl.checked;
         if (!shareEl.checked) staffEl.checked = false;
-        staffForm.hidden = !staffEl.checked;
+        staffWrap.hidden = !shareEl.checked;
+        if (staffEl.checked) {
+          $('xt-staff-sum-text').textContent = '🎁 已登記小禮物：' + $('xt-s-name').value.trim() + '（' + $('xt-s-id').value.trim().toUpperCase() + '）';
+          $('xt-staff-edit').textContent = '修改';
+        } else {
+          $('xt-staff-sum-text').textContent = '🎁 尚未登記小禮物資料';
+          $('xt-staff-edit').textContent = '院內同仁點這裡登記';
+        }
       }
-      shareEl.addEventListener('change', syncStaff);
-      staffEl.addEventListener('change', syncStaff);
+      function openStaff() {
+        staffBack = document.activeElement; staffErr.textContent = '';
+        staffDlg.classList.add('is-show');
+        setTimeout(function () { $('xt-s-name').focus({ preventScroll: true }); }, 60);
+      }
+      function closeStaff() { staffDlg.classList.remove('is-show'); syncStaff(); if (staffBack && staffBack.focus) staffBack.focus({ preventScroll: true }); }
+      shareEl.addEventListener('change', function () { syncStaff(); if (shareEl.checked && !staffEl.checked) openStaff(); });
+      $('xt-staff-edit').addEventListener('click', openStaff);
+      $('xt-staff-ok').addEventListener('click', function () {
+        var was = staffEl.checked; staffEl.checked = true;
+        var d = staffData();
+        if (d && d.err) { staffEl.checked = was; staffErr.textContent = d.err; $(d.el).focus(); return; }
+        closeStaff();
+      });
+      $('xt-staff-skip').addEventListener('click', function () { staffEl.checked = false; closeStaff(); });
+      $('xt-staff-x').addEventListener('click', closeStaff);
+      staffDlg.addEventListener('click', function (e) { if (e.target === staffDlg) closeStaff(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && staffDlg.classList.contains('is-show')) closeStaff(); });
       function clearStaff() {
         ['xt-s-name', 'xt-s-id', 'xt-s-ext', 'xt-s-email'].forEach(function (id) { $(id).value = ''; });
         $('xt-s-agree').checked = false; staffEl.checked = false; syncStaff();
@@ -1997,7 +2039,7 @@
         var kind = (form.querySelector('input[name="kind"]:checked') || {}).value || 'person';
         var rec = { id: uid(), k: kind, t: t, n: nameEl.value.trim(), ts: Date.now(), shared: false };
         var staff = staffData();
-        if (staff && staff.err) { say(staff.err); $(staff.el).focus(); return; }
+        if (staff && staff.err) { openStaff(); staffErr.textContent = staff.err; return; }
 
         if (shareEl.checked && API_URL) {
           rec.shared = true; rec.token = uid() + uid();
@@ -2187,7 +2229,7 @@
       // 用「捕獲階段」先判斷：慶祝卡、讀信視窗、開場還開著時，Esc 只關那個小視窗，不關整個活動
       window.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape' || modal.hidden) return;
-        var busy = !$('xt-op').hidden || $('xt-celebrate').classList.contains('is-show') || $('xt-nh-dlg').classList.contains('is-show');
+        var busy = !$('xt-op').hidden || $('xt-celebrate').classList.contains('is-show') || $('xt-nh-dlg').classList.contains('is-show') || $('xt-staff-dlg').classList.contains('is-show');
         if (!busy) closeModal();
       }, true);
       // 從其他頁面點「聖誕感恩」過來（網址帶 #xmas-thanks）：直接打開
